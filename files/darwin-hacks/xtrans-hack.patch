@@ -1,0 +1,13 @@
+Index: xtrans-1.0.3/Xtranssock.c
+===================================================================
+--- xtrans-1.0.3.orig/Xtranssock.c	2006-12-06 16:08:53.000000000 +0000
++++ xtrans-1.0.3/Xtranssock.c	2007-11-29 19:18:17.000000000 +0000
+@@ -287,7 +287,7 @@
+  */
+ #if defined(IPv6) && defined(AF_INET6)
+ static const struct in6_addr local_in6addr_any = IN6ADDR_ANY_INIT;
+-#pragma weak in6addr_any = local_in6addr_any
++/*#pragma weak in6addr_any = local_in6addr_any*/
+ #ifndef __USLC__
+ #pragma weak getaddrinfo
+ #endif

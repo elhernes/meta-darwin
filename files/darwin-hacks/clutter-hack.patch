@@ -1,0 +1,54 @@
+Index: clutter/clutter/eglnative/clutter-backend-egl.h
+===================================================================
+--- clutter.orig/clutter/eglnative/clutter-backend-egl.h	2007-11-29 00:19:41.000000000 +0000
++++ clutter/clutter/eglnative/clutter-backend-egl.h	2007-11-29 11:58:12.000000000 +0000
+@@ -25,6 +25,7 @@
+ #include <glib-object.h>
+ #include <clutter/clutter-backend.h>
+ 
++#include <CoreSurface/CoreSurface.h>
+ #include <GLES/gl.h>
+ #include <GLES/egl.h>
+ 
+Index: clutter/clutter/eglnative/clutter-stage-egl.h
+===================================================================
+--- clutter.orig/clutter/eglnative/clutter-stage-egl.h	2007-11-29 00:19:41.000000000 +0000
++++ clutter/clutter/eglnative/clutter-stage-egl.h	2007-11-29 11:56:12.000000000 +0000
+@@ -1,6 +1,7 @@
+ #ifndef __CLUTTER_STAGE_EGL_H__
+ #define __CLUTTER_STAGE_EGL_H__
+ 
++#include <CoreSurface/CoreSurface.h>
+ #include <glib-object.h>
+ #include <clutter/clutter-stage.h>
+ #include <GLES/gl.h>
+Index: clutter/configure.ac
+===================================================================
+--- clutter.orig/configure.ac	2007-11-29 08:54:25.000000000 +0000
++++ clutter/configure.ac	2007-11-29 11:50:16.000000000 +0000
+@@ -243,19 +243,19 @@
+     AC_CHECK_HEADERS([GLES/egl.h GLES/gl.h],,
+ 	         [AC_MSG_ERROR([Unable to locate required GLES headers])])
+ 
+-    AC_CHECK_LIB(GLES_CM, eglInitialize, HAVE_LIBGLES=yes, HAVE_LIBGLES=no)
++    #AC_CHECK_LIB(GLES_CM, eglInitialize, HAVE_LIBGLES=yes, HAVE_LIBGLES=no)
+ 
+-    if test "x$HAVE_LIBGLES" = "xno"; then
+-      AC_MSG_ERROR([libGLES_CM not found and egl backend requested.]);
+-    fi
++    #if test "x$HAVE_LIBGLES" = "xno"; then
++    #  AC_MSG_ERROR([libGLES_CM not found and egl backend requested.]);
++    #fi
+ 
+     PKG_CHECK_MODULES(TSLIB, tslib-1.0, [have_tslib=yes], [have_tslib=no])
+     if test x$have_tslib = xyes; then
+            AC_DEFINE([HAVE_TSLIB], 1, [Have tslib for touchscreen handling])
+     fi
+ 
+-    EGL_LIBS="-lGLES_CM $TSLIB_LIBS"
+-    EGL_CFLAGS="$TSLIB_CFLAGS"
++    EGL_LIBS="-ObjC -framework CoreGraphics -framework OpenGLES -framework Foundation -framework CoreGraphics"
++    EGL_CFLAGS=""
+     ;;
+ 
+ 

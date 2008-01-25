@@ -1,0 +1,25 @@
+| /tmp/ccpJN0Gk.s:6341:FATAL:virtual memory exceeded
+| make[4]: *** [gtkicontheme.lo] Error 1
+
+Index: gtk+-2.10.14/gtk/gtkicontheme.c
+===================================================================
+--- gtk+-2.10.14.orig/gtk/gtkicontheme.c	2007-07-16 19:44:17.000000000 +0000
++++ gtk+-2.10.14/gtk/gtkicontheme.c	2007-11-29 11:49:48.000000000 +0000
+@@ -877,6 +869,8 @@
+ 	}
+     }
+ }
++#if 0
++
+ 
+ static void
+ insert_theme (GtkIconTheme *icon_theme, const char *theme_name)
+@@ -1176,7 +1170,7 @@
+ 	}
+     }
+ }
+-
++#endif
+ static void
+ ensure_valid_themes (GtkIconTheme *icon_theme)
+ {

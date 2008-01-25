@@ -1,0 +1,56 @@
+Index: glib-2.14.4/configure.in
+===================================================================
+--- glib-2.14.4.orig/configure.in	2007-11-30 12:09:20.000000000 +0000
++++ glib-2.14.4/configure.in	2007-11-30 12:14:52.000000000 +0000
+@@ -2109,12 +2109,6 @@
+ 		   	 [s390 atomic implementation])
+       glib_memory_barrier_needed=no
+       ;;	
+-    arm*)
+-      AC_MSG_RESULT([arm])
+-      AC_DEFINE_UNQUOTED(G_ATOMIC_ARM, 1,
+-                         [arm atomic implementation])
+-      glib_memory_barrier_needed=no
+-      ;;
+     *)
+       AC_MSG_RESULT([none])
+       glib_memory_barrier_needed=yes
+@@ -2553,10 +2547,14 @@
+ 
+ 	fi
+ 
+-	if test x$g_have_gnuc_visibility = xyes; then
+-		cat >>$outfile <<_______EOF
++	if test x$enable_visibility = xyes; then
++
++		if test x$g_have_gnuc_visibility = xyes; then
++			cat >>$outfile <<_______EOF
+ #define G_HAVE_GNUC_VISIBILITY 1
+ _______EOF
++		fi
++	
+ 	fi
+ 		cat >>$outfile <<_______EOF
+ #if defined(__SUNPRO_C) && (__SUNPRO_C >= 0x550)
+@@ -2568,7 +2566,6 @@
+ #endif
+ _______EOF
+ 
+-
+ 	echo >>$outfile
+ 	if test x$g_mutex_has_default = xyes; then
+ 		cat >>$outfile <<_______EOF
+Index: glib-2.14.4/glib/giounix.c
+===================================================================
+--- glib-2.14.4.orig/glib/giounix.c	2007-11-24 06:40:59.000000000 +0000
++++ glib-2.14.4/glib/giounix.c	2007-11-30 12:09:20.000000000 +0000
+@@ -34,6 +34,9 @@
+ #include "config.h"
+ 
+ #define _POSIX_SOURCE		/* for SSIZE_MAX */
++#ifndef SSIZE_MAX
++#define SSIZE_MAX LONG_MAX
++#endif
+ 
+ #include <sys/types.h>
+ #include <sys/stat.h>

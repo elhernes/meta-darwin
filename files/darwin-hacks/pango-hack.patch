@@ -1,0 +1,22 @@
+| cc1: TwoAddressInstructionPass.cpp:125: virtual bool<unnamed>::TwoAddressInstructionPass::runOnMachineFunction(llvm::MachineFunction&): Assertion `MRegisterInfo::isVirtualRegister(regA) && MRegisterInfo::isVirtualRegister(regB) && "cannot update physical register live information"' failed.
+| viewer-pangocairo.c:427: internal compiler error: Aborted
+| Please submit a full bug report,
+| with preprocessed source if appropriate.
+| See <URL:http://llvm.org/bugs> for instructions.
+| make[3]: *** [viewer-pangocairo.o] Error 1
+
+Index: pango-1.18.3/pango-view/viewer-pangocairo.c
+===================================================================
+--- pango-1.18.3.orig/pango-view/viewer-pangocairo.c	2007-11-30 01:00:14.000000000 +0000
++++ pango-1.18.3/pango-view/viewer-pangocairo.c	2007-11-30 01:00:41.000000000 +0000
+@@ -334,8 +334,9 @@
+   cairo_paint (cr);
+ 
+   cairo_set_source_rgb (cr, 0.0, 0.0, 0.0);
++#if 0
+   do_output (context, render_callback, transform_callback, cr, state, NULL, NULL);
+-
++#endif
+   cairo_destroy (cr);
+ }
+ 
