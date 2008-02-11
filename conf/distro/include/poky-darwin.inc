@@ -38,10 +38,12 @@ TARGET_CFLAGS_append_pn-expat = "${CFLAGSHACK}"
 PREFERRED_VERSION_clutter = "0.5.0+svnr1495"
 
 SRCREV_pn-llvm-native = "42498"
+#SRCREV_pn-llvm-native = 46956
 SRCREV_pn-apple-csu = "202"
 SRCREV_pn-llvm-cross = "184"
 SRCREV_pn-apple-headers = "198"
 SRCREV_pn-odcctools-cross = "204"
+#SRCREV_pn-odcctools-cross = "209"
 SRCREV_pn-clutter = "1495"
 
 
@@ -64,6 +66,7 @@ SRC_URI_append_pn-pango = " file://${OEROOT}/meta/files/darwin-hacks/pango-hack.
 # 
 DEPENDS_pn-gtk+ = "glib-2.0 pango atk jpeg libpng libxext libxcursor gtk-doc-native"
 SRC_URI_append_pn-gtk+ = " file://${OEROOT}/meta/files/darwin-hacks/gtk-hack.patch;patch=1"
+SRC_URI_append_pn-gtk+ = " file://${OEROOT}/meta/files/darwin-hacks/gtk-no-c++.patch;patch=1"
 EXTRA_OECONF_pn-gtk+ = "--without-libtiff --disable-xkb --disable-glibtest --enable-display-migration --disable-visibility"
 TARGET_LDFLAGS_append_pn-gtk+  = "-lpng12 -lfreetype -lfontconfig -lexpat -lXrender -lX11 -lXau -lXdmcp"
 
