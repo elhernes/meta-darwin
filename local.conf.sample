@@ -6,6 +6,7 @@ BBFILES := "/path/to/poky/meta/packages/*/*.bb \
 MACHINE = "ipodtouch"
 DISTRO = "poky"
 POKYMODE = "darwin"
+POKYLIBC = "dummy"
 
 DARWINFILES = "ssh://richard@pug.o-hand.com//home/richard/"
 
