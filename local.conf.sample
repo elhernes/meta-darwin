@@ -7,7 +7,7 @@ MACHINE = "ipodtouch"
 DISTRO = "poky"
 POKYMODE = "darwin"
 
-DARWINFILES = "ssh://richard@tim//home/richard/"
+DARWINFILES = "ssh://richard@pug.o-hand.com//home/richard/"
 
 BBINCLUDELOGS = "yes"
 PACKAGE_CLASSES = "package_ipk package_tar"
