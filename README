@@ -1,0 +1,22 @@
+poky-darwin allows applications to be build for the iPhone or iPod Touch.
+
+To use poky-darwin:
+
+svn co http://svn.o-hand.com/repos/poky/trunk poky
+svn co http://svn.o-hand.com/repos/poky/branches/experimental/meta-darwin poky/meta-darwin
+
+cp poky/meta-darwin/local.conf.sample poky/build/conf/local.conf
+
+Edit the local.conf file so the paths are correct. Point DL_DIR at somewhere you want it
+to download sources to as per standard poky. DARWINFILES needs to be set to the location where
+the "iphone-rootfs.tgz" and "MacOSX10.4u.sdk.tgz" files can be found.
+
+Then run:
+
+  source poky-init-build-env
+
+  export BBPATH=/path/to/meta-darwin:$BBPATH
+
+  bitbake xyz
+
+where xyz is the target e.g. "bitbake clutter"

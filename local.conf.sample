@@ -1,0 +1,14 @@
+# Where to cache the files OE downloads
+# DL_DIR ?= "/path/to/store/downloads"
+BBFILES := "/path/to/poky/meta/packages/*/*.bb \
+            /path/to/poky/meta-darwin/packages/*/*.bb"
+
+MACHINE = "ipodtouch"
+DISTRO = "poky"
+POKYMODE = "darwin"
+
+DARWINFILES = "ssh://richard@tim//home/richard/"
+
+BBINCLUDELOGS = "yes"
+PACKAGE_CLASSES = "package_ipk package_tar"
+
