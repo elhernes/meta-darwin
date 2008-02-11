@@ -12,4 +12,5 @@ DARWINFILES = "ssh://richard@pug.o-hand.com//home/richard/"
 
 BBINCLUDELOGS = "yes"
 PACKAGE_CLASSES = "package_ipk package_tar"
+INHERIT_INSANE = ""
 

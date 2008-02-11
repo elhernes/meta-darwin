@@ -20,3 +20,6 @@ Then run:
   bitbake xyz
 
 where xyz is the target e.g. "bitbake clutter"
+
+You also need to copy /path/to/poky/meta-darwin/files/darwin-hacks to
+/path/to/poky/meta/files/.
