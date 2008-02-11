@@ -69,6 +69,7 @@ SRC_URI_append_pn-gtk+ = " file://${OEROOT}/meta/files/darwin-hacks/gtk-hack.pat
 SRC_URI_append_pn-gtk+ = " file://${OEROOT}/meta/files/darwin-hacks/gtk-no-c++.patch;patch=1"
 EXTRA_OECONF_pn-gtk+ = "--without-libtiff --disable-xkb --disable-glibtest --enable-display-migration --disable-visibility"
 TARGET_LDFLAGS_append_pn-gtk+  = "-lpng12 -lfreetype -lfontconfig -lexpat -lXrender -lX11 -lXau -lXdmcp"
+RRECOMMENDS_gtk+_pn-gtk+ = ""
 
 #
 # GLib
