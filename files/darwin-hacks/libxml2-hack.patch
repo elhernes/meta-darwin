@@ -1,0 +1,15 @@
+Index: libxml2-2.6.29/testModule.c
+===================================================================
+--- libxml2-2.6.29.orig/testModule.c	2008-02-12 14:44:29.000000000 +0000
++++ libxml2-2.6.29/testModule.c	2008-02-12 14:44:51.000000000 +0000
+@@ -29,6 +29,10 @@
+ #define MODULE_PATH ".libs"
+ #endif
+ 
++#ifndef PATH_MAX
++#define PATH_MAX 255
++#endif
++
+ typedef int (*hello_world_t)(void);
+  
+ int main(int argc ATTRIBUTE_UNUSED, char **argv ATTRIBUTE_UNUSED) {

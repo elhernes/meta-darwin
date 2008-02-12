@@ -34,6 +34,7 @@ TARGET_CFLAGS_append_pn-cairo = "${CFLAGSHACK}"
 TARGET_CFLAGS_append_pn-gtk+ = "${CFLAGSHACK}"
 TARGET_CFLAGS_append_pn-gettext = "${CFLAGSHACK}"
 TARGET_CFLAGS_append_pn-expat = "${CFLAGSHACK}"
+TARGET_CFLAGS_append_pn-libxml2 = "${CFLAGSHACK}"
 
 PREFERRED_VERSION_clutter = "0.5.0+svnr1495"
 
@@ -80,4 +81,9 @@ EXTRA_OECONF_pn-glib-2.0 = "--disable-debug --disable-visibility"
 #
 # Xtrans
 #
-SRC_URI_append_pn-xtrans = " file://${OEROOT}/meta/files/darwin-hacks/xtrans-hack.patch;patch=1
+SRC_URI_append_pn-xtrans = " file://${OEROOT}/meta/files/darwin-hacks/xtrans-hack.patch;patch=1"
+
+#
+# libxml2
+#
+SRC_URI_append_pn-libxml2 = " file://${OEROOT}/meta/files/darwin-hacks/libxml2-hack.patch;patch=1"
