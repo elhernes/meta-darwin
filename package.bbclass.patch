@@ -1,0 +1,99 @@
+Index: package.bbclass
+===================================================================
+--- package.bbclass	(revision 3780)
++++ package.bbclass	(working copy)
+@@ -534,6 +534,7 @@
+ 	libdir_re = re.compile(".*/lib$")
+ 
+ 	packages = bb.data.getVar('PACKAGES', d, 1)
++	targetos = bb.data.getVar('TARGET_OS', d, 1)
+ 
+ 	workdir = bb.data.getVar('WORKDIR', d, 1)
+ 	if not workdir:
+@@ -550,6 +551,49 @@
+ 	shlibs_dir = bb.data.getVar('SHLIBSDIR', d, 1)
+ 	bb.mkdirhier(shlibs_dir)
+ 
++	def linux_so(path):
++		cmd = bb.data.getVar('OBJDUMP', d, 1) + " -p " + path + " 2>/dev/null"
++		cmd = "PATH=\"%s\" %s" % (bb.data.getVar('PATH', d, 1), cmd)
++		fd = os.popen(cmd)
++		lines = fd.readlines()
++		fd.close()
++		for l in lines:
++			m = re.match("\s+NEEDED\s+([^\s]*)", l)
++			if m:
++				needed[pkg].append(m.group(1))
++			m = re.match("\s+SONAME\s+([^\s]*)", l)
++			if m and not m.group(1) in sonames:
++				# if library is private (only used by package) then do not build shlib for it
++				if not private_libs or -1 == private_libs.find(m.group(1)):
++					sonames.append(m.group(1))
++			if m and libdir_re.match(root):
++				needs_ldconfig = True
++	def darwin_so(root, path, file):
++		if not os.path.exists(path):
++			return
++		if file.endswith('.dylib') and not pkg.endswith('-dev') and not pkg.endswith('-dbg'):
++			name = file.split(".")[0]
++			if not name in sonames:
++				sonames.append(name)
++		if file.endswith('.la'):
++			bb.note("Foo %s %s" % (file, path))
++			pkg2 = pkg.replace("-dev", "")
++			fd = open(path, 'r')
++			lines = fd.readlines()
++			fd.close()
++			for l in lines:
++				m = re.match("\s*dependency_libs=\s*'(.*)'", l)
++				if m:
++					deps = m.group(1).split(" ")
++					for dep in deps:
++						bb.note("Adding %s for %s" % (dep, pkg2))
++						if not dep.endswith(".la"):
++							continue
++						name = os.path.basename(dep).replace(".la", "")
++						if pkg2 not in needed:
++							needed[pkg2] = []
++						needed[pkg2].append(name)
++						bb.note("Adding %s for %s" % (name, pkg2))
+ 	needed = {}
+ 	private_libs = bb.data.getVar('PRIVATE_LIBS', d, 1)
+ 	for pkg in packages.split():
+@@ -563,23 +607,10 @@
+ 			for file in files:
+ 				soname = None
+ 				path = os.path.join(root, file)
+-				if os.access(path, os.X_OK) or lib_re.match(file):
+-					cmd = bb.data.getVar('OBJDUMP', d, 1) + " -p " + path + " 2>/dev/null"
+-					cmd = "PATH=\"%s\" %s" % (bb.data.getVar('PATH', d, 1), cmd)
+-					fd = os.popen(cmd)
+-					lines = fd.readlines()
+-					fd.close()
+-					for l in lines:
+-						m = re.match("\s+NEEDED\s+([^\s]*)", l)
+-						if m:
+-							needed[pkg].append(m.group(1))
+-						m = re.match("\s+SONAME\s+([^\s]*)", l)
+-						if m and not m.group(1) in sonames:
+-							# if library is private (only used by package) then do not build shlib for it
+-							if not private_libs or -1 == private_libs.find(m.group(1)):
+-								sonames.append(m.group(1))
+-						if m and libdir_re.match(root):
+-							needs_ldconfig = True
++				if targetos == "darwin":
++					darwin_so(root, path, file)
++				elif os.access(path, os.X_OK) or lib_re.match(file):
++					linux_so(path)
+ 		shlibs_file = os.path.join(shlibs_dir, pkg + ".list")
+ 		if os.path.exists(shlibs_file):
+ 			os.remove(shlibs_file)
+@@ -644,6 +675,8 @@
+ 			else:
+ 				bb.note("Couldn't find shared library provider for %s" % n)
+ 
++		bb.note("%s needs %s" % (pkg, deps))
++
+ 		deps_file = os.path.join(pkgdest, pkg + ".shlibdeps")
+ 		if os.path.exists(deps_file):
+ 			os.remove(deps_file)
