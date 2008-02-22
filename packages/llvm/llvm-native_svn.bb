@@ -1,4 +1,4 @@
-
+DEPENDS = "flex-native"
 SRC_URI = "svn://llvm.org/svn/llvm-project/llvm;proto=http;module=trunk"
 
 PV = "0.0+${SRCREV}"
