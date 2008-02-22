@@ -14,3 +14,8 @@ BBINCLUDELOGS = "yes"
 PACKAGE_CLASSES = "package_ipk package_tar"
 INHERIT_INSANE = ""
 
+# odcctools needs 32 bit compat on 64 bit machines
+#BUILD_CFLAGS_append_pn-odcctools-cross = " -m32"
+#BUILD_LDFLAGS_append_pn-odcctools-cross = " -m32"
+
+
