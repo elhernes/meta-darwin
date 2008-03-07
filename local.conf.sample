@@ -1,3 +1,7 @@
+#
+# NOTE: There are 4 references to /path/to in this file you need to fix
+#
+
 # Where to cache the files OE downloads
 # DL_DIR ?= "/path/to/store/downloads"
 BBFILES := "/path/to/poky/meta/packages/*/*.bb \
@@ -18,4 +22,4 @@ INHERIT_INSANE = ""
 #BUILD_CFLAGS_append_pn-odcctools-cross = " -m32"
 #BUILD_LDFLAGS_append_pn-odcctools-cross = " -m32"
 
-
+FILESPATH_append = ":/path/to/poky/meta-darwin/files"

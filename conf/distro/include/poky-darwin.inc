@@ -54,20 +54,20 @@ SRCREV_pn-clutter = "1495"
 DEPENDS_pn-clutter = "${STDDEPENDS}"
 EXTRA_OECONF_pn-clutter = "${BASE_CONF} --with-flavour=eglnative"
 PACKAGE_ARCH_pn-clutter = "${MACHINE_ARCH}"
-SRC_URI_append_pn-clutter = " file://${OEROOT}/meta/files/darwin-hacks/clutter-hack.patch;patch=1"
+SRC_URI_append_pn-clutter = " file://darwin-hacks/clutter-hack.patch;patch=1"
 
 #
 # Pango
 #
 TARGET_LDFLAGS_append_pn-pango = "-lpng12 -lfreetype -lfontconfig -lexpat -lXrender -lX11"
-SRC_URI_append_pn-pango = " file://${OEROOT}/meta/files/darwin-hacks/pango-hack.patch;patch=1"
+SRC_URI_append_pn-pango = " file://darwin-hacks/pango-hack.patch;patch=1"
 
 #
 # GTK+
 # 
 DEPENDS_pn-gtk+ = "glib-2.0 pango atk jpeg libpng libxext libxcursor gtk-doc-native"
-SRC_URI_append_pn-gtk+ = " file://${OEROOT}/meta/files/darwin-hacks/gtk-hack.patch;patch=1"
-SRC_URI_append_pn-gtk+ = " file://${OEROOT}/meta/files/darwin-hacks/gtk-no-c++.patch;patch=1"
+SRC_URI_append_pn-gtk+ = " file://darwin-hacks/gtk-hack.patch;patch=1"
+SRC_URI_append_pn-gtk+ = " file://darwin-hacks/gtk-no-c++.patch;patch=1"
 EXTRA_OECONF_pn-gtk+ = "--without-libtiff --disable-xkb --disable-glibtest --enable-display-migration --disable-visibility"
 TARGET_LDFLAGS_append_pn-gtk+  = "-lpng12 -lfreetype -lfontconfig -lexpat -lXrender -lX11 -lXau -lXdmcp"
 RRECOMMENDS_gtk+_pn-gtk+ = "gdk-pixbuf-loader-png gdk-pixbuf-loader-jpeg gdk-pixbuf-loader-gif gdk-pixbuf-loader-xpm"
@@ -75,15 +75,15 @@ RRECOMMENDS_gtk+_pn-gtk+ = "gdk-pixbuf-loader-png gdk-pixbuf-loader-jpeg gdk-pix
 #
 # GLib
 #
-SRC_URI_append_pn-glib-2.0 = " file://${OEROOT}/meta/files/darwin-hacks/glib-hack.patch;patch=1"
+SRC_URI_append_pn-glib-2.0 = " file://darwin-hacks/glib-hack.patch;patch=1"
 EXTRA_OECONF_pn-glib-2.0 = "--disable-debug --disable-visibility"
  
 #
 # Xtrans
 #
-SRC_URI_append_pn-xtrans = " file://${OEROOT}/meta/files/darwin-hacks/xtrans-hack.patch;patch=1"
+SRC_URI_append_pn-xtrans = " file://darwin-hacks/xtrans-hack.patch;patch=1"
 
 #
 # libxml2
 #
-SRC_URI_append_pn-libxml2 = " file://${OEROOT}/meta/files/darwin-hacks/libxml2-hack.patch;patch=1"
+SRC_URI_append_pn-libxml2 = " file://darwin-hacks/libxml2-hack.patch;patch=1"
