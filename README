@@ -20,3 +20,5 @@ Then run:
   bitbake xyz
 
 where xyz is the target e.g. "bitbake clutter"
+"bitbake clutter -c buildall" will ensure all dependencies are also packaged.
+
