@@ -11,7 +11,7 @@ export LLVMOBJDIR = "${TMPDIR}/work/${MULTIMACH_ARCH}${HOST_VENDOR}-${HOST_OS}//
 #PARALLEL_MAKE = ""
 
 PROVIDES = "virtual/${TARGET_PREFIX}gcc virtual/${TARGET_PREFIX}g++"
-DEPENDS = "virtual/${TARGET_PREFIX}binutils llvm-native bison-native flex-native"
+DEPENDS = "virtual/${TARGET_PREFIX}binutils llvm-native bison-native flex-native apple-headers iphone-rootfs"
 
 CC[unexport] = "1"
 CFLAGS[unexport] = "1"
