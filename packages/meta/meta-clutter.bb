@@ -1,6 +1,6 @@
 DESCRIPTION = "Meta package for building clutter"
 LICENSE = "MIT"
-DEPENDS = "ipkg-native ipkg-utils-native fakeroot-native"
+DEPENDS = "opkg-native ipkg-utils-native fakeroot-native"
 
 inherit meta
 
@@ -8,7 +8,7 @@ SDK_DIR = "${WORKDIR}/sdk"
 SDK_OUTPUT = "${SDK_DIR}/image"
 SDK_DEPLOY = "${TMPDIR}/deploy/images"
 
-IPKG_TARGET = "ipkg-cl -f ${IPKGCONF_TARGET} -o ${SDK_OUTPUT}/"
+IPKG_TARGET = "opkg-cl -f ${IPKGCONF_TARGET} -o ${SDK_OUTPUT}/"
 
 TARGET_TASK ?= "clutter clutter-examples gtk+"
 TARBALL_OUTPUTNAME ?= "clutter"
