@@ -32,6 +32,7 @@ CFLAGSHACK_darwin = " -DNDEBUG"
 TARGET_CFLAGS_append_pn-fontconfig = "${CFLAGSHACK}"
 TARGET_CFLAGS_append_pn-cairo = "${CFLAGSHACK}"
 TARGET_CFLAGS_append_pn-gtk+ = "${CFLAGSHACK}"
+TARGET_CFLAGS_append_pn-glib-2.0 = "${CFLAGSHACK}"
 TARGET_CFLAGS_append_pn-gettext = "${CFLAGSHACK}"
 TARGET_CFLAGS_append_pn-expat = "${CFLAGSHACK}"
 TARGET_CFLAGS_append_pn-libxml2 = "${CFLAGSHACK}"
@@ -46,6 +47,8 @@ SRCREV_pn-apple-headers = "198"
 SRCREV_pn-odcctools-cross = "204"
 #SRCREV_pn-odcctools-cross = "209"
 SRCREV_pn-clutter = "1495"
+#SRCREV_pn-clutter = "${AUTOREV}"
+#SRCREV_pn-tidy = "${AUTOREV}"
 
 
 #
