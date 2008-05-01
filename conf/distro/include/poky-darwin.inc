@@ -37,7 +37,7 @@ TARGET_CFLAGS_append_pn-gettext = "${CFLAGSHACK}"
 TARGET_CFLAGS_append_pn-expat = "${CFLAGSHACK}"
 TARGET_CFLAGS_append_pn-libxml2 = "${CFLAGSHACK}"
 
-PREFERRED_VERSION_clutter = "0.5.0+svnr1495"
+PREFERRED_VERSION_clutter = "0.7.0+svnr2666"
 
 PREFERRED_VERSION_cairo = "1.4.14"
 
@@ -48,7 +48,7 @@ SRCREV_pn-llvm-cross = "184"
 SRCREV_pn-apple-headers = "198"
 SRCREV_pn-odcctools-cross = "204"
 #SRCREV_pn-odcctools-cross = "209"
-SRCREV_pn-clutter = "1495"
+SRCREV_pn-clutter = "2666"
 #SRCREV_pn-clutter = "${AUTOREV}"
 #SRCREV_pn-tidy = "${AUTOREV}"
 
@@ -57,9 +57,8 @@ SRCREV_pn-clutter = "1495"
 # Clutter
 #
 DEPENDS_pn-clutter = "${STDDEPENDS}"
-EXTRA_OECONF_pn-clutter = "${BASE_CONF} --with-flavour=eglnative"
+EXTRA_OECONF_pn-clutter = "${BASE_CONF} --with-flavour=fruity"
 PACKAGE_ARCH_pn-clutter = "${MACHINE_ARCH}"
-SRC_URI_append_pn-clutter = " file://darwin-hacks/clutter-hack.patch;patch=1"
 
 #
 # Pango
