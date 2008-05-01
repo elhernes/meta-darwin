@@ -37,7 +37,7 @@ TARGET_CFLAGS_append_pn-gettext = "${CFLAGSHACK}"
 TARGET_CFLAGS_append_pn-expat = "${CFLAGSHACK}"
 TARGET_CFLAGS_append_pn-libxml2 = "${CFLAGSHACK}"
 
-PREFERRED_VERSION_clutter = "0.7.0+svnr2666"
+PREFERRED_VERSION_clutter = "0.7.0+svnr2669"
 
 PREFERRED_VERSION_cairo = "1.4.14"
 
@@ -48,7 +48,7 @@ SRCREV_pn-llvm-cross = "184"
 SRCREV_pn-apple-headers = "198"
 SRCREV_pn-odcctools-cross = "204"
 #SRCREV_pn-odcctools-cross = "209"
-SRCREV_pn-clutter = "2666"
+SRCREV_pn-clutter = "2669"
 #SRCREV_pn-clutter = "${AUTOREV}"
 #SRCREV_pn-tidy = "${AUTOREV}"
 
