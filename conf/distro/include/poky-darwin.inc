@@ -64,7 +64,7 @@ SRC_URI_append_pn-clutter = " file://darwin-hacks/clutter-hack.patch;patch=1"
 #
 # Pango
 #
-TARGET_LDFLAGS_append_pn-pango = " -lpng12 -lfreetype -lfontconfig -lexpat -lXrender -lX11"
+TARGET_LDFLAGS_append_pn-pango = " -lpng12 -lfreetype -lfontconfig -lexpat -lXrender -lX11 -lXau -lXdmcp"
 SRC_URI_append_pn-pango = " file://darwin-hacks/pango-hack.patch;patch=1"
 
 #
