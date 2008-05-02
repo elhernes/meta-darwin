@@ -58,6 +58,7 @@ SRCREV_pn-clutter = "2669"
 DEPENDS_pn-clutter = "${STDDEPENDS}"
 EXTRA_OECONF_pn-clutter = "${BASE_CONF} --with-flavour=fruity"
 PACKAGE_ARCH_pn-clutter = "${MACHINE_ARCH}"
+CCACHE_pn-clutter = ""
 
 #
 # Pango
