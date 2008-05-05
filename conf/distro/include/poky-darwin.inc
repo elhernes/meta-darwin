@@ -104,4 +104,5 @@ SRC_URI_append_pn-xproto = " file://darwin-hacks/xproto-hack.patch;patch=1"
 #
 SRC_URI_append_pn-libxml2 = " file://darwin-hacks/libxml2-hack.patch;patch=1"
 
-TOOLCHAIN_TARGET_SDKTASK = "task-poky-standalone-darwin-sdk-target"
+TOOLCHAIN_TARGET_TASK = "task-poky-standalone-darwin-sdk-target"
+TOOLCHAIN_TARGET_SDKTASK = "task-poky-standalone-darwin-sdk-target-libs"
