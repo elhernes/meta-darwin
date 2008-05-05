@@ -21,5 +21,7 @@ INHERIT_INSANE = ""
 # odcctools needs 32 bit compat on 64 bit machines
 #BUILD_CFLAGS_append_pn-odcctools-cross = " -m32"
 #BUILD_LDFLAGS_append_pn-odcctools-cross = " -m32"
+#BUILDSDK_CFLAGS_append_pn-odcctools-cross-sdk = " -m32"
+#BUILDSDK_LDFLAGS_append_pn-odcctools-cross-sdk = " -m32"
 
 FILESPATH_append = ":/path/to/poky/meta-darwin/files"

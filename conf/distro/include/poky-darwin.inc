@@ -5,7 +5,7 @@
 # in really gross ways...
 #  
 
-TARGET_OS = "darwin"
+TARGET_OS = "darwin8"
 TARGET_VENDOR = "-apple"
 PREFERRED_PROVIDER_virtual/${TARGET_PREFIX}libc-for-gcc = "iphone-rootfs"
 PREFERRED_PROVIDER_virtual/libc = "iphone-rootfs"
@@ -44,12 +44,18 @@ PREFERRED_VERSION_cairo = "1.4.14"
 SRCREV_pn-llvm-native = "42498"
 #SRCREV_pn-llvm-native = "50526"
 SRCREV_pn-apple-csu = "202"
-SRCREV_pn-llvm-cross = "238"
+#SRCREV_pn-llvm-cross = "238"
+#SRCREV_pn-llvm-sdk = "238"
 SRCREV_pn-apple-headers = "198"
 SRCREV_pn-odcctools-cross = "238"
+SRCREV_pn-odcctools-cross-sdk = "238"
 SRCREV_pn-clutter = "2669"
 #SRCREV_pn-clutter = "${AUTOREV}"
-#SRCREV_pn-tidy = "${AUTOREV}"
+#SRCREV_pn-llvm-cross = "${AUTOREV}"
+#SRCREV_pn-llvm-cross-sdk = "78e873b2666db0b0a9e130642d90131f56052121"
+#SRCREV_pn-llvm-cross = "78e873b2666db0b0a9e130642d90131f56052121"
+SRCREV_pn-llvm-cross-sdk = "e826fe3fd52e4553aa2fcb320c6ce2972c08e50e"
+SRCREV_pn-llvm-cross = "e826fe3fd52e4553aa2fcb320c6ce2972c08e50e"
 
 
 #
@@ -88,6 +94,14 @@ EXTRA_OECONF_pn-glib-2.0 = "--disable-debug --disable-visibility"
 SRC_URI_append_pn-xtrans = " file://darwin-hacks/xtrans-hack.patch;patch=1"
 
 #
+# Xproto
+#
+SRC_URI_append_pn-xproto = " file://darwin-hacks/xproto-hack.patch;patch=1"
+
+
+#
 # libxml2
 #
 SRC_URI_append_pn-libxml2 = " file://darwin-hacks/libxml2-hack.patch;patch=1"
+
+TOOLCHAIN_TARGET_SDKTASK = "task-poky-standalone-darwin-sdk-target"

@@ -1,0 +1,17 @@
+Index: xproto-7.0.12/Xfuncproto.h.in
+===================================================================
+--- xproto-7.0.12.orig/Xfuncproto.h.in	2008-05-02 13:49:29.000000000 +0100
++++ xproto-7.0.12/Xfuncproto.h.in	2008-05-02 13:49:58.000000000 +0100
+@@ -86,9 +86,9 @@
+ #endif /* GNUC >= 4 */
+ 
+ #if defined(__GNUC__) && (__GNUC__ >= 4)
+-# define _X_EXPORT      __attribute__((visibility("default")))
+-# define _X_HIDDEN      __attribute__((visibility("hidden")))
+-# define _X_INTERNAL    __attribute__((visibility("internal")))
++# define _X_EXPORT
++# define _X_HIDDEN
++# define _X_INTERNAL
+ #elif defined(__SUNPRO_C) && (__SUNPRO_C >= 0x550)
+ # define _X_EXPORT      __global
+ # define _X_HIDDEN      __hidden
