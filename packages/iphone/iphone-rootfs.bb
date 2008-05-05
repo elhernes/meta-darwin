@@ -9,15 +9,21 @@ PROVIDES = "virtual/${TARGET_PREFIX}libc-for-gcc virtual/libc virtual/libiconv v
 S = "${WORKDIR}"
 
 INHIBIT_DEFAULT_DEPS = "1"
+EXCLUDE_FROM_SHLIBS = "1"
+
+FILES_${PN} += "/System ${layout_libdir}/*"
 
 do_compile () {
 	:
 }
 
 do_install () {
-	:
+	install -d ${D}${layout_libdir}/
+	cp -apR ${S}/usr/lib/* ${D}${layout_libdir}/
+	cp -apR ${S}/System ${D}/
 }
 
 do_stage () {
 	cp -apR ${S}/usr/lib/* ${STAGING_LIBDIR}/
+	cp -apR ${S}/System ${STAGING_DIR_TARGET}/
 }
