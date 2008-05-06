@@ -54,7 +54,7 @@ do_configure () {
 	--oldincludedir=${oldincludedir} \
 	--infodir=${infodir} \
 	--mandir=${mandir} \
-	--with-sysroot=${prefix}${TARGET_SYS} \
+	--with-sysroot=${prefix}/${TARGET_SYS} \
 	--with-build-sysroot=${STAGING_DIR_TARGET} \
         --with-local-prefix=${STAGING_DIR_TARGET}${layout_prefix} \
 	${EXTRA_OECONF}
