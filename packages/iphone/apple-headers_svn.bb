@@ -36,6 +36,9 @@ do_compile () {
 
 do_stage () {
 	cp -dpR ${HEADERDEST}/* ${STAGING_INCDIR}/
+	base=`readlink -f ${TMPDIR} | cut -d '/' -f 2`
+	rm -f ${STAGING_DIR_TARGET}/$base
+	ln -s /$base ${STAGING_DIR_TARGET}/$base
 }
 
 do_install () {
