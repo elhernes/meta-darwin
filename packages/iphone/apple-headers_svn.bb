@@ -32,7 +32,7 @@ do_compile () {
 	rm ${HEADERDEST}/X11
 	cd ${HEADERDEST}
 	ln -s OpenGLES GLES
-	rm ${HEADERDEST}/c++
+	rm -rf ${HEADERDEST}/c++
 }
 
 do_stage () {
