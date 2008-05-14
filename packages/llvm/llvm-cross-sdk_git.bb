@@ -3,7 +3,7 @@ SRC_URI = "git://git.saurik.com/llvm-gcc-4.2;protocol=git \
            file://hacking.patch;patch=1"
 
 PV = "0.0+${SRCREV}"
-PR = "r3"
+PR = "r4"
 
 S = "${WORKDIR}/git"
 B = "${S}/build.${HOST_SYS}.${TARGET_SYS}"
@@ -17,7 +17,7 @@ EXTRA_OECONF += "\
     --target=arm-apple-darwin8 \
     --enable-sjlj-exceptions \
     --enable-wchar_t=no \
-    --with-gxx-include-dir=${STAGING_DIR_TARGET}/${layout_includedir}/c++ \
+    --with-gxx-include-dir=${prefix}/${TARGET_SYS}${layout_includedir}/c++ \
     --with-sysroot=${prefix}/${TARGET_SYS} \
     --with-build-sysroot=${STAGING_DIR_TARGET} \
     --with-local-prefix=${STAGING_DIR_TARGET}${layout_prefix} \
