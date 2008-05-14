@@ -1,0 +1,13 @@
+Index: git/configure
+===================================================================
+--- git.orig/configure	2008-05-14 16:04:39.000000000 +0100
++++ git/configure	2008-05-14 16:04:49.000000000 +0100
+@@ -1211,7 +1211,7 @@
+   # APPLE LOCAL begin ARM darwin target
+   arm-*-darwin*)
+     noconfigdirs="$noconfigdirs target-libgomp target-libobjc"
+-    noconfigdirs="$noconfigdirs target-libstdc++-v3 target-libssp"
++    noconfigdirs="$noconfigdirs target-libssp"
+     # LLVM LOCAL begin
+     noconfigdirs="$noconfigdirs target-boehm-gc target-libffi"
+     noconfigdirs="$noconfigdirs target-libjava"

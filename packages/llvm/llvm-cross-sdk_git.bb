@@ -1,7 +1,9 @@
-SRC_URI = "git://git.saurik.com/llvm-gcc-4.2;protocol=git"
+SRC_URI = "git://git.saurik.com/llvm-gcc-4.2;protocol=git \
+           file://gcc41-configure.in.patch;patch=1 \
+           file://hacking.patch;patch=1"
 
 PV = "0.0+${SRCREV}"
-PR = "r2"
+PR = "r3"
 
 S = "${WORKDIR}/git"
 B = "${S}/build.${HOST_SYS}.${TARGET_SYS}"
@@ -15,6 +17,7 @@ EXTRA_OECONF += "\
     --target=arm-apple-darwin8 \
     --enable-sjlj-exceptions \
     --enable-wchar_t=no \
+    --with-gxx-include-dir=${STAGING_DIR_TARGET}/${layout_includedir}/c++ \
     --with-sysroot=${prefix}/${TARGET_SYS} \
     --with-build-sysroot=${STAGING_DIR_TARGET} \
     --with-local-prefix=${STAGING_DIR_TARGET}${layout_prefix} \
@@ -24,4 +27,5 @@ do_configure () {
 	(cd ${S} && gnu-configize) || die "failure running gnu-configize"
 	oe_runconf
 }
-	
+
+export ARCH_FLAGS_FOR_TARGET = "--sysroot=${STAGING_DIR_TARGET}"
