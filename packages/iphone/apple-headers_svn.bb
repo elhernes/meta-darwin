@@ -4,7 +4,7 @@ SRC_URI = "svn://iphone-dev.googlecode.com/svn/trunk;proto=http;module=include \
 	   file://headers-hack.patch;patch=1"
 
 PV = "0.0+${SRCREV}"
-PR = "r2"
+PR = "r3"
 
 FILES_${PN}-dev = "${layout_includedir}"
 
@@ -32,6 +32,7 @@ do_compile () {
 	rm ${HEADERDEST}/X11
 	cd ${HEADERDEST}
 	ln -s OpenGLES GLES
+	rm ${HEADERDEST}/c++
 }
 
 do_stage () {
