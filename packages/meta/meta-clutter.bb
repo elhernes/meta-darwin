@@ -10,7 +10,7 @@ SDK_DEPLOY = "${TMPDIR}/deploy/images"
 
 IPKG_TARGET = "opkg-cl -f ${IPKGCONF_TARGET} -o ${SDK_OUTPUT}/"
 
-TARGET_TASK ?= "clutter clutter-examples gtk+"
+TARGET_TASK ?= "clutter clutter-examples gtk+ clutter-box2d"
 TARBALL_OUTPUTNAME ?= "clutter"
 
 RDEPENDS = "${TARGET_TASK}"
