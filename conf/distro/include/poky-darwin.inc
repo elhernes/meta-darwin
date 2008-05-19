@@ -37,7 +37,7 @@ TARGET_CFLAGS_append_pn-gettext = "${CFLAGSHACK}"
 TARGET_CFLAGS_append_pn-expat = "${CFLAGSHACK}"
 TARGET_CFLAGS_append_pn-libxml2 = "${CFLAGSHACK}"
 
-PREFERRED_VERSION_clutter = "0.7.0+svnr2669"
+PREFERRED_VERSION_clutter = "0.7.0+svnr2743"
 
 PREFERRED_VERSION_cairo = "1.4.14"
 
@@ -49,7 +49,7 @@ SRCREV_pn-apple-csu = "202"
 SRCREV_pn-apple-headers = "198"
 SRCREV_pn-odcctools-cross = "238"
 SRCREV_pn-odcctools-cross-sdk = "238"
-SRCREV_pn-clutter = "2669"
+SRCREV_pn-clutter = "2743"
 #SRCREV_pn-clutter = "${AUTOREV}"
 #SRCREV_pn-llvm-cross = "${AUTOREV}"
 #SRCREV_pn-llvm-cross-sdk = "78e873b2666db0b0a9e130642d90131f56052121"
@@ -62,7 +62,7 @@ SRCREV_pn-llvm-cross = "e826fe3fd52e4553aa2fcb320c6ce2972c08e50e"
 # Clutter
 #
 DEPENDS_pn-clutter = "${STDDEPENDS}"
-EXTRA_OECONF_pn-clutter = "${BASE_CONF} --with-flavour=fruity"
+EXTRA_OECONF_pn-clutter = "${BASE_CONF} --with-flavour=fruity --with-imagebackend=internal"
 PACKAGE_ARCH_pn-clutter = "${MACHINE_ARCH}"
 CCACHE_pn-clutter = ""
 
