@@ -19,6 +19,6 @@ Then run:
 
   bitbake xyz
 
-where xyz is the target e.g. "bitbake clutter"
-"bitbake clutter -c buildall" will ensure all dependencies are also packaged.
+where xyz is the target e.g. "bitbake meta-clutter" or "bitbake meta-toolchain-sdk"
+"bitbake clutter -c buildall" is a way ensure all dependencies of a target are packaged.
 

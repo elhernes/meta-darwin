@@ -98,11 +98,27 @@ SRC_URI_append_pn-xtrans = " file://darwin-hacks/xtrans-hack.patch;patch=1"
 #
 SRC_URI_append_pn-xproto = " file://darwin-hacks/xproto-hack.patch;patch=1"
 
-
 #
 # libxml2
 #
 SRC_URI_append_pn-libxml2 = " file://darwin-hacks/libxml2-hack.patch;patch=1"
+
+#
+# dbus
+#
+SRC_URI_append_pn-dbus = " file://darwin-hacks/dbus-nopie.patch;patch=1 \
+                           file://darwin-hacks/dbus-noenv.patch;patch=1"
+
+#
+# readline
+#
+SRC_URI_append_pn-readline = " file://darwin-hacksdarwin-hacks/readlink-hacks.patch;patch=1"
+
+#
+# gstreamer
+#
+SRC_URI_append_pn-gstreamer = " file://darwin-hacksdarwin-hacks/gstreamer-hacks.patch;patch=1"
+
 
 TOOLCHAIN_TARGET_TASK = "task-poky-standalone-darwin-sdk-target"
 TOOLCHAIN_TARGET_SDKTASK = "task-poky-standalone-darwin-sdk-target-libs"

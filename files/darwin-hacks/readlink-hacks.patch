@@ -1,0 +1,29 @@
+Index: readline-4.3/support/shobj-conf
+===================================================================
+--- readline-4.3.orig/support/shobj-conf	2008-06-26 21:01:50.000000000 +0100
++++ readline-4.3/support/shobj-conf	2008-06-26 21:13:03.000000000 +0100
+@@ -135,20 +135,12 @@
+ 
+ # Darwin/MacOS X
+ darwin*|macosx*)
+-	SHOBJ_STATUS=unsupported
+-	SHLIB_STATUS=supported
+-
+ 	SHOBJ_CFLAGS='-dynamic -fno-common'
++	SHOBJ_LD='${CC}'
++	SHOBJ_LDFLAGS='-shared'
+ 
+-	SHOBJ_LD=/usr/bin/libtool
+-
+-	SHLIB_LIBVERSION='$(SHLIB_MAJOR)$(SHLIB_MINOR).$(SHLIB_LIBSUFF)'
+-	SHLIB_LIBSUFF='dylib'
+-
+-	SHOBJ_LDFLAGS='-dynamic'
+-	SHLIB_XLDFLAGS='-arch_only `/usr/bin/arch` -install_name $(libdir)/$@ -current_version $(SHLIB_MAJOR)$(SHLIB_MINOR) -compatibility_version $(SHLIB_MAJOR) -v'
+-
+-	SHLIB_LIBS='-lSystem'
++	SHLIB_XLDFLAGS=''
++	SHLIB_LIBVERSION='$(SHLIB_LIBSUFF).$(SHLIB_MAJOR)$(SHLIB_MINOR)'
+ 	;;
+ 
+ openbsd*)

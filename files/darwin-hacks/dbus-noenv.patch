@@ -1,0 +1,21 @@
+Index: dbus-1.1.20/dbus/dbus-sysdeps.c
+===================================================================
+--- dbus-1.1.20.orig/dbus/dbus-sysdeps.c	2008-06-26 18:48:01.000000000 +0100
++++ dbus-1.1.20/dbus/dbus-sysdeps.c	2008-06-26 18:48:12.000000000 +0100
+@@ -187,16 +187,6 @@
+ {
+   dbus_bool_t rc = TRUE;
+ 
+-#ifdef HAVE_CLEARENV
+-  if (clearenv () != 0)
+-     rc = FALSE;
+-#else
+-  extern char **environ;
+-
+-  if (environ != NULL)
+-    environ[0] = NULL;
+-#endif
+-
+   return rc;
+ }
+ 

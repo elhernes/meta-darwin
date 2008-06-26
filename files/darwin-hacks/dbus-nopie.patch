@@ -1,0 +1,29 @@
+Index: dbus-1.1.20/configure.in
+===================================================================
+--- dbus-1.1.20.orig/configure.in	2008-06-26 17:33:23.000000000 +0100
++++ dbus-1.1.20/configure.in	2008-06-26 17:35:48.000000000 +0100
+@@ -210,24 +210,6 @@
+      ;;
+   esac
+ 
+-  case " $CFLAGS " in
+-  *[\ \	]-fPIC[\ \	]*) ;;
+-  *) if cc_supports_flag -fPIC; then
+-        PIC_CFLAGS="-fPIC"
+-        PIC_LDFLAGS="-Wl,-z,relro"
+-     fi
+-     ;;
+-  esac
+-
+-  case " $CFLAGS " in
+-  *[\ \	]-fPIE[\ \	]*) ;;
+-  *) if cc_supports_flag -fPIE; then
+-        PIE_CFLAGS="-fPIE"
+-        PIE_LDFLAGS="-pie -Wl,-z,relro"
+-     fi
+-     ;;
+-  esac
+-
+   if test "x$enable_ansi" = "xyes"; then
+     case " $CFLAGS " in
+     *[\ \	]-ansi[\ \	]*) ;;
