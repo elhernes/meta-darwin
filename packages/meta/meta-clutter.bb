@@ -1,6 +1,6 @@
 DESCRIPTION = "Meta package for building clutter"
 LICENSE = "MIT"
-DEPENDS = "opkg-native ipkg-utils-native fakeroot-native"
+DEPENDS = "opkg-native opkg-utils-native fakeroot-native"
 
 inherit meta
 
