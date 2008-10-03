@@ -15,6 +15,7 @@ PREFERRED_PROVIDER_virtual/${TARGET_PREFIX}g++ = "llvm-cross"
 PREFERRED_PROVIDER_virtual/linux-libc-headers = "apple-headers"
 PREFERRED_PROVIDER_virtual/libiconv = "iphone-rootfs"
 PREFERRED_PROVIDER_virtual/libintl = "gettext"
+PREFERRED_PROVIDER_clutter-0.8 = "clutter-0.8"
 
 export TARGET_LDFLAGS = "-L${STAGING_DIR_TARGET}${layout_libdir} -Wl,-L${STAGING_DIR_TARGET}${layout_libdir}"
 #CXXFLAGS += "-fvisibility-inlines-hidden"
@@ -65,6 +66,11 @@ DEPENDS_pn-clutter = "${STDDEPENDS}"
 EXTRA_OECONF_pn-clutter = "${BASE_CONF} --with-flavour=fruity --with-imagebackend=internal"
 PACKAGE_ARCH_pn-clutter = "${MACHINE_ARCH}"
 CCACHE_pn-clutter = ""
+
+DEPENDS_pn-clutter-0.8 = "${STDDEPENDS}"
+EXTRA_OECONF_pn-clutter-0.8 = "${BASE_CONF} --with-flavour=fruity --with-imagebackend=internal"
+PACKAGE_ARCH_pn-clutter-0.8 = "${MACHINE_ARCH}"
+CCACHE_pn-clutter-0.8 = ""
 
 #
 # Pango
