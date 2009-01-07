@@ -41,6 +41,7 @@ TARGET_CFLAGS_append_pn-libxml2 = "${CFLAGSHACK}"
 #PREFERRED_VERSION_clutter = "0.7.0+svnr2743"
 
 PREFERRED_VERSION_cairo = "1.4.14"
+PREFERRED_VERSION_pango = "1.18.3"
 
 SRCREV_pn-llvm-native = "42498"
 #SRCREV_pn-llvm-native = "50526"
