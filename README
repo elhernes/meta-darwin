@@ -1,0 +1,24 @@
+meta-darwin
+==========
+
+OpenEmbedded meta layer for darwin based SDKs
+
+Notes: odcctools is not 64 bit safe and forces compiles to use -m32. You also need libobjc 
+installed along with 32 bit libraries for ssl (libcrypto) and libuuid.
+The odcctools2 version should be 64 bit safe and not need those workarounds.
+
+You also need a OS-X sysroot tarball/zip file generated from copied from a target 
+system. This is placed in the osx-runtime files directory and is used to compile the SDK
+against it.
+
+
+This layer depends on:
+
+ URI: git://git.openembedded.org/openembedded-core
+ layers: meta
+ branch: master
+
+Layer Maintainer: Richard Purdie <richard.purdie@linuxfoundation.org>
+
+Please send changes to the yocto mailing list with [meta-darwin] in the subject line,
+cc'ing the maintainer.
