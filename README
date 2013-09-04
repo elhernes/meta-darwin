@@ -11,6 +11,7 @@ You also need a OS-X sysroot tarball/zip file generated from copied from a targe
 system. This is placed in the osx-runtime files directory and is used to compile the SDK
 against it.
 
+For dylan you also need to patch OE-Core with oecore.patch
 
 This layer depends on:
 

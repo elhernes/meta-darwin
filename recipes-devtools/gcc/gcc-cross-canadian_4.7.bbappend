@@ -1,6 +1,4 @@
 INSANE_SKIP_${PN}_append_darwinsdk = " staticdev"
-EXTRA_OECONF_append_darwinsdk = " --disable-nls"
-ELFUTILS_darwinsdk = ""
 
 #Remove -rpath-link and -rpath
 LDFLAGS_darwinsdk = "${BUILDSDK_LDFLAGS} -L${libdir}/.."
