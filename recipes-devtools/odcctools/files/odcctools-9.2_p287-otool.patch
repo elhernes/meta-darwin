@@ -1,0 +1,32 @@
+Index: Makefile.in
+===================================================================
+--- Makefile.in	(revision 287)
++++ Makefile.in	(working copy)
+@@ -23,7 +23,7 @@
+ $(COMPONENTS):
+ 	cd $@ && $(MAKE)
+ 
+-as ar ld ld64 misc otool: libstuff
++as ar ld ld64 misc: libstuff
+ 
+ clean distclean install:
+ 	for c in $(COMPONENTS); do              	\
+Index: configure.ac
+===================================================================
+--- configure.ac	(revision 287)
++++ configure.ac	(working copy)
+@@ -297,7 +297,7 @@
+ 	;;
+ esac
+ 
+-COMPONENTS="ar as include libstuff libmacho ld $LD64 man misc otool"
++COMPONENTS="ar as include libstuff libmacho ld $LD64 man misc"
+ AC_SUBST([COMPONENTS], [$COMPONENTS])
+ 
+ AC_CONFIG_FILES([Makefile include/Makefile libstuff/Makefile libmacho/Makefile])
+@@ -329,5 +329,4 @@
+ AC_CONFIG_FILES([ld64/Makefile])
+ AC_CONFIG_FILES([man/Makefile])
+ AC_CONFIG_FILES([misc/Makefile])
+-AC_CONFIG_FILES([otool/Makefile])
+ AC_OUTPUT

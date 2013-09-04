@@ -1,0 +1,383 @@
+Index: include/stuff/ofile.h
+===================================================================
+--- include/stuff/ofile.h	(revision 287)
++++ include/stuff/ofile.h	(working copy)
+@@ -29,17 +29,17 @@
+ #endif
+ 
+ #include "stuff/target_arch.h"
+-#import <ar.h>
++#include <ar.h>
+ #ifndef AR_EFMT1
+ #define	AR_EFMT1	"#1/"		/* extended format #1 */
+ #endif
+-#import <mach-o/loader.h>
++#include <mach-o/loader.h>
+ #ifdef OFI
+-#import <mach-o/dyld.h>
++#include <mach-o/dyld.h>
+ #endif
+-#import "stuff/bytesex.h"
+-#import "stuff/bool.h"
+-#import "stuff/arch.h"
++#include "stuff/bytesex.h"
++#include "stuff/bool.h"
++#include "stuff/arch.h"
+ 
+ enum ofile_type {
+     OFILE_UNKNOWN,
+Index: include/stuff/breakout.h
+===================================================================
+--- include/stuff/breakout.h	(revision 287)
++++ include/stuff/breakout.h	(working copy)
+@@ -24,7 +24,7 @@
+ #define __private_extern__ __declspec(private_extern)
+ #endif
+ 
+-#import "stuff/ofile.h"
++#include "stuff/ofile.h"
+ 
+ /*
+  * This is used to build the table of contents of an archive.  Each toc_entry
+Index: include/stuff/bytesex.h
+===================================================================
+--- include/stuff/bytesex.h	(revision 287)
++++ include/stuff/bytesex.h	(working copy)
+@@ -69,12 +69,10 @@
+ 		      (((a) >> 8) & 0x0000ff00) | \
+ 	 ((unsigned int)(a) >> 24) )
+ 
+-#ifndef __LP64__
+ #define SWAP_LONG(a) ( ((a) << 24) | \
+ 		      (((a) << 8) & 0x00ff0000) | \
+ 		      (((a) >> 8) & 0x0000ff00) | \
+ 	((unsigned long)(a) >> 24) )
+-#endif
+ 
+ extern long long SWAP_LONG_LONG(
+     long long ll);
+Index: include/ar.h
+===================================================================
+--- include/ar.h	(revision 287)
++++ include/ar.h	(working copy)
+@@ -86,4 +86,9 @@
+ 	char ar_fmag[2];		/* consistency check */
+ };
+ 
++#ifndef HAVE_STRMODE
++#include <sys/types.h>
++void strmode(mode_t mode, char *bp);
++#endif
++
+ #endif /* !_AR_H_ */
+Index: include/i386/_types.h
+===================================================================
+--- include/i386/_types.h	(revision 287)
++++ include/i386/_types.h	(working copy)
+@@ -37,8 +37,6 @@
+ typedef	unsigned short		__uint16_t;
+ typedef int			__int32_t;
+ typedef unsigned int		__uint32_t;
+-typedef long long		__int64_t;
+-typedef unsigned long long	__uint64_t;
+ 
+ typedef long			__darwin_intptr_t;
+ typedef unsigned int		__darwin_natural_t;
+Index: include/foreign/architecture/i386/frame.h
+===================================================================
+--- include/foreign/architecture/i386/frame.h	(revision 287)
++++ include/foreign/architecture/i386/frame.h	(working copy)
+@@ -63,7 +63,7 @@
+     } pgfault;
+ } err_code_t;
+ 
+-#import <architecture/i386/sel.h>
++#include <architecture/i386/sel.h>
+ 
+ /*
+  * The actual hardware exception frame
+Index: include/foreign/architecture/i386/fpu.h
+===================================================================
+--- include/foreign/architecture/i386/fpu.h	(revision 287)
++++ include/foreign/architecture/i386/fpu.h	(working copy)
+@@ -121,7 +121,7 @@
+ 					:3;
+ } fp_control_t;
+ 
+-#import <architecture/i386/sel.h>
++#include <architecture/i386/sel.h>
+ 
+ /*
+  * Floating point 'environment'
+Index: include/foreign/objc/error.h
+===================================================================
+--- include/foreign/objc/error.h	(revision 287)
++++ include/foreign/objc/error.h	(working copy)
+@@ -43,7 +43,7 @@
+ #define _OBJC_ERROR_H_
+ 
+ #include <setjmp.h>
+-#import <objc/objc-api.h>
++#include <objc/objc-api.h>
+ 
+ 
+ typedef struct _NXHandler {	/* a node in the handler chain */
+Index: include/foreign/objc/objc-load.h
+===================================================================
+--- include/foreign/objc/objc-load.h	(revision 287)
++++ include/foreign/objc/objc-load.h	(working copy)
+@@ -28,10 +28,10 @@
+ #ifndef _OBJC_LOAD_H_
+ #define _OBJC_LOAD_H_
+ 
+-#import <objc/objc-class.h>
++#include <objc/objc-class.h>
+ 
+-#import <mach-o/loader.h>
+-#import <AvailabilityMacros.h>
++#include <mach-o/loader.h>
++#include <AvailabilityMacros.h>
+ 
+ /* dynamically loading Mach-O object files that contain Objective-C code */
+ 
+Index: include/foreign/objc/hashtable.h
+===================================================================
+--- include/foreign/objc/hashtable.h	(revision 287)
++++ include/foreign/objc/hashtable.h	(working copy)
+@@ -33,7 +33,7 @@
+ #warning The API in this header is obsoleted by NSHashtable.h
+ #endif
+ 
+-#import <objc/objc.h>
++#include <objc/objc.h>
+ #include <stdint.h>
+ 
+ /*************************************************************************
+Index: include/foreign/objc/objc-runtime.h
+===================================================================
+--- include/foreign/objc/objc-runtime.h	(revision 287)
++++ include/foreign/objc/objc-runtime.h	(working copy)
+@@ -1,2 +1,2 @@
+-#import <objc/runtime.h>
+-#import <objc/message.h>
++#include <objc/runtime.h>
++#include <objc/message.h>
+Index: include/foreign/objc/Protocol.h
+===================================================================
+--- include/foreign/objc/Protocol.h	(revision 287)
++++ include/foreign/objc/Protocol.h	(working copy)
+@@ -28,7 +28,7 @@
+ #ifndef _OBJC_PROTOCOL_H_
+ #define _OBJC_PROTOCOL_H_
+ 
+-#import <objc/Object.h>
++#include <objc/Object.h>
+ 
+ /* Warning: All of these methods will disappear in 64-bit. */
+ 
+Index: include/foreign/objc/Object.h
+===================================================================
+--- include/foreign/objc/Object.h	(revision 287)
++++ include/foreign/objc/Object.h	(working copy)
+@@ -33,7 +33,7 @@
+ #define _OBJC_OBJECT_H_
+ 
+ #include <stdarg.h>
+-#import <objc/objc-runtime.h>
++#include <objc/objc-runtime.h>
+ 
+ #if __OBJC2__
+ 
+Index: include/foreign/objc/objc-exception.h
+===================================================================
+--- include/foreign/objc/objc-exception.h	(revision 287)
++++ include/foreign/objc/objc-exception.h	(working copy)
+@@ -24,7 +24,7 @@
+ #ifndef __OBJC_EXCEPTION_H_
+ #define __OBJC_EXCEPTION_H_
+ 
+-#import <objc/objc.h>
++#include <objc/objc.h>
+ 
+ // ZEROCOST_SWITCH
+ #if !__LP64__  ||  !OBJC_ZEROCOST_EXCEPTIONS
+Index: include/foreign/objc/zone.h
+===================================================================
+--- include/foreign/objc/zone.h	(revision 287)
++++ include/foreign/objc/zone.h	(working copy)
+@@ -24,7 +24,7 @@
+ #ifndef _OBJC_ZONE_H_
+ #define _OBJC_ZONE_H_
+ 
+-#import <malloc/malloc.h>
++#incldue <malloc/malloc.h>
+ 
+ typedef malloc_zone_t NXZone;
+ 
+Index: include/foreign/objc/List.h
+===================================================================
+--- include/foreign/objc/List.h	(revision 287)
++++ include/foreign/objc/List.h	(working copy)
+@@ -40,8 +40,8 @@
+ 
+ #warning The API in this header is obsoleted by NSArray.
+ 
+-#import <objc/Object.h>
+-#import <AvailabilityMacros.h>
++#include <objc/Object.h>
++#include <AvailabilityMacros.h>
+ 
+ DEPRECATED_IN_MAC_OS_X_VERSION_10_5_AND_LATER 
+ @interface List : Object
+Index: include/foreign/objc/objc.h
+===================================================================
+--- include/foreign/objc/objc.h	(revision 287)
++++ include/foreign/objc/objc.h	(working copy)
+@@ -28,8 +28,8 @@
+ #ifndef _OBJC_OBJC_H_
+ #define _OBJC_OBJC_H_
+ 
+-#import <objc/objc-api.h>		// for OBJC_EXPORT
+-#import <sys/types.h>
++#include <objc/objc-api.h>		// for OBJC_EXPORT
++#include <sys/types.h>
+ 
+ 
+ typedef struct objc_class *Class;
+Index: include/foreign/objc/hashtable2.h
+===================================================================
+--- include/foreign/objc/hashtable2.h	(revision 287)
++++ include/foreign/objc/hashtable2.h	(working copy)
+@@ -33,7 +33,7 @@
+ #warning The API in this header is obsoleted by NSHashtable.h
+ #endif
+ 
+-#import <objc/objc.h>
++#include <objc/objc.h>
+ #include <stdint.h>
+ 
+ /*************************************************************************
+Index: include/foreign/objc/objc-class.h
+===================================================================
+--- include/foreign/objc/objc-class.h	(revision 287)
++++ include/foreign/objc/objc-class.h	(working copy)
+@@ -1,2 +1,2 @@
+-#import <objc/runtime.h>
+-#import <objc/message.h>
++#include <objc/runtime.h>
++#include <objc/message.h>
+Index: include/foreign/objc/objc-auto.h
+===================================================================
+--- include/foreign/objc/objc-auto.h	(revision 287)
++++ include/foreign/objc/objc-auto.h	(working copy)
+@@ -24,7 +24,7 @@
+ #ifndef _OBJC_AUTO_H_
+ #define _OBJC_AUTO_H_
+ 
+-#import <objc/objc.h>
++#include <objc/objc.h>
+ #include <sys/types.h>
+ #include <stddef.h>
+ #include <stdint.h>
+Index: include/foreign/objc/runtime.h
+===================================================================
+--- include/foreign/objc/runtime.h	(revision 287)
++++ include/foreign/objc/runtime.h	(working copy)
+@@ -24,13 +24,13 @@
+ #ifndef _OBJC_RUNTIME_H
+ #define _OBJC_RUNTIME_H
+ 
+-#import <objc/objc.h>
++#include <objc/objc.h>
+ 
+-#import <sys/types.h>
+-#import <stdarg.h>
+-#import <stdint.h>
+-#import <stddef.h>
+-#import <AvailabilityMacros.h>
++#include <sys/types.h>
++#include <stdarg.h>
++#include <stdint.h>
++#include <stddef.h>
++#include <AvailabilityMacros.h>
+ 
+ 
+ /* Types */
+Index: include/foreign/objc/message.h
+===================================================================
+--- include/foreign/objc/message.h	(revision 287)
++++ include/foreign/objc/message.h	(working copy)
+@@ -21,8 +21,8 @@
+  * @APPLE_LICENSE_HEADER_END@
+  */
+ 
+-#import <objc/objc.h>
+-#import <objc/runtime.h>
++#include <objc/objc.h>
++#include <objc/runtime.h>
+ 
+ 
+ struct objc_super {
+Index: include/mach-o/nlist.h
+===================================================================
+--- include/mach-o/nlist.h	(revision 287)
++++ include/mach-o/nlist.h	(working copy)
+@@ -75,9 +75,7 @@
+  */
+ struct nlist {
+ 	union {
+-#ifndef __LP64__
+ 		char *n_name;	/* for use when in-core */
+-#endif
+ 		int32_t n_strx;	/* index into the string table */
+ 	} n_un;
+ 	uint8_t n_type;		/* type flag, see below */
+Index: include/mach-o/ranlib.h
+===================================================================
+--- include/mach-o/ranlib.h	(revision 287)
++++ include/mach-o/ranlib.h	(working copy)
+@@ -60,9 +60,7 @@
+ struct	ranlib {
+     union {
+ 	uint32_t	ran_strx;	/* string table index of */
+-#ifndef __LP64__
+ 	char		*ran_name;	/* symbol defined by */
+-#endif
+     } ran_un;
+     uint32_t		ran_off;	/* library member at this offset */
+ };
+Index: include/mach/mach_traps.h
+===================================================================
+--- include/mach/mach_traps.h	(revision 287)
++++ include/mach/mach_traps.h	(working copy)
+@@ -106,7 +106,6 @@
+ 				mach_port_name_t t,
+ 				int *x);
+ 
+-#if		!defined(__LP64__)
+ /* these should go away altogether - so no 64 legacy please */
+ 
+ extern kern_return_t map_fd(
+@@ -116,7 +115,6 @@
+ 				boolean_t findspace,
+ 				vm_size_t size);
+ 
+-#endif	/* !defined(__LP64__) */
+ 
+ 
+ __END_DECLS
+Index: include/mach/machine.h
+===================================================================
+--- include/mach/machine.h	(revision 287)
++++ include/mach/machine.h	(working copy)
+@@ -80,8 +80,8 @@
+ #ifndef	_MACH_MACHINE_H_
+ #define _MACH_MACHINE_H_
+ 
+-#import <mach/machine/vm_types.h>
+-#import <mach/boolean.h>
++#include <mach/machine/vm_types.h>
++#include <mach/boolean.h>
+ 
+ /*
+  *	For each host, there is a maximum possible number of

@@ -1,0 +1,15 @@
+--- apple-x86-odcctools-758.159/libmacho/arch.c	2011-04-07 11:41:05.275621999 +0200
++++ apple-x86-odcctools-758.159/libmacho/arch.c	2011-04-07 11:41:13.855701000 +0200
+@@ -230,7 +230,11 @@
+ 	   (cpusubtype == CPU_SUBTYPE_MULTIPLE ||
+ 	    ((ai->cpusubtype & ~CPU_SUBTYPE_MASK) ==
+ 	     (cpusubtype & ~CPU_SUBTYPE_MASK))))
+-	    return(ai);
++	{
++		q = malloc(sizeof(NXArchInfo));
++		*q = *ai;
++		return((const NXArchInfo *)q);
++	}
+ 
+     if(cputype == CPU_TYPE_I386){
+ 	q = malloc(sizeof(NXArchInfo));
