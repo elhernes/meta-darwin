@@ -7,9 +7,10 @@ Notes: odcctools is not 64 bit safe and forces compiles to use -m32. You also ne
 installed along with 32 bit libraries for ssl (libcrypto) and libuuid.
 The odcctools2 version should be 64 bit safe and not need those workarounds.
 
-You also need a OS-X sysroot tarball/zip file generated from copied from a target 
+You also need a OS-X sysroot tarball/zip file generated (copied) from a target OS-X
 system. This is placed in the osx-runtime files directory and is used to compile the SDK
-against it.
+against it. It needs to contain the system libraries (/usr/lib) and include files 
+(/usr/include).
 
 For dylan you also need to patch OE-Core with oecore.patch
 
