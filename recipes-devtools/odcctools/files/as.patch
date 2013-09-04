@@ -1,0 +1,18 @@
+--- apple-x86-odcctools-758.159/as/input-scrub.c		2010-02-24 11:17:32.000000000 +0100
++++ apple-x86-odcctools-758.159-patched/as/input-scrub.c	2010-02-24 11:40:04.000000000 +0100
+@@ -335,6 +335,7 @@
+ char **directory,
+ int *line)
+ {
++#if OLD_PROJECTBUILDER_INTERFACE
+     char *p, *q;
+     static char directory_buf[MAXPATHLEN];
+ 
+@@ -357,6 +358,7 @@
+ 	    *fileName = p + 1;
+ 	    strncat(directory_buf, p, q - p);
+ 	}
++#endif
+ }
+ 
+ /*

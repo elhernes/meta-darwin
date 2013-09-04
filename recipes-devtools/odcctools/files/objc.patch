@@ -1,0 +1,11 @@
+--- apple-x86-odcctools-758.159/otool/Makefile.in		2010-02-23 21:57:20.000000000 +0100
++++ apple-x86-odcctools-758.159-patched/otool/Makefile.in	2010-02-23 21:57:54.000000000 +0100
+@@ -48,7 +48,7 @@
+          m88k_disasm.c i386_disasm.c ppc_disasm.c hppa_disasm.c \
+          sparc_disasm.c arm_disasm.c
+ 
+-ifneq ($(OBJC),)
++ifeq ($(HAVE_OBJC_OBJC_RUNTIME_H),YES)
+ OBJCFILES = print_objc.c print_objc2_32bit.c print_objc2_64bit.c
+ OBJCOBJS = $(OBJCFILES:.c=.o) 
+ endif
