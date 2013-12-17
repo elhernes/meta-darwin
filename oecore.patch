@@ -234,7 +234,7 @@ index 32b14d3..5dd910f 100644
  
  do_populate_sysroot[stamp-extra-info] = ""
 diff --git a/meta/classes/gettext.bbclass b/meta/classes/gettext.bbclass
-index 95818c6..a4e5ab6 100644
+index 17c894f..4db6923 100644
 --- a/meta/classes/gettext.bbclass
 +++ b/meta/classes/gettext.bbclass
 @@ -1,5 +1,5 @@
@@ -247,9 +247,9 @@ index 95818c6..a4e5ab6 100644
 @@ -11,7 +11,7 @@ def gettext_oeconf(d):
      if oe.utils.inherits(d, 'native', 'cross'):
          return '--disable-nls'
-     # Remove the NLS bits if USE_NLS is no.
--    if d.getVar('USE_NLS', True) == 'no' and not oe.utils.inherits(d, 'nativesdk', 'cross-canadian'):
-+    if d.getVar('USE_NLS', True) == 'no' and not oe.utils.inherits(d, 'cross-canadian'):
+     # Remove the NLS bits if USE_NLS is no or INHIBIT_DEFAULT_DEPS is set
+-    if (d.getVar('USE_NLS', True) == 'no' or d.getVar('INHIBIT_DEFAULT_DEPS', True)) and not oe.utils.inherits(d, 'nativesdk', 'cross-canadian'):
++    if (d.getVar('USE_NLS', True) == 'no' or d.getVar('INHIBIT_DEFAULT_DEPS', True)) and not oe.utils.inherits(d, 'cross-canadian'):
          return '--disable-nls'
      return "--enable-nls"
  
@@ -267,7 +267,7 @@ index 8b689e7..28d755b 100644
  
  #
 diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
-index 551cafc..33317ce 100644
+index 80aaec2..5a637c6 100644
 --- a/meta/classes/package.bbclass
 +++ b/meta/classes/package.bbclass
 @@ -313,6 +313,12 @@ def copydebugsources(debugsrcdir, d):
