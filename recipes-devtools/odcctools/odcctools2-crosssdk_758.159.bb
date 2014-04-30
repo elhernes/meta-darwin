@@ -13,6 +13,7 @@ LIC_FILES_CHKSUM = "file://APPLE_LICENSE;md5=dacaafbaf91483700da837d31213a1e8"
 
 inherit autotools crosssdk
 
+DEPENDS += "util-linux-native openssl-native"
 PROVIDES = "virtual/${TARGET_PREFIX}binutils-crosssdk"
 
 EXTRA_OECONF = "--enable-ld64"
