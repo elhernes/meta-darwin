@@ -32,7 +32,8 @@ do_compile () {
 }
 
 do_install () {
-	cp -r ${S}/* ${D}/
+	mkdir ${D}/usr
+	cp -r ${S}/usr/* ${D}/usr/
 }
 
 FILES_${PN} = "/usr"
