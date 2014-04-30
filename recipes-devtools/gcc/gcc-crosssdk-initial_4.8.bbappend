@@ -8,3 +8,12 @@ do_install_append_darwin () {
 sysroot_stage_all_append_darwin () {
 	sysroot_stage_dir ${D}${exec_prefix}/${TARGET_SYS} ${SYSROOT_DESTDIR}${exec_prefix}/${TARGET_SYS}
 }
+
+
+do_compile_append_darwin () {
+	oe_runmake all-target-libgcc
+}
+do_install_append_darwin () {
+	oe_runmake 'DESTDIR=${D}' install-target-libgcc
+}
+
