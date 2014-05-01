@@ -4,7 +4,8 @@ SRC_URI = "file://apple-x86-odcctools_758.159-0flosoft11.tar.gz \
            file://fix-758.patch \
            file://vm_types_h.patch \
            file://as.patch \
-           file://arch_c.patch "
+           file://arch_c.patch \
+           file://ld64-typename.patch"
 LICENSE = "ApplePSLicense-2.0"
 
 S = "${WORKDIR}/apple-x86-odcctools-758.159"
