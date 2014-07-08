@@ -16,7 +16,7 @@ inherit autotools crosssdk
 DEPENDS += "util-linux-native openssl-native"
 PROVIDES = "virtual/${TARGET_PREFIX}binutils-crosssdk"
 
-EXTRA_OECONF = "--enable-ld64"
+#EXTRA_OECONF = "--enable-ld64"
 
 do_install_append () {
 	ln -s ../libexec ${D}${bindir}/../libexec
