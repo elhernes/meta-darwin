@@ -44,9 +44,11 @@ do_compile () {
 do_install () {
 	mkdir ${D}/usr
 	cp -r ${S}/usr/* ${D}/usr/
+	mkdir -p ${D}/System/Library/Frameworks
+	cp -r ${S}/System/Library/Frameworks/* ${D}/System/Library/Frameworks/
 }
 
-FILES_${PN} = "/usr"
+FILES_${PN} = "/usr /System/Library/Frameworks"
 FILES_${PN}-staticdev = "/usr/lib/*.a"
 
 sysroot_stage_all() {
