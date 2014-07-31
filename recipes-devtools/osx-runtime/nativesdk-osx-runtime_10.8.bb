@@ -4,6 +4,7 @@ LICENSE = "Proprietary"
 COMPATIBLE_HOST = ".*-darwin.*"
 
 SRC_URI = "file://OSX-sdk.zip \
+           file://remove_unsupported_attribute_availability_with_message_for_gcc.patch \
            file://LICENSE"
 
 LIC_FILES_CHKSUM = "file://${WORKDIR}/LICENSE;md5=03fe683ef28b9ddfe7f658a0f4b3b80e"
