@@ -23,6 +23,15 @@ PROVIDES += "virtual/nativesdk-${SDK_PREFIX}libc-for-gcc"
 PROVIDES += "virtual/nativesdk-libintl"
 PROVIDES += "virtual/nativesdk-libiconv"
 
+CFLAGS[unexport] = "1"
+CXXFLAGS[unexport] = "1"
+CPPFLAGS[unexport] = "1"
+LDFLAGS[unexport] = "1"
+TARGET_CFLAGS[unexport] = "1"
+TARGET_CXXFLAGS[unexport] = "1"
+TARGET_CPPFLAGS[unexport] = "1"
+TARGET_LDFLAGS[unexport] = "1"
+
 do_configure () {
 	:
 }
