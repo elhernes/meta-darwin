@@ -1,0 +1,49 @@
+Hacky workaround for build failures on darwin. The linker is buggy and it 
+can't cope with arithmatic at the end of sections, therefore we pad the 
+sections with a dummy instruction.
+
+Also, our compiler doesn't support relocs so we need to enter the configure 
+section to run those tests and avoid build failures.
+
+RP 2014/8/4
+
+Index: libffi-3.1/src/x86/win32.S
+===================================================================
+--- libffi-3.1.orig/src/x86/win32.S	2014-07-09 16:23:45.361202177 +0000
++++ libffi-3.1/src/x86/win32.S	2014-07-09 16:23:45.565202182 +0000
+@@ -1133,11 +1133,14 @@
+ .ffi_closure_STDCALL_end:
+ .LFE5:
+ 
++        hlt;
++
+ #if defined(X86_DARWIN)
+ .section __IMPORT,__jump_table,symbol_stubs,self_modifying_code+pure_instructions,5
+ L_ffi_closure_SYSV_inner$stub:
+ 	.indirect_symbol _ffi_closure_SYSV_inner
+ 	hlt ; hlt ; hlt ; hlt ; hlt
++.section __TEXT,__eh_frame,coalesced,no_toc+strip_static_syms+live_support
+ #endif
+ 
+ #if defined(X86_WIN32) && !defined(__OS2__)
+@@ -1301,6 +1304,6 @@
+ 	/* End of DW_CFA_xxx CFI instructions.  */
+ 	.align 4
+ .LEFDE5:
+-
++	hlt
+ #endif /* !_MSC_VER */
+ 
+Index: libffi-3.1/configure.ac
+===================================================================
+--- libffi-3.1.orig/configure.ac	2014-05-11 13:57:49.000000000 +0000
++++ libffi-3.1/configure.ac	2014-07-09 16:24:53.885204044 +0000
+@@ -393,7 +393,7 @@
+     fi
+ fi
+ 
+-if test x$TARGET = xX86 || test x$TARGET = xX86_WIN32 || test x$TARGET = xX86_64; then
++if test x$TARGET = xX86 || test x$TARGET = xX86_WIN32 || test x$TARGET = xX86_64 || test x$TARGET = xX86_DARWIN; then
+     AC_CACHE_CHECK([assembler supports pc related relocs],
+ 	libffi_cv_as_x86_pcrel, [
+ 	libffi_cv_as_x86_pcrel=no
