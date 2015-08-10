@@ -10,7 +10,31 @@ The odcctools2 version should be 64 bit safe and not need those workarounds.
 You also need a OS-X sysroot tarball/zip file generated (copied) from a target OS-X
 system. This is placed in the osx-runtime files directory and is used to compile the SDK
 against it. It needs to contain the system libraries (/usr/lib) and include files 
-(/usr/include).
+(/usr/include). This tarball is not part of this meta-darwin layer and must be
+created by the user. To create it, the user is required to have a legitimate Mac computer
+with OSX 10.8 or later and with Xcode 5.1.0 or later installed.
+
+To create the SDK tarball, perform the following steps using your Mac computer:
+
+1. Install Xcode 5.1.0 or later using App Store.
+
+2. Install the command-line development tools
+    (Preferences -> Downloads -> Command-line tools)
+
+3. Use Terminal to create the file OSX-sdk.zip from the OSX SDK (this sample assumes
+   OSX 10.10):
+
+    $ mkdir ~/Desktop/OSX-sdk
+    $ cd ~/Desktop/OSX-sdk
+    $ ditto `xcrun --sdk macosx10.10 --show-sdk-path` .
+    $ cd ..
+    $ zip -yr OSX-sdk OSX-sdk
+
+4. Copy the created OSX-sdk.zip file to your Yocto development machine, placing it into
+   meta-darwin layer:
+
+    <...>/meta-darwin/recipes-devtools/osx-runtime/files
+
 
 This layer depends on:
 
