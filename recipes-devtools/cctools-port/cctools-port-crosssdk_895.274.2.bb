@@ -27,7 +27,9 @@ B = "${WORKDIR}/build"
 
 AUTOTOOLS_SCRIPT_PATH = "${S}/cctools"
 
-#do_configure_prepend() {
-#    cd ${AUTOTOOLS_SCRIPT_PATH}
-#    libtoolize --force
-#}
+do_configure_prepend() {
+    PWD_CUR=$(pwd)
+    cd ${AUTOTOOLS_SCRIPT_PATH}
+    libtoolize
+    cd ${PWD_CUR}
+}
