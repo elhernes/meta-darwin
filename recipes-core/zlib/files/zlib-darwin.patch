@@ -1,0 +1,17 @@
+--- zlib-1.2.11-orig/configure	2016-12-31 18:06:40.000000000 +0000
++++ zlib-1.2.11/configure	2018-09-30 22:01:03.887112033 +0000
+@@ -240,13 +240,7 @@
+              SHAREDLIB=libz$shared_ext
+              SHAREDLIBV=libz.$VER$shared_ext
+              SHAREDLIBM=libz.$VER1$shared_ext
+-             LDSHARED=${LDSHARED-"$cc -dynamiclib -install_name $libdir/$SHAREDLIBM -compatibility_version $VER1 -current_version $VER3"}
+-             if libtool -V 2>&1 | grep Apple > /dev/null; then
+-                 AR="libtool"
+-             else
+-                 AR="/usr/bin/libtool"
+-             fi
+-             ARFLAGS="-o" ;;
++             LDSHARED=${LDSHARED-"$cc -dynamiclib -install_name $libdir/$SHAREDLIBM -compatibility_version $VER1 -current_version $VER3"} ;;
+   *)             LDSHARED=${LDSHARED-"$cc -shared"} ;;
+   esac
+ else

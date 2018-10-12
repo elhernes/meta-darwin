@@ -1,4 +1,5 @@
-RDEPENDS_${PN}_darwin = "\
+RDEPENDS_${PN}_darwin9 = "\
     nativesdk-libtool \
-    nativesdk-qemu \
     "
+#    nativesdk-pkgconfig \
+#
