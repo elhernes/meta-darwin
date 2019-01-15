@@ -3,7 +3,9 @@ LICENSE = "Proprietary"
 
 COMPATIBLE_HOST = ".*-darwin.*"
 
-SRC_URI = "file://OSX-sdk.zip \
+OSX_SDK ?= "file://OSX-sdk.zip"
+
+SRC_URI = "${OSX_SDK} \
            file://LICENSE"
 
 LIC_FILES_CHKSUM = "file://${WORKDIR}/LICENSE;md5=03fe683ef28b9ddfe7f658a0f4b3b80e"
