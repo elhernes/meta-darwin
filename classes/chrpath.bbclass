@@ -49,7 +49,7 @@ def process_file_linux(cmd, fpath, rootdir, baseprefix, tmpdir, d):
 def process_file_darwin(cmd, fpath, rootdir, baseprefix, tmpdir, d):
     import subprocess as sub
 
-    p = sub.Popen([d.expand("${HOST_PREFIX}otool"), '-L', fpath],stdout=sub.PIPE,stderr=sub.PIPE,universal_newlines=True)
+    p = sub.Popen([d.expand("${HOST_PREFIX}otool"), '-L', fpath],stdout=sub.PIPE,stderr=sub.PIPE, universal_newlines=True)
     out, err = p.communicate()
     # If returned successfully, process stdout for results
     if p.returncode != 0:
