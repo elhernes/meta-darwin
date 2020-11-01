@@ -9,11 +9,13 @@ EXTRA_OECONF_remove_darwin9 = "--enable-clocale=generic"
 EXTRA_OECONF_remove_darwin9 = "--enable-initfini-array"
 EXTRA_OECONF_append_darwin9 = " --disable-initfini-array"
 
+DEPENDS_append = " nativesdk-osx-runtime"
+
 do_configure_prepend_darwin9 () {
     export ARCH_FLAGS_FOR_TARGET=" $ARCH_FLAGS_FOR_TARGET \
-        -L${STAGING_DIR_TARGET}${SDKPATHNATIVE}/usr/lib \
-        -L${STAGING_DIR_TARGET}${SDKPATHNATIVE}/runtime/usr/lib \
-        -L${STAGING_DIR_TARGET}${SDKPATHNATIVE}/runtime/usr/lib/system \
+        -L${SDKPATHNATIVE}/usr/lib \
+        -L${SDKPATHNATIVE}/runtime/usr/lib \
+        -L${SDKPATHNATIVE}/runtime/usr/lib/system \
     "
 }
 
