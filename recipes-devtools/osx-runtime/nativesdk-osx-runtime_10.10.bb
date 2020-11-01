@@ -57,7 +57,10 @@ PACKAGES = "${PN} ${PN}-dontship"
 
 FILES_${PN}-dontship = "/usr /System"
 
-sysroot_stage_all() {
+SYSROOT_DIRS_NATIVE_append = " ${SDKPATHNATIVE}/runtime"
+SYSROOT_DIRS_append = " ${SDKPATHNATIVE}/runtime"
+
+sysroot_stage_all_append() {
 	sysroot_stage_dir ${D} ${SYSROOT_DESTDIR}${SDKPATHNATIVE}/runtime
 }
 
