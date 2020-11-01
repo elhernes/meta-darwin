@@ -9,7 +9,7 @@ EXTRA_OECONF_remove_darwin9 = "--enable-clocale=generic"
 EXTRA_OECONF_remove_darwin9 = "--enable-initfini-array"
 EXTRA_OECONF_append_darwin9 = " --disable-initfini-array"
 
-DEPENDS_append = " nativesdk-osx-runtime"
+DEPENDS_append_darwin9 = " nativesdk-osx-runtime"
 
 do_configure_prepend_darwin9 () {
     export ARCH_FLAGS_FOR_TARGET=" $ARCH_FLAGS_FOR_TARGET \
