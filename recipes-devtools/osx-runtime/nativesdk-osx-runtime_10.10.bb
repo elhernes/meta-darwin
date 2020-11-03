@@ -36,19 +36,20 @@ TARGET_CXXFLAGS[unexport] = "1"
 TARGET_CPPFLAGS[unexport] = "1"
 TARGET_LDFLAGS[unexport] = "1"
 
-do_configure[noexec] = "1"
 do_compile[noexec] = "1"
 package_do_shlibs[noexec] = "1"
 
 INSANE_SKIP_${PN} += "file-rdeps staticdev"
 
+do_configure() {
+}
 
 do_install () {
     mkdir -p ${D}
 	mkdir ${D}/usr
-	cp -r ${S}/usr/* ${D}/usr/
+	cp -r ${WORKDIR}/OSX-sdk/usr/* ${D}/usr/
 	mkdir -p ${D}/System/Library/Frameworks
-	cp -r ${S}/System/Library/Frameworks/* ${D}/System/Library/Frameworks/
+	cp -r ${WORKDIR}/OSX-sdk/System/Library/Frameworks/* ${D}/System/Library/Frameworks/
 }
 
 ALLOW_EMPTY_${PN} = "1"
