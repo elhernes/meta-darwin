@@ -1,1 +1,0 @@
-BUILDSDK_CFLAGS_append_darwin9 = " -DOS_OBJECT_USE_OBJC=0"
