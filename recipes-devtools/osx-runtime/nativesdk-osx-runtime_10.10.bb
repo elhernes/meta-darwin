@@ -49,6 +49,10 @@ do_install () {
 	cp -r ${WORKDIR}/OSX-sdk/* ${D}/
 }
 
+do_stash_locale () {
+}
+addtask do_stash_locale after do_install before do_populate_sysroot do_package
+
 ALLOW_EMPTY_${PN} = "1"
 
 PACKAGES = "${PN} ${PN}-dontship"
