@@ -1,7 +1,7 @@
-From 7d614a84709d7dc4a2529c3d529e2da8541f9fd4 Mon Sep 17 00:00:00 2001
+From bb1f359e34649516e61305e9748534cce7e0ee70 Mon Sep 17 00:00:00 2001
 From: Khem Raj <raj.khem@gmail.com>
 Date: Mon, 7 Dec 2015 23:39:54 +0000
-Subject: [PATCH 25/39] handle sysroot support for nativesdk-gcc
+Subject: [PATCH] handle sysroot support for nativesdk-gcc
 
 Being able to build a nativesdk gcc is useful, particularly in cases
 where the host compiler may be of an incompatible version (or a 32
@@ -32,22 +32,37 @@ implementation.)
 
 Signed-off-by: Mark Hatle <mark.hatle@kernel.crashing.org>
 ---
- c-family/c-opts.c |    4 +--
- cppdefault.c      |   63 +++++++++++++++++++++++++++++++++---------------------
- cppdefault.h      |   13 ++++-------
- gcc.c             |   20 ++++++++++++-----
- incpath.c         |   12 +++++-----
- prefix.c          |    4 +--
- 6 files changed, 68 insertions(+), 48 deletions(-)
+ gcc/c-family/c-opts.c |  4 +--
+ gcc/cppdefault.c      | 63 ++++++++++++++++++++++++++-----------------
+ gcc/cppdefault.h      | 13 ++++-----
+ gcc/gcc.c             | 20 +++++++++-----
+ gcc/incpath.c         | 12 ++++-----
+ gcc/prefix.c          |  6 +++--
+ 6 files changed, 70 insertions(+), 48 deletions(-)
 
-Index: gcc-9.3.0/gcc/cppdefault.c
-===================================================================
---- gcc-9.3.0.orig/gcc/cppdefault.c
-+++ gcc-9.3.0/gcc/cppdefault.c
+diff --git a/gcc/c-family/c-opts.c b/gcc/c-family/c-opts.c
+index 58ba0948e79..806bbcfb7a5 100644
+--- a/gcc/c-family/c-opts.c
++++ b/gcc/c-family/c-opts.c
+@@ -1409,8 +1409,8 @@ add_prefixed_path (const char *suffix, incpath_kind chain)
+   size_t prefix_len, suffix_len;
+ 
+   suffix_len = strlen (suffix);
+-  prefix     = iprefix ? iprefix : cpp_GCC_INCLUDE_DIR;
+-  prefix_len = iprefix ? strlen (iprefix) : cpp_GCC_INCLUDE_DIR_len;
++  prefix     = iprefix ? iprefix : GCC_INCLUDE_DIRVAR;
++  prefix_len = iprefix ? strlen (iprefix) : strlen(GCC_INCLUDE_DIRVAR) - 7;
+ 
+   path = (char *) xmalloc (prefix_len + suffix_len + 1);
+   memcpy (path, prefix, prefix_len);
+diff --git a/gcc/cppdefault.c b/gcc/cppdefault.c
+index 2f43b88a0c3..6b6be04686c 100644
+--- a/gcc/cppdefault.c
++++ b/gcc/cppdefault.c
 @@ -35,6 +35,35 @@
  # undef CROSS_INCLUDE_DIR
  #endif
-
+ 
 +#ifdef __APPLE__
 +#define GCCRELOCPREFIX __attribute__ ((section (".gccrelocprefix,.gccrelocprefix")))
 +#else
@@ -80,7 +95,7 @@ Index: gcc-9.3.0/gcc/cppdefault.c
  const struct default_include cpp_include_defaults[]
  #ifdef INCLUDE_DEFAULTS
  = INCLUDE_DEFAULTS;
-@@ -42,38 +66,38 @@ const struct default_include cpp_include
+@@ -42,38 +66,38 @@ const struct default_include cpp_include_defaults[]
  = {
  #ifdef GPLUSPLUS_INCLUDE_DIR
      /* Pick up GNU C++ generic include files.  */
@@ -128,7 +143,7 @@ Index: gcc-9.3.0/gcc/cppdefault.c
        /* A multilib suffix needs adding if different multilibs use
  	 different headers.  */
  #ifdef SYSROOT_HEADERS_SUFFIX_SPEC
-@@ -85,33 +109,24 @@ const struct default_include cpp_include
+@@ -85,33 +109,24 @@ const struct default_include cpp_include_defaults[]
  #endif
  #ifdef CROSS_INCLUDE_DIR
      /* One place the target system's headers might be.  */
@@ -168,10 +183,10 @@ Index: gcc-9.3.0/gcc/cppdefault.c
  
  /* This value is set by cpp_relocated at runtime */
  const char *gcc_exec_prefix;
-Index: gcc-9.3.0/gcc/cppdefault.h
-===================================================================
---- gcc-9.3.0.orig/gcc/cppdefault.h
-+++ gcc-9.3.0/gcc/cppdefault.h
+diff --git a/gcc/cppdefault.h b/gcc/cppdefault.h
+index a681264f75e..5e10a2fa140 100644
+--- a/gcc/cppdefault.h
++++ b/gcc/cppdefault.h
 @@ -33,7 +33,8 @@
  
  struct default_include
@@ -208,14 +223,14 @@ Index: gcc-9.3.0/gcc/cppdefault.h
  /* The run-time execution prefix.  This is typically the lib/gcc
     subdirectory of the actual installation.  */
  extern const char *gcc_exec_prefix;
-Index: gcc-9.3.0/gcc/gcc.c
-===================================================================
---- gcc-9.3.0.orig/gcc/gcc.c
-+++ gcc-9.3.0/gcc/gcc.c
-@@ -253,6 +253,13 @@ FILE *report_times_to_file = NULL;
+diff --git a/gcc/gcc.c b/gcc/gcc.c
+index c87f603955f..535d5c3bb65 100644
+--- a/gcc/gcc.c
++++ b/gcc/gcc.c
+@@ -252,6 +252,13 @@ FILE *report_times_to_file = NULL;
  #endif
  static const char *target_system_root = DEFAULT_TARGET_SYSTEM_ROOT;
-
+ 
 +#ifdef __APPLE__
 +#define GCCRELOCPREFIX __attribute__ ((section (".gccrelocprefix,.gccrelocprefix")))
 +#else
@@ -226,7 +241,7 @@ Index: gcc-9.3.0/gcc/gcc.c
  /* Nonzero means pass the updated target_system_root to the compiler.  */
  
  static int target_system_root_changed;
-@@ -527,6 +529,7 @@ or with constant text in a single argume
+@@ -526,6 +528,7 @@ or with constant text in a single argument.
   %G     process LIBGCC_SPEC as a spec.
   %R     Output the concatenation of target_system_root and
          target_sysroot_suffix.
@@ -234,7 +249,7 @@ Index: gcc-9.3.0/gcc/gcc.c
   %S     process STARTFILE_SPEC as a spec.  A capital S is actually used here.
   %E     process ENDFILE_SPEC as a spec.  A capital E is actually used here.
   %C     process CPP_SPEC as a spec.
-@@ -1500,10 +1503,10 @@ static const char *gcc_libexec_prefix;
+@@ -1499,10 +1502,10 @@ static const char *gcc_libexec_prefix;
     gcc_exec_prefix is set because, in that case, we know where the
     compiler has been installed, and use paths relative to that
     location instead.  */
@@ -249,7 +264,7 @@ Index: gcc-9.3.0/gcc/gcc.c
  
  /* For native compilers, these are well-known paths containing
     components that may be provided by the system.  For cross
-@@ -1511,9 +1514,9 @@ static const char *const standard_startf
+@@ -1510,9 +1513,9 @@ static const char *const standard_startfile_prefix = STANDARD_STARTFILE_PREFIX;
  static const char *md_exec_prefix = MD_EXEC_PREFIX;
  static const char *md_startfile_prefix = MD_STARTFILE_PREFIX;
  static const char *md_startfile_prefix_1 = MD_STARTFILE_PREFIX_1;
@@ -261,7 +276,7 @@ Index: gcc-9.3.0/gcc/gcc.c
    = STANDARD_STARTFILE_PREFIX_2;
  
  /* A relative path to be used in finding the location of tools
-@@ -5922,6 +5925,11 @@ do_spec_1 (const char *spec, int inswitc
+@@ -5952,6 +5955,11 @@ do_spec_1 (const char *spec, int inswitch, const char *soft_matched_part)
  	      }
  	    break;
  
@@ -273,26 +288,11 @@ Index: gcc-9.3.0/gcc/gcc.c
  	  case 'S':
  	    value = do_spec_1 (startfile_spec, 0, NULL);
  	    if (value != 0)
-Index: gcc-9.3.0/gcc/c-family/c-opts.c
-===================================================================
---- gcc-9.3.0.orig/gcc/c-family/c-opts.c
-+++ gcc-9.3.0/gcc/c-family/c-opts.c
-@@ -1382,8 +1382,8 @@ add_prefixed_path (const char *suffix, i
-   size_t prefix_len, suffix_len;
- 
-   suffix_len = strlen (suffix);
--  prefix     = iprefix ? iprefix : cpp_GCC_INCLUDE_DIR;
--  prefix_len = iprefix ? strlen (iprefix) : cpp_GCC_INCLUDE_DIR_len;
-+  prefix     = iprefix ? iprefix : GCC_INCLUDE_DIRVAR;
-+  prefix_len = iprefix ? strlen (iprefix) : strlen(GCC_INCLUDE_DIRVAR) - 7;
- 
-   path = (char *) xmalloc (prefix_len + suffix_len + 1);
-   memcpy (path, prefix, prefix_len);
-Index: gcc-9.3.0/gcc/incpath.c
-===================================================================
---- gcc-9.3.0.orig/gcc/incpath.c
-+++ gcc-9.3.0/gcc/incpath.c
-@@ -131,7 +131,7 @@ add_standard_paths (const char *sysroot,
+diff --git a/gcc/incpath.c b/gcc/incpath.c
+index 9098ab044ab..bfad4ebe382 100644
+--- a/gcc/incpath.c
++++ b/gcc/incpath.c
+@@ -131,7 +131,7 @@ add_standard_paths (const char *sysroot, const char *iprefix,
    int relocated = cpp_relocated ();
    size_t len;
  
@@ -301,7 +301,7 @@ Index: gcc-9.3.0/gcc/incpath.c
      {
        /* Look for directories that start with the standard prefix.
  	 "Translate" them, i.e. replace /usr/local/lib/gcc... with
-@@ -145,7 +145,7 @@ add_standard_paths (const char *sysroot,
+@@ -145,7 +145,7 @@ add_standard_paths (const char *sysroot, const char *iprefix,
  		 now.  */
  	      if (sysroot && p->add_sysroot)
  		continue;
@@ -310,7 +310,7 @@ Index: gcc-9.3.0/gcc/incpath.c
  		{
  		  char *str = concat (iprefix, p->fname + len, NULL);
  		  if (p->multilib == 1 && imultilib)
-@@ -185,7 +185,7 @@ add_standard_paths (const char *sysroot,
+@@ -185,7 +185,7 @@ add_standard_paths (const char *sysroot, const char *iprefix,
  	      free (sysroot_no_trailing_dir_separator);
  	    }
  	  else if (!p->add_sysroot && relocated
@@ -319,7 +319,7 @@ Index: gcc-9.3.0/gcc/incpath.c
  	    {
   	      static const char *relocated_prefix;
  	      char *ostr;
-@@ -202,12 +202,12 @@ add_standard_paths (const char *sysroot,
+@@ -202,12 +202,12 @@ add_standard_paths (const char *sysroot, const char *iprefix,
  		  dummy = concat (gcc_exec_prefix, "dummy", NULL);
  		  relocated_prefix
  		    = make_relative_prefix (dummy,
@@ -335,11 +335,11 @@ Index: gcc-9.3.0/gcc/incpath.c
  			     NULL);
  	      str = update_path (ostr, p->component);
  	      free (ostr);
-Index: gcc-9.3.0/gcc/prefix.c
-===================================================================
---- gcc-9.3.0.orig/gcc/prefix.c
-+++ gcc-9.3.0/gcc/prefix.c
-@@ -72,7 +72,14 @@ License along with GCC; see the file COP
+diff --git a/gcc/prefix.c b/gcc/prefix.c
+index 1a403e535bd..3257ed3cd3e 100644
+--- a/gcc/prefix.c
++++ b/gcc/prefix.c
+@@ -72,7 +72,14 @@ License along with GCC; see the file COPYING3.  If not see
  #include "prefix.h"
  #include "common/common-target.h"
  
