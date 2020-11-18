@@ -14,19 +14,20 @@ LDFLAGS_remove_toolchain-clang_class-nativesdk_aarch64_darwin9 = " -Wl,-dynamic-
 PACKAGECONFIG[lldbtests] = ",-DLLDB_INCLUDE_TESTS=OFF -DLLDB_BUILD_FRAMEWORK=OFF,"
 
 # change cmake.class to target Darwin instead of darwin9
-do_configure_prepend_class-nativesdk_darwin9() {
+cmake_do_generate_toolchain_file_append_class-nativesdk_darwin9() {
     sed -i ${WORKDIR}/toolchain.cmake -e"s/set( CMAKE_SYSTEM_NAME darwin9 )/set( CMAKE_SYSTEM_NAME Darwin )/g"
     cat >> ${WORKDIR}/toolchain.cmake <<EOF
-set( CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -lgcc_s" )
-set( CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -lgcc_s" )
-set( CMAKE_MODULE_LINKER_FLAGS "${CMAKE_MODULE_LINKER_FLAGS} -lgcc_s" )
-set( CMAKE_STATIC_LINKER_FLAGS "${CMAKE_STATIC_LINKER_FLAGS} -lgcc_s" )
+set( CMAKE_SHARED_LINKER_FLAGS "\${CMAKE_SHARED_LINKER_FLAGS} -lgcc_s" )
+set( CMAKE_EXE_LINKER_FLAGS "\${CMAKE_EXE_LINKER_FLAGS} -lgcc_s" )
+set( CMAKE_C_FLAGS "\${CMAKE_C_FLAGS} -femulated-tls" )
+set( CMAKE_CXX_FLAGS "\${CMAKE_CXX_FLAGS} -femulated-tls" )
 EOF
+}
+
+do_generate_native_toolchain_file_append_class-nativesdk_darwin9() {
     cat >> ${WORKDIR}/toolchain-native.cmake <<EOF
 set( CMAKE_EXE_LINKER_FLAGS "${BUILD_LDFLAGS}" CACHE STRING "LDFLAGS" )
 set( CMAKE_SHARED_LINKER_FLAGS "${BUILD_LDFLAGS}" CACHE STRING "LDFLAGS" )
-set( CMAKE_STATIC_LINKER_FLAGS "${BUILD_LDFLAGS}" CACHE STRING "LDFLAGS" )
-set( CMAKE_MODULE_LINKER_FLAGS "${BUILD_LDFLAGS}" CACHE STRING "LDFLAGS" )
 EOF
 }
 
