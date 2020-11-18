@@ -1,5 +1,5 @@
 DESCRIPTION = "Linux port of Apple CCTools"
-SECTION = "daqri"
+SECTION = "devel"
 LICENSE = "ApplePSLicense-2.0"
 LIC_FILES_CHKSUM = "file://cctools/APPLE_LICENSE;md5=dacaafbaf91483700da837d31213a1e8"
 
@@ -13,14 +13,17 @@ PR = "r1"
 
 inherit autotools crosssdk
 
-DEPENDS += "util-linux-native openssl-native"
+DEPENDS += "util-linux-native openssl-native libtapi-native"
 PROVIDES = "virtual/${TARGET_PREFIX}binutils-crosssdk"
 
 export CC="/usr/bin/clang"
 export CXX="/usr/bin/clang++"
 
-EXTRA_OECONF_append = " --with-llvm-config=/usr/bin/llvm-config"
-
+EXTRA_OECONF_append = " \
+    --with-llvm-config=/usr/bin/llvm-config \
+    --enable-tapi-support \
+    --with-libtapi=${STAGING_DIR_NATIVE}/usr \
+"
 
 S = "${WORKDIR}/git"
 B = "${WORKDIR}/build"

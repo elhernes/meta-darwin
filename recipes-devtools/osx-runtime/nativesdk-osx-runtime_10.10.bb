@@ -46,17 +46,14 @@ do_configure() {
 
 do_install () {
     mkdir -p ${D}
-	mkdir ${D}/usr
-	cp -r ${WORKDIR}/OSX-sdk/usr/* ${D}/usr/
-	mkdir -p ${D}/System/Library/Frameworks
-	cp -r ${WORKDIR}/OSX-sdk/System/Library/Frameworks/* ${D}/System/Library/Frameworks/
+	cp -r ${WORKDIR}/OSX-sdk/* ${D}/
 }
 
 ALLOW_EMPTY_${PN} = "1"
 
 PACKAGES = "${PN} ${PN}-dontship"
 
-FILES_${PN}-dontship = "/usr /System"
+FILES_${PN}-dontship = "/usr /System /Entitlements.plist /SDKSettings.json /SDKSettings.plist /Library"
 
 SYSROOT_DIRS_NATIVE_append = " ${SDKPATHNATIVE}/runtime"
 SYSROOT_DIRS_append = " ${SDKPATHNATIVE}/runtime"
