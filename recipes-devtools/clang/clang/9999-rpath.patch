@@ -1,0 +1,12 @@
+diff --git a/llvm/cmake/modules/AddLLVM.cmake b/llvm/cmake/modules/AddLLVM.cmake
+index 70580ccb129..b8de4ad144e 100644
+--- a/llvm/cmake/modules/AddLLVM.cmake
++++ b/llvm/cmake/modules/AddLLVM.cmake
+@@ -1869,7 +1869,6 @@ function(llvm_setup_rpath name)
+   endif()
+ 
+   if (APPLE)
+-    set(_install_name_dir INSTALL_NAME_DIR "@rpath")
+     set(_install_rpath "@loader_path/../lib${LLVM_LIBDIR_SUFFIX}" ${extra_libdir})
+   elseif(UNIX)
+     set(_install_rpath "\$ORIGIN/../lib${LLVM_LIBDIR_SUFFIX}" ${extra_libdir})

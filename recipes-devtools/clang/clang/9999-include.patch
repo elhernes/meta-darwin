@@ -1,0 +1,13 @@
+diff --git a/clang/lib/Driver/ToolChains/Clang.cpp b/clang/lib/Driver/ToolChains/Clang.cpp
+index fa025be14e4..36e3fa7479a 100644
+--- a/clang/lib/Driver/ToolChains/Clang.cpp
++++ b/clang/lib/Driver/ToolChains/Clang.cpp
+@@ -1335,6 +1335,8 @@ void Clang::AddPreprocessingOptions(Compilation &C, const JobAction &JA,
+   addDirectoryList(Args, CmdArgs, "-I", "CPATH");
+   // C_INCLUDE_PATH - system includes enabled when compiling C.
+   addDirectoryList(Args, CmdArgs, "-c-isystem", "C_INCLUDE_PATH");
++  // C_INCLUDE_DIR - system includes enabled when compiling C.
++  addDirectoryList(Args, CmdArgs, "-internal-externc-isystem", "C_INCLUDE_DIR");
+   // CPLUS_INCLUDE_PATH - system includes enabled when compiling C++.
+   addDirectoryList(Args, CmdArgs, "-cxx-isystem", "CPLUS_INCLUDE_PATH");
+   // OBJC_INCLUDE_PATH - system includes enabled when compiling ObjC.
