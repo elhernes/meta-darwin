@@ -1,0 +1,48 @@
+diff --git a/xar/configure b/xar/configure
+index cb44f98..97a9065 100755
+--- a/xar/configure
++++ b/xar/configure
+@@ -4847,7 +4847,7 @@ fi
+ 
+ { $as_echo "$as_me:${as_lineno-$LINENO}: checking for libxml >= ${LIBXML2_VERSION_MIN}" >&5
+ $as_echo_n "checking for libxml >= ${LIBXML2_VERSION_MIN}... " >&6; }
+-LIBXML2_FOUND=`2>&1 ${XML2_CONFIG} --version`
++LIBXML2_FOUND=`2>&1 pkg-config libxml-2.0 --modversion`
+ LIBXML2_MAJOR=`echo ${LIBXML2_FOUND} | tr . " " | awk '{print $1}'`
+ LIBXML2_MINOR=`echo ${LIBXML2_FOUND} | tr . " " | awk '{print $2}' | tr a-z " " |awk '{print $1}'`
+ LIBXML2_BRANCH=`echo ${LIBXML2_FOUND} | tr . " " | awk '{print $3}' | tr a-z " " |awk '{print $1}'`
+@@ -4866,8 +4866,8 @@ if test ${LIBXML2_MAJOR} -gt ${LIBXML2_MAJOR_MIN} \
+   { $as_echo "$as_me:${as_lineno-$LINENO}: result: ${LIBXML2_MAJOR}.${LIBXML2_MINOR}.${LIBXML2_BRANCH}" >&5
+ $as_echo "${LIBXML2_MAJOR}.${LIBXML2_MINOR}.${LIBXML2_BRANCH}" >&6; }
+   have_libxml2="1"
+-  CPPFLAGS="${CPPFLAGS} `${XML2_CONFIG} --cflags`"
+-  LIBS="${LIBS} `${XML2_CONFIG} --libs`"
++  CPPFLAGS="${CPPFLAGS} `pkg-config libxml-2.0 --cflags`"
++  LIBS="${LIBS} `pkg-config libxml-2.0 --libs`"
+ else
+   { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+ $as_echo "no" >&6; }
+diff --git a/xar/configure.ac b/xar/configure.ac
+index d1e6362..a77fccc 100644
+--- a/xar/configure.ac
++++ b/xar/configure.ac
+@@ -292,7 +292,7 @@ fi
+ 
+ dnl Make sure the version of libxml2 found is sufficient.
+ AC_MSG_CHECKING([for libxml >= ${LIBXML2_VERSION_MIN}])
+-LIBXML2_FOUND=`2>&1 ${XML2_CONFIG} --version`
++LIBXML2_FOUND=`2>&1 pkg-config libxml-2.0 --modversion`
+ LIBXML2_MAJOR=`echo ${LIBXML2_FOUND} | tr . " " | awk '{print $1}'`
+ LIBXML2_MINOR=`echo ${LIBXML2_FOUND} | tr . " " | awk '{print $2}' | tr a-z " " |awk '{print $1}'`
+ LIBXML2_BRANCH=`echo ${LIBXML2_FOUND} | tr . " " | awk '{print $3}' | tr a-z " " |awk '{print $1}'`
+@@ -310,8 +310,8 @@ if test ${LIBXML2_MAJOR} -gt ${LIBXML2_MAJOR_MIN} \
+      -a ${LIBXML2_BRANCH} -ge $LIBXML2_BRANCH_MIN ; then
+   AC_MSG_RESULT([${LIBXML2_MAJOR}.${LIBXML2_MINOR}.${LIBXML2_BRANCH}])
+   have_libxml2="1"
+-  CPPFLAGS="${CPPFLAGS} `${XML2_CONFIG} --cflags`"
+-  LIBS="${LIBS} `${XML2_CONFIG} --libs`"
++  CPPFLAGS="${CPPFLAGS} `pkg-config libxml-2.0 --cflags`"
++  LIBS="${LIBS} `pkg-config libxml-2.0 --libs`"
+ else
+   AC_MSG_RESULT([no])
+   have_libxml2="0"
