@@ -1,1 +1,3 @@
-PYTHONRDEPS_darwin9_class-nativesdk = ""
+PACKAGECONFIG_darwin17_class-nativesdk = "update-alternatives"
+
+RDEPENDS_opkg-utils_class-nativesdk = ""

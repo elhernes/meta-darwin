@@ -5,7 +5,7 @@ diff -ru openssl-1.1.1g-orig/Configurations/10-main.conf openssl-1.1.1g/Configur
          bn_ops           => "SIXTY_FOUR_BIT_LONG",
          perlasm_scheme   => "macosx",
      },
-+    "darwin9-x86_64" => {
++    "darwin17-x86_64" => {
 +        inherit_from     => [ asm("x86_64_asm") ],
 +        CC               => "gcc",
 +        CXX              => "g++",

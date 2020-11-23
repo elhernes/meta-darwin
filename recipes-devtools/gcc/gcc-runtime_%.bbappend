@@ -1,12 +1,12 @@
-EXTRA_OECONF_remove_darwin9 = "--enable-initfini_array"
-EXTRA_OECONF_append_darwin9 = " --disable-initfini_array"
+EXTRA_OECONF_remove_darwin17 = "--enable-initfini_array"
+EXTRA_OECONF_append_darwin17 = " --disable-initfini_array"
 
-EXTRA_OECONF_remove_darwin9 = "--enable-clocale=gnu"
-EXTRA_OECONF_remove_darwin9 = "--enable-clocale=generic"
+EXTRA_OECONF_remove_darwin17 = "--enable-clocale=gnu"
+EXTRA_OECONF_remove_darwin17 = "--enable-clocale=generic"
 
-RUNTIMETARGET_remove_darwin9 = "libmpx"
+RUNTIMETARGET_remove_darwin17 = "libmpx"
 
-do_configure_darwin9() {
+do_configure_darwin17() {
     export CXX_LOCAL="$CXX"
     export CXX="$(echo $CXX_LOCAL | sed -e 's/-static-libgcc//')"
     for d in libgcc ${RUNTIMETARGET}; do
@@ -28,9 +28,9 @@ do_configure_darwin9() {
     done
 }
 
-FILES_libssp_append_darwin9 = " ${libdir}/libssp*.dylib"
-FILES_libstdc++_append_darwin9 = " ${libdir}/libstdc++*.dylib"
-FILES_libitm_append_darwin9 = " ${libdir}/libitm*.dylib"
-FILES_libatomic_append_darwin9 = " ${libdir}/libatomic*.dylib"
-FILES_libgomp_append_darwin9 = " ${libdir}/libgomp*.dylib"
-FILES_${PN}-dbg_append_darwin9 = " ${libdir}/libstdc++.a-gdb.py"
+FILES_libssp_append_darwin17 = " ${libdir}/libssp*.dylib"
+FILES_libstdc++_append_darwin17 = " ${libdir}/libstdc++*.dylib"
+FILES_libitm_append_darwin17 = " ${libdir}/libitm*.dylib"
+FILES_libatomic_append_darwin17 = " ${libdir}/libatomic*.dylib"
+FILES_libgomp_append_darwin17 = " ${libdir}/libgomp*.dylib"
+FILES_${PN}-dbg_append_darwin17 = " ${libdir}/libstdc++.a-gdb.py"
