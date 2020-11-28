@@ -17,6 +17,7 @@ S = "${WORKDIR}/OSX-sdk"
 inherit nativesdk
 
 INHIBIT_DEFAULT_DEPS = "1"
+EXCLUDE_FROM_SHLIBS = "1"
 
 PROVIDES += "virtual/nativesdk-libc"
 PROVIDES += "virtual/nativesdk-libc-locale"
