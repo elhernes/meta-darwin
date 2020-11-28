@@ -23,12 +23,11 @@ inherit cmake native
 S = "${WORKDIR}/git/src/llvm"
 B = "${WORKDIR}/build"
 
-export CC="/usr/bin/clang -stdlib=libc++"
-export CXX="/usr/bin/clang++ -stdlib=libc++"
-CXXFLAGS_append = " -I${WORKDIR}/git/src/llvm/projects/clang/include -I${B}/projects/clang/include"
+DEPENDS += "clang-native"
 
-#INCLUDE_FIX="-I $PWD/../src/llvm/projects/clang/include "
-#INCLUDE_FIX+="-I $PWD/projects/clang/include "
+export CC="clang -stdlib=libc++"
+export CXX="clang++ -stdlib=libc++"
+CXXFLAGS_append = " -I${WORKDIR}/git/src/llvm/projects/clang/include -I${B}/projects/clang/include"
 
 EXTRA_OECMAKE_append = " \
  -DLLVM_INCLUDE_TESTS=OFF \
