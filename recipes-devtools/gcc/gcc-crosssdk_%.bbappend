@@ -5,9 +5,11 @@ EXTRA_OECONF_remove_darwin17 = "--with-linker-hash-style=${LINKER_HASH_STYLE}"
 EXTRA_OECONF_remove_darwin17 = "--with-gnu-ld"
 EXTRA_OECONF_remove_darwin17 = "--enable-clocale=gnu"
 EXTRA_OECONF_remove_darwin17 = "--enable-clocale=generic"
-
+EXTRA_OECONF_remove_darwin17 = "--enable-lto"
 EXTRA_OECONF_remove_darwin17 = "--enable-initfini-array"
+
 EXTRA_OECONF_append_darwin17 = " --disable-initfini-array"
+EXTRA_OECONF_append_darwin17 = " --disable-lto"
 
 DEPENDS_append_darwin17 = " nativesdk-osx-runtime"
 
