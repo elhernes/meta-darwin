@@ -5,6 +5,9 @@ DEPENDS_append_class-nativesdk_darwin17 = " xz"
 PACKAGECONFIG_remove_class-nativesdk_darwin17 = "libedit"
 PACKAGECONFIG_remove_class-nativesdk_darwin17 = "shared-libs"
 
+DEPENDS_remove_class-nativesdk = "clang-crosssdk-${SDK_ARCH}"
+DEPENDS_append_class-nativesdk = " clang-crosssdk-${SDK_SYS}"
+
 LDFLAGS_toolchain-clang_class-nativesdk_darwin17 = "${BUILDSDK_LDFLAGS}"
 LDFLAGS_remove_toolchain-clang_class-nativesdk_x86-64_darwin17 = " -Wl,-dynamic-linker,${base_libdir}/ld-linux-x86-64.so.2"
 LDFLAGS_remove_toolchain-clang_class-nativesdk_x86_darwin17 = " -Wl,-dynamic-linker,${base_libdir}/ld-linux.so.2"
