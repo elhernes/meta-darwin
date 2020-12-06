@@ -37,7 +37,6 @@ EXTRA_OECMAKE_remove_class-nativesdk_darwin17 = "-DPYTHON_INCLUDE_DIR=${STAGING_
 EXTRA_OECMAKE_remove_class-nativesdk_darwin17 = "-DPYTHON_EXECUTABLE='${PYTHON}'"
 EXTRA_OECMAKE_append_class-nativesdk_darwin17 = " \
     -DCMAKE_FRAMEWORK_PATH='${OSXSDK}/System/Library/Frameworks'\
-    -DC_INCLUDE_DIRS='${SDKPATHNATIVE}/runtime/usr/include' \
     -DLLDB_USE_SYSTEM_DEBUGSERVER=ON \
     -DLLDB_INCLUDE_TESTS=OFF \
     -DLLDB_ENABLE_PYTHON=OFF \

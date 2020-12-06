@@ -17,28 +17,15 @@ index 46265c1b9f1..008d86ac610 100644
 -                                                 "");
 +                                                "10.2.0", "", "");
 +      {
-+	llvm::SmallString<128> Runtime = Sysroot;
-+	llvm::sys::path::append(Runtime, "usr", "local", "pokysdk-x86_64");
-+	llvm::sys::path::append(Runtime, "sysroots", "x86_64-pokysdk-darwin17", "runtime");
-+	llvm::sys::path::append(Runtime, "usr", "include");
-+      	addSystemInclude(DriverArgs, CC1Args, Runtime);
++        llvm::SmallString<128> Runtime = Sysroot;
++        llvm::sys::path::append(Runtime, "usr", "local", "pokysdk-x86_64");
++        llvm::sys::path::append(Runtime, "sysroots", "x86_64-pokysdk-darwin17", "runtime");
++        llvm::sys::path::append(Runtime, "usr", "include");
++        addSystemInclude(DriverArgs, CC1Args, Runtime);
 +      }
        break;
  
      case llvm::Triple::arm:
-diff --git a/clang/lib/Driver/ToolChains/Clang.cpp b/clang/lib/Driver/ToolChains/Clang.cpp
-index fa025be14e4..36e3fa7479a 100644
---- a/clang/lib/Driver/ToolChains/Clang.cpp
-+++ b/clang/lib/Driver/ToolChains/Clang.cpp
-@@ -1335,6 +1335,8 @@ void Clang::AddPreprocessingOptions(Compilation &C, const JobAction &JA,
-   addDirectoryList(Args, CmdArgs, "-I", "CPATH");
-   // C_INCLUDE_PATH - system includes enabled when compiling C.
-   addDirectoryList(Args, CmdArgs, "-c-isystem", "C_INCLUDE_PATH");
-+  // C_INCLUDE_DIR - system includes enabled when compiling C.
-+  addDirectoryList(Args, CmdArgs, "-internal-externc-isystem", "C_INCLUDE_DIR");
-   // CPLUS_INCLUDE_PATH - system includes enabled when compiling C++.
-   addDirectoryList(Args, CmdArgs, "-cxx-isystem", "CPLUS_INCLUDE_PATH");
-   // OBJC_INCLUDE_PATH - system includes enabled when compiling ObjC.
 diff --git a/llvm/cmake/modules/CrossCompile.cmake b/llvm/cmake/modules/CrossCompile.cmake
 index 01cd37124841..5373b7ed896e 100644
 --- a/llvm/cmake/modules/CrossCompile.cmake
@@ -48,7 +35,7 @@ index 01cd37124841..5373b7ed896e 100644
  
    add_custom_command(OUTPUT ${${project_name}_${target_name}_BUILD}/CMakeCache.txt
 -    COMMAND ${CMAKE_COMMAND} -G "${CMAKE_GENERATOR}"
-+      COMMAND ${CMAKE_COMMAND} -E env --unset=LDFLAGS ${CMAKE_COMMAND} -G "${CMAKE_GENERATOR}"
++    COMMAND ${CMAKE_COMMAND} -E env --unset=LDFLAGS ${CMAKE_COMMAND} -G "${CMAKE_GENERATOR}"
          -DCMAKE_MAKE_PROGRAM="${CMAKE_MAKE_PROGRAM}"
          ${CROSS_TOOLCHAIN_FLAGS_${target_name}} ${CMAKE_CURRENT_SOURCE_DIR}
          ${CROSS_TOOLCHAIN_FLAGS_${project_name}_${target_name}}
