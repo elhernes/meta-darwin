@@ -1,4 +1,4 @@
-RDEPENDS_${PN}_darwin17 = "\
+RDEPENDS_${PN}_darwin19 = "\
     nativesdk-flex \
     nativesdk-ninja \
     nativesdk-bison \

@@ -3,8 +3,8 @@ SECTION = "devel"
 LICENSE = "ApplePSLicense-2.0"
 LIC_FILES_CHKSUM = "file://cctools/APPLE_LICENSE;md5=dacaafbaf91483700da837d31213a1e8"
 
-SRCREV = "634a084377ee2e2932c66459b0396edf76da2e9f"
-SRC_URI = "git://github.com/tpoechtrager/cctools-port.git;branch=949.0.1-ld64-530;protocol=https"
+SRCREV = "236a426c1205a3bfcf0dbb2e2faf2296f0a100e5"
+SRC_URI = "git://github.com/tpoechtrager/cctools-port.git;branch=973.0.1-ld64-609;protocol=https"
 
 SRC_URI[md5sum] = "1f2507d489c7416f3bfc447bd7d3a07e"
 SRC_URI[sha256sum] = "1fa3dd2c4d7192e284481927fceaaa1b2b0e2efff8f219479b87c95dc840c5d3"

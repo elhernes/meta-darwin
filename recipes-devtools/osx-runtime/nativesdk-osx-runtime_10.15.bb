@@ -41,6 +41,7 @@ do_compile[noexec] = "1"
 package_do_shlibs[noexec] = "1"
 
 INSANE_SKIP_${PN} += "file-rdeps staticdev"
+INSANE_SKIP_${PN}-dontship += "file-rdeps staticdev"
 
 do_configure() {
 }

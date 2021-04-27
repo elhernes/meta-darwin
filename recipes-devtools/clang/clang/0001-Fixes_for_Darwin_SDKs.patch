@@ -10,7 +10,7 @@ index 46265c1b9f1..008d86ac610 100644
 -                                                "i686-apple-darwin10",
 -                                                arch == llvm::Triple::x86_64 ? "x86_64" : "");
 +                                                "10.2.0",
-+                                                "x86_64-pokysdk-darwin17",
++                                                "x86_64-pokysdk-darwin19",
 +                                                "");
        IsBaseFound |= AddGnuCPlusPlusIncludePaths(DriverArgs, CC1Args, UsrIncludeCxx,
 -                                                "4.0.0", "i686-apple-darwin8",
@@ -19,7 +19,7 @@ index 46265c1b9f1..008d86ac610 100644
 +      {
 +        llvm::SmallString<128> Runtime = Sysroot;
 +        llvm::sys::path::append(Runtime, "usr", "local", "pokysdk-x86_64");
-+        llvm::sys::path::append(Runtime, "sysroots", "x86_64-pokysdk-darwin17", "runtime");
++        llvm::sys::path::append(Runtime, "sysroots", "x86_64-pokysdk-darwin19", "runtime");
 +        llvm::sys::path::append(Runtime, "usr", "include");
 +        addSystemInclude(DriverArgs, CC1Args, Runtime);
 +      }
