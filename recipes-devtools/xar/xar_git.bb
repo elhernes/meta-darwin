@@ -24,6 +24,11 @@ do_configure() {
     ${S}/xar/configure --enable-autogen --prefix=${STAGING_EXECPREFIXDIR}
 }
 
+do_compile() {
+    cd ${B}
+    oe_runmake
+}
+
 do_install() {
    oe_runmake install 'DESTDIR=${D}'
 }
