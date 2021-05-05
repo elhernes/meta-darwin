@@ -9,10 +9,9 @@ SRC_URI = " \
     file://xar.patch \
 "
 
-DEPENDS = "libxml2"
-PACKAGES = "${PN}-dbg ${PN} ${PN}-dev"
-
 LIC_FILES_CHKSUM = "file://${WORKDIR}/git/xar/LICENSE;md5=64becc7b238f5b2d599c009ab19c2c27"
+
+DEPENDS = "libxml2"
 
 BBCLASSEXTEND = "native"
 
@@ -20,15 +19,5 @@ S = "${WORKDIR}/git"
 B = "${WORKDIR}/build"
 
 do_configure() {
-    cd ${B}
     ${S}/xar/configure --enable-autogen --prefix=${STAGING_EXECPREFIXDIR}
-}
-
-do_compile() {
-    cd ${B}
-    oe_runmake
-}
-
-do_install() {
-   oe_runmake install 'DESTDIR=${D}'
 }
