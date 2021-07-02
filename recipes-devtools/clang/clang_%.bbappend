@@ -16,7 +16,6 @@ LDFLAGS_remove_toolchain-clang_class-nativesdk_aarch64_darwin19 = " -Wl,-dynamic
 OSXSDK_class-nativesdk_darwin19 = "${STAGING_DIR_TARGET}${SDKPATHNATIVE}/runtime"
 
 cmake_do_generate_toolchain_file_append_class-nativesdk_darwin19() {
-    sed -i ${WORKDIR}/toolchain.cmake -e"s/set( CMAKE_SYSTEM_NAME darwin19 )/set( CMAKE_SYSTEM_NAME Darwin )/g"
     cat >> ${WORKDIR}/toolchain.cmake <<EOF
 set(CMAKE_SHARED_LINKER_FLAGS "\${CMAKE_SHARED_LINKER_FLAGS} -lgcc_s")
 set(CMAKE_EXE_LINKER_FLAGS "\${CMAKE_EXE_LINKER_FLAGS} -lgcc_s")
