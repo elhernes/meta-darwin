@@ -9,16 +9,16 @@ index 46265c1b9f1..008d86ac610 100644
 -                                                "4.2.1",
 -                                                "i686-apple-darwin10",
 -                                                arch == llvm::Triple::x86_64 ? "x86_64" : "");
-+                                                "10.2.0",
++                                                "11.2.0",
 +                                                "x86_64-pokysdk-darwin19",
 +                                                "");
        IsBaseFound |= AddGnuCPlusPlusIncludePaths(DriverArgs, CC1Args, UsrIncludeCxx,
 -                                                "4.0.0", "i686-apple-darwin8",
 -                                                 "");
-+                                                "10.2.0", "", "");
++                                                "11.2.0", "", "");
 +      {
 +        llvm::SmallString<128> Runtime = Sysroot;
-+        llvm::sys::path::append(Runtime, "usr", "local", "pokysdk-x86_64");
++        llvm::sys::path::append(Runtime, "usr", "local", "oe-sdk-hardcoded-buildpath");
 +        llvm::sys::path::append(Runtime, "sysroots", "x86_64-pokysdk-darwin19", "runtime");
 +        llvm::sys::path::append(Runtime, "usr", "include");
 +        addSystemInclude(DriverArgs, CC1Args, Runtime);
@@ -35,7 +35,7 @@ index 01cd37124841..5373b7ed896e 100644
  
    add_custom_command(OUTPUT ${${project_name}_${target_name}_BUILD}/CMakeCache.txt
 -    COMMAND ${CMAKE_COMMAND} -G "${CMAKE_GENERATOR}"
-+    COMMAND ${CMAKE_COMMAND} -E env --unset=LDFLAGS ${CMAKE_COMMAND} -G "${CMAKE_GENERATOR}"
++    COMMAND ${CMAKE_COMMAND} -E env --unset=LDFLAGS --unset=CFLAGS --unset=CXXFLAGS --unset=CC --unset=LD --unset=CXX ${CMAKE_COMMAND} -G "${CMAKE_GENERATOR}"
          -DCMAKE_MAKE_PROGRAM="${CMAKE_MAKE_PROGRAM}"
          ${CROSS_TOOLCHAIN_FLAGS_${target_name}} ${CMAKE_CURRENT_SOURCE_DIR}
          ${CROSS_TOOLCHAIN_FLAGS_${project_name}_${target_name}}

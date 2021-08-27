@@ -1,8 +1,8 @@
 FILESEXTRAPATHS:prepend := "${THISDIR}/binutils:"
 
-SRC_URI:append = " \
-    file://9999-disable-darwin-logic.patch \
-"
+#SRC_URI:append = " \
+#    file://9999-disable-darwin-logic.patch \
+#"
 
 FILES:${PN} += " \
     ${libdir} \
