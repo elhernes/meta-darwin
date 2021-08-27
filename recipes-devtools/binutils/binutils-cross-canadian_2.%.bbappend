@@ -1,2 +1,2 @@
 # Remove -rpath-link and -rpath
-LDFLAGS_darwinsdk = "${BUILDSDK_LDFLAGS}"
+LDFLAGS:darwinsdk = "${BUILDSDK_LDFLAGS}"

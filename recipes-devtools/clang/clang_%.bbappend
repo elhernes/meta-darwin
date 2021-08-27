@@ -1,21 +1,21 @@
-DEPENDS_remove_class-nativesdk_darwin19 = "nativesdk-python3"
-DEPENDS_remove_class-nativesdk_darwin19 = "libxml2"
-DEPENDS_remove_class-nativesdk_darwin19 = "libffi"
-DEPENDS_append_class-nativesdk_darwin19 = " xz"
-PACKAGECONFIG_remove_class-nativesdk_darwin19 = "libedit"
-PACKAGECONFIG_remove_class-nativesdk_darwin19 = "shared-libs"
+DEPENDS:remove:class-nativesdk:darwin19 = "nativesdk-python3"
+DEPENDS:remove:class-nativesdk:darwin19 = "libxml2"
+DEPENDS:remove:class-nativesdk:darwin19 = "libffi"
+DEPENDS:append:class-nativesdk:darwin19 = " xz"
+PACKAGECONFIG:remove:class-nativesdk:darwin19 = "libedit"
+PACKAGECONFIG:remove:class-nativesdk:darwin19 = "shared-libs"
 
-DEPENDS_remove_class-nativesdk = "clang-crosssdk-${SDK_ARCH}"
-DEPENDS_append_class-nativesdk = " clang-crosssdk-${SDK_SYS}"
+DEPENDS:remove:class-nativesdk = "clang-crosssdk-${SDK_ARCH}"
+DEPENDS:append:class-nativesdk = " clang-crosssdk-${SDK_SYS}"
 
-LDFLAGS_toolchain-clang_class-nativesdk_darwin19 = "${BUILDSDK_LDFLAGS}"
-LDFLAGS_remove_toolchain-clang_class-nativesdk_x86-64_darwin19 = " -Wl,-dynamic-linker,${base_libdir}/ld-linux-x86-64.so.2"
-LDFLAGS_remove_toolchain-clang_class-nativesdk_x86_darwin19 = " -Wl,-dynamic-linker,${base_libdir}/ld-linux.so.2"
-LDFLAGS_remove_toolchain-clang_class-nativesdk_aarch64_darwin19 = " -Wl,-dynamic-linker,${base_libdir}/ld-linux-aarch64.so.1"
+LDFLAGS:toolchain-clang:class-nativesdk:darwin19 = "${BUILDSDK_LDFLAGS}"
+LDFLAGS:remove:toolchain-clang:class-nativesdk:x86-64:darwin19 = " -Wl,-dynamic-linker,${base_libdir}/ld-linux-x86-64.so.2"
+LDFLAGS:remove:toolchain-clang:class-nativesdk:x86:darwin19 = " -Wl,-dynamic-linker,${base_libdir}/ld-linux.so.2"
+LDFLAGS:remove:toolchain-clang:class-nativesdk:aarch64:darwin19 = " -Wl,-dynamic-linker,${base_libdir}/ld-linux-aarch64.so.1"
 
-OSXSDK_class-nativesdk_darwin19 = "${STAGING_DIR_TARGET}${SDKPATHNATIVE}/runtime"
+OSXSDK:class-nativesdk:darwin19 = "${STAGING_DIR_TARGET}${SDKPATHNATIVE}/runtime"
 
-cmake_do_generate_toolchain_file_append_class-nativesdk_darwin19() {
+cmake_do_generate_toolchain_file:append:class-nativesdk:darwin19() {
     cat >> ${WORKDIR}/toolchain.cmake <<EOF
 set(CMAKE_SHARED_LINKER_FLAGS "\${CMAKE_SHARED_LINKER_FLAGS} -lgcc_s")
 set(CMAKE_EXE_LINKER_FLAGS "\${CMAKE_EXE_LINKER_FLAGS} -lgcc_s")
@@ -24,17 +24,17 @@ set(CMAKE_CXX_FLAGS "\${CMAKE_CXX_FLAGS} -include TargetConditionals.h -I${OSXSD
 EOF
 }
 
-do_generate_native_toolchain_file_append_class-nativesdk_darwin19() {
+do_generate_native_toolchain_file:append:class-nativesdk:darwin19() {
     cat >> ${WORKDIR}/toolchain-native.cmake <<EOF
 set(CMAKE_EXE_LINKER_FLAGS "${BUILD_LDFLAGS}" CACHE STRING "LDFLAGS" )
 set(CMAKE_SHARED_LINKER_FLAGS "${BUILD_LDFLAGS}" CACHE STRING "LDFLAGS" )
 EOF
 }
 
-EXTRA_OECMAKE_remove_class-nativesdk_darwin19 = "-DPYTHON_LIBRARY=${STAGING_LIBDIR}/lib${PYTHON_DIR}${PYTHON_ABI}.so"
-EXTRA_OECMAKE_remove_class-nativesdk_darwin19 = "-DPYTHON_INCLUDE_DIR=${STAGING_INCDIR}/${PYTHON_DIR}${PYTHON_ABI}"
-EXTRA_OECMAKE_remove_class-nativesdk_darwin19 = "-DPYTHON_EXECUTABLE='${PYTHON}'"
-EXTRA_OECMAKE_append_class-nativesdk_darwin19 = " \
+EXTRA_OECMAKE:remove:class-nativesdk:darwin19 = "-DPYTHON_LIBRARY=${STAGING_LIBDIR}/lib${PYTHON_DIR}${PYTHON_ABI}.so"
+EXTRA_OECMAKE:remove:class-nativesdk:darwin19 = "-DPYTHON_INCLUDE_DIR=${STAGING_INCDIR}/${PYTHON_DIR}${PYTHON_ABI}"
+EXTRA_OECMAKE:remove:class-nativesdk:darwin19 = "-DPYTHON_EXECUTABLE='${PYTHON}'"
+EXTRA_OECMAKE:append:class-nativesdk:darwin19 = " \
     -DCMAKE_FRAMEWORK_PATH='${OSXSDK}/System/Library/Frameworks'\
     -DLLDB_USE_SYSTEM_DEBUGSERVER=ON \
     -DLLDB_INCLUDE_TESTS=OFF \
@@ -56,12 +56,12 @@ EXTRA_OECMAKE_append_class-nativesdk_darwin19 = " \
     -DFFI_LIBRARY_PATH=${OSXSDK}/usr/lib/libffi.tbd \
     -DFFI_INCLUDE_PATH=${OSXSDK}/usr/include \
 "
-EXTRA_OECMAKE_append_class-native = " \
+EXTRA_OECMAKE:append:class-native = " \
     -DCLANG_DEFAULT_CXX_STDLIB=libstdc++ \
 "
 
-FILES_${PN} += " \
+FILES:${PN} += " \
    ${libdir}/LLVMgold.dylib \
 "
 
-INSANE_SKIP_${PN}_class-nativesdk_darwin19 += " file-rdeps"
+INSANE_SKIP:${PN}:class-nativesdk:darwin19 += " file-rdeps"

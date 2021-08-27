@@ -1,3 +1,3 @@
-PACKAGECONFIG_darwin19_class-nativesdk = "update-alternatives"
+PACKAGECONFIG:darwin19:class-nativesdk = "update-alternatives"
 
-RDEPENDS_opkg-utils_class-nativesdk = ""
+RDEPENDS:opkg-utils:class-nativesdk = ""

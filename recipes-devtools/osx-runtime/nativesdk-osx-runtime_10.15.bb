@@ -40,8 +40,8 @@ TARGET_LDFLAGS[unexport] = "1"
 do_compile[noexec] = "1"
 package_do_shlibs[noexec] = "1"
 
-INSANE_SKIP_${PN} += "file-rdeps staticdev"
-INSANE_SKIP_${PN}-dontship += "file-rdeps staticdev"
+INSANE_SKIP:${PN} += "file-rdeps staticdev"
+INSANE_SKIP:${PN}-dontship += "file-rdeps staticdev"
 
 do_configure() {
 }
@@ -55,16 +55,16 @@ do_stash_locale () {
 }
 addtask do_stash_locale after do_install before do_populate_sysroot do_package
 
-ALLOW_EMPTY_${PN} = "1"
+ALLOW_EMPTY:${PN} = "1"
 
 PACKAGES = "${PN} ${PN}-dontship"
 
-FILES_${PN}-dontship = "/usr /System /Entitlements.plist /SDKSettings.json /SDKSettings.plist /Library"
+FILES:${PN}-dontship = "/usr /System /Entitlements.plist /SDKSettings.json /SDKSettings.plist /Library"
 
-SYSROOT_DIRS_NATIVE_append = " ${SDKPATHNATIVE}/runtime"
-SYSROOT_DIRS_append = " ${SDKPATHNATIVE}/runtime"
+SYSROOT_DIRS_NATIVE:append = " ${SDKPATHNATIVE}/runtime"
+SYSROOT_DIRS:append = " ${SDKPATHNATIVE}/runtime"
 
-sysroot_stage_all_append() {
+sysroot_stage_all:append() {
 	sysroot_stage_dir ${D} ${SYSROOT_DESTDIR}${SDKPATHNATIVE}/runtime
 }
 

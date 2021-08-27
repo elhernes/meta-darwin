@@ -19,7 +19,7 @@ PROVIDES = "virtual/${TARGET_PREFIX}binutils-crosssdk"
 export CC="${STAGING_DIR_NATIVE}/usr/bin/clang"
 export CXX="${STAGING_DIR_NATIVE}/usr/bin/clang++"
 
-EXTRA_OECONF_append = " \
+EXTRA_OECONF:append = " \
     --with-llvm-config=${STAGING_DIR_NATIVE}/usr/bin/llvm-config \
     --enable-lto-support \
     --enable-xar-support \
@@ -33,7 +33,7 @@ B = "${WORKDIR}/build"
 
 AUTOTOOLS_SCRIPT_PATH = "${S}/cctools"
 
-do_configure_prepend() {
+do_configure:prepend() {
     PWD_CUR=$(pwd)
     cd ${AUTOTOOLS_SCRIPT_PATH}
     libtoolize

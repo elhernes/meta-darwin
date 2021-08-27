@@ -27,9 +27,9 @@ DEPENDS += "clang-native"
 
 export CC="clang -stdlib=libc++"
 export CXX="clang++ -stdlib=libc++"
-CXXFLAGS_append = " -I${WORKDIR}/git/src/llvm/projects/clang/include -I${B}/projects/clang/include"
+CXXFLAGS:append = " -I${WORKDIR}/git/src/llvm/projects/clang/include -I${B}/projects/clang/include"
 
-EXTRA_OECMAKE_append = " \
+EXTRA_OECMAKE:append = " \
  -DLLVM_INCLUDE_TESTS=OFF \
  -DTAPI_REPOSITORY_STRING=${TAPI_REPOSITORY} \
  -DTAPI_FULL_VERSION=${TAPI_VERSION} \

@@ -1,1 +1,1 @@
-EXTRA_OECONF_append_darwin19 = " --with-gmp=${STAGING_EXECPREFIXDIR}"
+EXTRA_OECONF:append:darwin19 = " --with-gmp=${STAGING_EXECPREFIXDIR}"

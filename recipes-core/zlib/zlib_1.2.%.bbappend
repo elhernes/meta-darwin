@@ -1,8 +1,8 @@
-FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
+FILESEXTRAPATHS:prepend := "${THISDIR}/files:"
 
 SRC_URI += "\
     file://zlib-darwin.patch \
 "
-do_configure_darwin19 (){
+do_configure:darwin19 (){
 	uname=darwin ./configure --prefix=${prefix} --shared --libdir=${libdir}
 }

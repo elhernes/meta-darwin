@@ -1,4 +1,4 @@
-do_compile_darwin19() {
+do_compile:darwin19() {
     python3 ./configure.py --platform darwin
     ninja
 }
