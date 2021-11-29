@@ -24,6 +24,12 @@ set(CMAKE_CXX_FLAGS "\${CMAKE_CXX_FLAGS} -include TargetConditionals.h -I${OSXSD
 EOF
 }
 
+cmake_do_generate_toolchain_file:append:class-native() {
+    cat >> ${WORKDIR}/toolchain.cmake <<EOF
+set(CMAKE_CXX_FLAGS "\${CMAKE_CXX_FLAGS} -DYOCTO_SDKPATH=\\\\\"${SDKPATH}\\\\\"")
+EOF
+}
+
 do_generate_native_toolchain_file:append:class-nativesdk:darwin19() {
     cat >> ${WORKDIR}/toolchain-native.cmake <<EOF
 set(CMAKE_EXE_LINKER_FLAGS "${BUILD_LDFLAGS}" CACHE STRING "LDFLAGS" )
