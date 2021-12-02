@@ -46,3 +46,38 @@ index d1e6362..a77fccc 100644
  else
    AC_MSG_RESULT([no])
    have_libxml2="0"
+diff --git a/xar/Makefile.in b/xar/Makefile.in
+index a6d6814..a6c37b8 100644
+--- a/xar/Makefile.in
++++ b/xar/Makefile.in
+@@ -76,10 +76,10 @@ include $(dir_names:%=%/Makefile.inc)
+ #
+ ifeq (@enable_autogen@, 1)
+ @srcroot@configure : @srcroot@configure.ac
+-	cd ./@srcroot@ && $(AUTOCONF)
++	cd @srcroot@ && $(AUTOCONF)
+ 
+ @objroot@config.status : @srcroot@configure
+-	./@objroot@config.status --recheck
++	@objroot@config.status --recheck
+ 
+ # cfghdrs rules.
+ @srcroot@cfghdrs.stamp.in : @srcroot@configure.ac
+@@ -88,7 +88,7 @@ ifeq (@enable_autogen@, 1)
+ $(patsubst %, @srcroot@%.in, @cfghdrs@) : @objroot@config.status
+ 
+ @objroot@cfghdrs.stamp : $(patsubst %, @srcroot@%.in, @cfghdrs@)
+-	./@objroot@config.status
++	@objroot@config.status
+ 	echo stamp > $@
+ 
+ $(filter-out @objroot@cfghdrs.stamp, @cfghdrs@) : @objroot@cfghdrs.stamp
+@@ -100,7 +100,7 @@ $(filter-out @objroot@cfghdrs.stamp, @cfghdrs@) : @objroot@cfghdrs.stamp
+ $(patsubst %, @srcroot@%.in, @cfgoutputs@) : @objroot@config.status
+ 
+ @objroot@cfgoutputs.stamp : $(patsubst %, @srcroot@%.in, @cfgoutputs@)
+-	./@objroot@config.status
++	@objroot@config.status
+ 
+ $(filter-out \
+ 	@objroot@cfgoutputs.stamp, \
