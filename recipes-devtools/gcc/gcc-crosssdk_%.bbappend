@@ -21,10 +21,3 @@ do_configure:prepend:darwin19 () {
         -L${SDKPATHNATIVE}/runtime/usr/lib/system \
     "
 }
-
-#do_compile:append:darwin19 () {
-#    oe_runmake all-target-libgcc MULTIBUILDTOP=${B}/${TARGET_SYS}/libgcc/
-#}
-#do_install:append:darwin19 () {
-#    oe_runmake 'DESTDIR=${D}' MULTIBUILDTOP=${B}/${TARGET_SYS}/libgcc/ install-target-libgcc
-#}
