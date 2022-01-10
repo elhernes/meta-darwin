@@ -8,34 +8,36 @@ PACKAGECONFIG:remove:class-nativesdk:darwin19 = "shared-libs"
 DEPENDS:remove:class-nativesdk = "clang-crosssdk-${SDK_ARCH}"
 DEPENDS:append:class-nativesdk = " clang-crosssdk-${SDK_SYS}"
 
-LDFLAGS:toolchain-clang:class-nativesdk:darwin19 = "${BUILDSDK_LDFLAGS}"
+COMPILER_RT:class-nativesdk:toolchain-clang:runtime-llvm:darwin19 = ""
+LIBCPLUSPLUS:class-nativesdk:toolchain-clang:darwin19 = " -stdlib=libstdc++"
+
+OSXSDK:class-nativesdk:darwin19 = "${STAGING_DIR_TARGET}${SDKPATHNATIVE}/runtime"
+do_compile:prepend:class-nativesdk:darwin19() {
+    export YOCTO_SDKPATH="${OSXSDK}/usr/include"
+}
+
+LDFLAGS:toolchain-clang:class-nativesdk:darwin19 = " \
+    ${BUILDSDK_LDFLAGS} \
+    -lgcc_s \
+"
 LDFLAGS:remove:toolchain-clang:class-nativesdk:x86-64:darwin19 = " -Wl,-dynamic-linker,${base_libdir}/ld-linux-x86-64.so.2"
 LDFLAGS:remove:toolchain-clang:class-nativesdk:x86:darwin19 = " -Wl,-dynamic-linker,${base_libdir}/ld-linux.so.2"
 LDFLAGS:remove:toolchain-clang:class-nativesdk:aarch64:darwin19 = " -Wl,-dynamic-linker,${base_libdir}/ld-linux-aarch64.so.1"
 
-OSXSDK:class-nativesdk:darwin19 = "${STAGING_DIR_TARGET}${SDKPATHNATIVE}/runtime"
+CFLAGS:append:class-nativesdk:darwin19 = " \
+    -femulated-tls \
+    -I${OSXSDK}/usr/include \
+    -include TargetConditionals.h \
+"
 
-cmake_do_generate_toolchain_file:append:class-nativesdk:darwin19() {
-    cat >> ${WORKDIR}/toolchain.cmake <<EOF
-set(CMAKE_SHARED_LINKER_FLAGS "\${CMAKE_SHARED_LINKER_FLAGS} -lgcc_s")
-set(CMAKE_EXE_LINKER_FLAGS "\${CMAKE_EXE_LINKER_FLAGS} -lgcc_s")
-set(CMAKE_C_FLAGS "\${CMAKE_C_FLAGS} -include TargetConditionals.h -I${OSXSDK}/usr/include -femulated-tls -Wno-elaborated-enum-base -Wno-gnu-zero-variadic-macro-arguments")
-set(CMAKE_CXX_FLAGS "\${CMAKE_CXX_FLAGS} -include TargetConditionals.h -I${OSXSDK}/usr/include -F${OSXSDK}/System/Library/Frameworks -F${OSXSDK}/System/Library/Frameworks/CoreServices.framework/Frameworks -femulated-tls -Wno-elaborated-enum-base -Wno-gnu-zero-variadic-macro-arguments")
-EOF
-}
-
-cmake_do_generate_toolchain_file:append:class-native() {
-    cat >> ${WORKDIR}/toolchain.cmake <<EOF
-set(CMAKE_CXX_FLAGS "\${CMAKE_CXX_FLAGS} -DYOCTO_SDKPATH=\\\\\"${SDKPATH}\\\\\"")
-EOF
-}
-
-do_generate_native_toolchain_file:append:class-nativesdk:darwin19() {
-    cat >> ${WORKDIR}/toolchain-native.cmake <<EOF
-set(CMAKE_EXE_LINKER_FLAGS "${BUILD_LDFLAGS}" CACHE STRING "LDFLAGS" )
-set(CMAKE_SHARED_LINKER_FLAGS "${BUILD_LDFLAGS}" CACHE STRING "LDFLAGS" )
-EOF
-}
+CXXFLAGS:append:class-nativesdk:darwin19 = " \
+    -femulated-tls \
+    -Wno-elaborated-enum-base \
+    -I${OSXSDK}/usr/include \
+    -include TargetConditionals.h \
+    -F${OSXSDK}/System/Library/Frameworks \
+    -F${OSXSDK}/System/Library/Frameworks/CoreServices.framework/Frameworks \
+"
 
 EXTRA_OECMAKE:remove:class-nativesdk:darwin19 = "-DPYTHON_LIBRARY=${STAGING_LIBDIR}/lib${PYTHON_DIR}${PYTHON_ABI}.so"
 EXTRA_OECMAKE:remove:class-nativesdk:darwin19 = "-DPYTHON_INCLUDE_DIR=${STAGING_INCDIR}/${PYTHON_DIR}${PYTHON_ABI}"
@@ -61,9 +63,6 @@ EXTRA_OECMAKE:append:class-nativesdk:darwin19 = " \
     \
     -DFFI_LIBRARY_PATH=${OSXSDK}/usr/lib/libffi.tbd \
     -DFFI_INCLUDE_PATH=${OSXSDK}/usr/include \
-"
-EXTRA_OECMAKE:append:class-native = " \
-    -DCLANG_DEFAULT_CXX_STDLIB=libstdc++ \
 "
 
 FILES:${PN} += " \

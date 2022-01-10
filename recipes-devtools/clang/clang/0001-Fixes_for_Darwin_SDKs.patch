@@ -2,7 +2,7 @@ diff --git a/clang/lib/Driver/ToolChains/Darwin.cpp b/clang/lib/Driver/ToolChain
 index 46265c1b9f1..008d86ac610 100644
 --- a/clang/lib/Driver/ToolChains/Darwin.cpp
 +++ b/clang/lib/Driver/ToolChains/Darwin.cpp
-@@ -1998,12 +1998,20 @@ void DarwinClang::AddClangCXXStdlibIncludeArgs(
+@@ -1998,12 +1998,19 @@ void DarwinClang::AddClangCXXStdlibIncludeArgs(
      case llvm::Triple::x86:
      case llvm::Triple::x86_64:
        IsBaseFound = AddGnuCPlusPlusIncludePaths(DriverArgs, CC1Args, UsrIncludeCxx,
@@ -16,15 +16,14 @@ index 46265c1b9f1..008d86ac610 100644
 -                                                "4.0.0", "i686-apple-darwin8",
 -                                                 "");
 +                                                "11.2.0", "", "");
-+ #ifdef YOCTO_SDKPATH
 +      {
-+        llvm::SmallString<128> Runtime = Sysroot;
-+        llvm::sys::path::append(Runtime, YOCTO_SDKPATH);
-+        llvm::sys::path::append(Runtime, "sysroots", "x86_64-pokysdk-darwin19", "runtime");
-+        llvm::sys::path::append(Runtime, "usr", "include");
-+        addSystemInclude(DriverArgs, CC1Args, Runtime);
++          const char *S = ::getenv("YOCTO_SDKPATH");
++          if (S && (S[0] != '\0')) {
++              llvm::SmallString<128> Runtime;
++              llvm::sys::path::append(Runtime, S);
++              addSystemInclude(DriverArgs, CC1Args, Runtime);
++          }
 +      }
-+ #endif
        break;
  
      case llvm::Triple::arm:
