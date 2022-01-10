@@ -11,7 +11,7 @@ LIC_FILES_CHKSUM = "file://${WORKDIR}/git/LICENSE.APPLE-LIBTAPI.txt;md5=ecd05d65
 
 SECTION = "devel"
 
-SRCREV = "86f43cdb62a3ceb39f3ee6e4568eded67a4912e8"
+SRCREV = "664b8414f89612f2dfd35a9b679c345aa5389026"
 SRC_URI = "git://github.com/tpoechtrager/apple-libtapi.git;branch=${TAPI_REPOSITORY};protocol=https"
 
 PACKAGES = "${PN}-dbg ${PN} ${PN}-dev"
@@ -23,10 +23,12 @@ inherit cmake native
 S = "${WORKDIR}/git/src/llvm"
 B = "${WORKDIR}/build"
 
-DEPENDS += "clang-native"
+DEPENDS += "clang-native libcxx-native"
 
-export CC="clang -stdlib=libc++"
-export CXX="clang++ -stdlib=libc++"
+TOOLCHAIN:class-native = "clang"
+COMPILER_RT:class-native = "-rtlib=libgcc --unwindlib=libgcc"
+LIBCPLUSPLUS:class-native = "-stdlib=libc++ -lc++abi"
+
 CXXFLAGS:append = " -I${WORKDIR}/git/src/llvm/projects/clang/include -I${B}/projects/clang/include"
 
 EXTRA_OECMAKE:append = " \
