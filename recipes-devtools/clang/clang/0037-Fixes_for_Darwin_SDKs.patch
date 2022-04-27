@@ -1,8 +1,19 @@
+From b33854f24e1df96296d9494386a4db6820b7ddb9 Mon Sep 17 00:00:00 2001
+From: OpenEmbedded <oe.patch@oe>
+Date: Wed, 27 Apr 2022 11:22:17 +0000
+Subject: [PATCH] %% original patch: 0001-Fixes_for_Darwin_SDKs.patch
+
+---
+ clang/lib/Driver/ToolChains/Darwin.cpp | 17 ++++++++++++-----
+ llvm/cmake/modules/AddLLVM.cmake       |  1 -
+ llvm/cmake/modules/CrossCompile.cmake  |  2 +-
+ 3 files changed, 13 insertions(+), 7 deletions(-)
+
 diff --git a/clang/lib/Driver/ToolChains/Darwin.cpp b/clang/lib/Driver/ToolChains/Darwin.cpp
-index 46265c1b9f1..008d86ac610 100644
+index 261f522f6c49..cfe861e39890 100644
 --- a/clang/lib/Driver/ToolChains/Darwin.cpp
 +++ b/clang/lib/Driver/ToolChains/Darwin.cpp
-@@ -1998,12 +1998,19 @@ void DarwinClang::AddClangCXXStdlibIncludeArgs(
+@@ -2178,12 +2178,19 @@ void DarwinClang::AddClangCXXStdlibIncludeArgs(
      case llvm::Triple::x86:
      case llvm::Triple::x86_64:
        IsBaseFound = AddGnuCPlusPlusIncludePaths(DriverArgs, CC1Args, UsrIncludeCxx,
@@ -27,8 +38,20 @@ index 46265c1b9f1..008d86ac610 100644
        break;
  
      case llvm::Triple::arm:
+diff --git a/llvm/cmake/modules/AddLLVM.cmake b/llvm/cmake/modules/AddLLVM.cmake
+index 62ffc8031415..ddaf0a2f450c 100644
+--- a/llvm/cmake/modules/AddLLVM.cmake
++++ b/llvm/cmake/modules/AddLLVM.cmake
+@@ -2112,7 +2112,6 @@ function(llvm_setup_rpath name)
+   endif()
+ 
+   if (APPLE)
+-    set(_install_name_dir INSTALL_NAME_DIR "@rpath")
+     set(_install_rpath "@loader_path/../lib${LLVM_LIBDIR_SUFFIX}" ${extra_libdir})
+   elseif(${CMAKE_SYSTEM_NAME} MATCHES "AIX" AND BUILD_SHARED_LIBS)
+     # $ORIGIN is not interpreted at link time by aix ld.
 diff --git a/llvm/cmake/modules/CrossCompile.cmake b/llvm/cmake/modules/CrossCompile.cmake
-index 01cd37124841..5373b7ed896e 100644
+index f50be9d967df..350c5d078561 100644
 --- a/llvm/cmake/modules/CrossCompile.cmake
 +++ b/llvm/cmake/modules/CrossCompile.cmake
 @@ -66,7 +66,7 @@ function(llvm_create_cross_target project_name target_name toolchain buildtype)
@@ -40,15 +63,3 @@ index 01cd37124841..5373b7ed896e 100644
          -DCMAKE_MAKE_PROGRAM="${CMAKE_MAKE_PROGRAM}"
          ${CROSS_TOOLCHAIN_FLAGS_${target_name}} ${CMAKE_CURRENT_SOURCE_DIR}
          ${CROSS_TOOLCHAIN_FLAGS_${project_name}_${target_name}}
-diff --git a/llvm/cmake/modules/AddLLVM.cmake b/llvm/cmake/modules/AddLLVM.cmake
-index 70580ccb129..b8de4ad144e 100644
---- a/llvm/cmake/modules/AddLLVM.cmake
-+++ b/llvm/cmake/modules/AddLLVM.cmake
-@@ -1869,7 +1869,6 @@ function(llvm_setup_rpath name)
-   endif()
- 
-   if (APPLE)
--    set(_install_name_dir INSTALL_NAME_DIR "@rpath")
-     set(_install_rpath "@loader_path/../lib${LLVM_LIBDIR_SUFFIX}" ${extra_libdir})
-   elseif(UNIX)
-     set(_install_rpath "\$ORIGIN/../lib${LLVM_LIBDIR_SUFFIX}" ${extra_libdir})
