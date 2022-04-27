@@ -1,7 +1,7 @@
 diff -ru gcc-9.3.0-orig/gcc/config/darwin-c.c gcc-9.3.0/gcc/config/darwin-c.c
 --- gcc-9.3.0-orig/gcc/config/darwin-c.c	2020-11-01 10:34:44.147351721 +0100
 +++ gcc-9.3.0/gcc/config/darwin-c.c	2020-11-01 10:35:55.582205583 +0100
-@@ -480,8 +480,8 @@
+@@ -479,8 +479,8 @@
       /* See if our directory starts with the standard prefix.
  	 "Translate" them, i.e. replace /usr/local/lib/gcc... with
  	 IPREFIX and search them first.  */
@@ -15,7 +15,7 @@ diff -ru gcc-9.3.0-orig/gcc/config/darwin-c.c gcc-9.3.0/gcc/config/darwin-c.c
 diff -ru gcc-9.3.0-orig/gcc/config/darwin.h gcc-9.3.0/gcc/config/darwin.h
 --- gcc-9.3.0-orig/gcc/config/darwin.h	2020-11-01 10:34:44.147351721 +0100
 +++ gcc-9.3.0/gcc/config/darwin.h	2020-11-01 10:35:55.582205583 +0100
-@@ -259,10 +259,6 @@
+@@ -281,10 +281,6 @@
     isysroot is specified.  */
  #define LINK_SYSROOT_SPEC "%{isysroot*:-syslibroot %*}"
  
@@ -26,3 +26,13 @@ diff -ru gcc-9.3.0-orig/gcc/config/darwin.h gcc-9.3.0/gcc/config/darwin.h
  /* Please keep the random linker options in alphabetical order (modulo
     'Z' and 'no' prefixes). Note that options taking arguments may appear
     multiple times on a command line with different arguments each time,
+--- a/gcc/config/darwin.h   2020-12-03 22:54:21.483360653 +0100
++++ b/gcc/config/darwin.h   2020-12-03 22:54:41.975882145 +0100
+@@ -233,6 +233,7 @@
+       %:version-compare(>< 10.6 10.7 mmacosx-version-min= -ld10-uwfef.o) \
+       %(link_gcc_c_sequence) \
+     }}}\
++    %{!nostdlib++:}\
+     %{!nostdlib:%{!r:%{!nostartfiles:%E}}} %{T*} %{F*} "\
+     DARWIN_PIE_SPEC \
+     DARWIN_NOPIE_SPEC \
