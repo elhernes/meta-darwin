@@ -31,8 +31,6 @@ OECMAKE_C_FLAGS_RELEASE ?= "-DNDEBUG"
 OECMAKE_CXX_FLAGS_RELEASE ?= "-DNDEBUG"
 OECMAKE_C_LINK_FLAGS ?= "${HOST_CC_ARCH} ${TOOLCHAIN_OPTIONS} ${CPPFLAGS} ${LDFLAGS}"
 OECMAKE_CXX_LINK_FLAGS ?= "${HOST_CC_ARCH} ${TOOLCHAIN_OPTIONS} ${CXXFLAGS} ${LDFLAGS}"
-CXXFLAGS += "${HOST_CC_ARCH} ${TOOLCHAIN_OPTIONS}"
-CFLAGS += "${HOST_CC_ARCH} ${TOOLCHAIN_OPTIONS}"
 
 def oecmake_map_compiler(compiler, d):
     args = d.getVar(compiler).split()
@@ -73,8 +71,6 @@ def map_host_os_to_system_name(host_os):
         return 'Windows'
     if host_os.startswith('linux'):
         return 'Linux'
-    if host_os.startswith('darwin'):
-        return 'Darwin'
     return host_os
 
 # CMake expects target architectures in the format of uname(2),
@@ -191,6 +187,7 @@ cmake_do_configure() {
 	  -DCMAKE_TOOLCHAIN_FILE=${WORKDIR}/toolchain.cmake \
 	  -DCMAKE_NO_SYSTEM_FROM_IMPORTED=1 \
 	  -DCMAKE_EXPORT_NO_PACKAGE_REGISTRY=ON \
+	  -DFETCHCONTENT_FULLY_DISCONNECTED=ON \
 	  ${EXTRA_OECMAKE} \
 	  -Wno-dev
 }
