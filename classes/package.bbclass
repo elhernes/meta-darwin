@@ -1914,7 +1914,7 @@ python package_do_shlibs() {
                     sonames.add(prov)
         if file.endswith('.dylib') or file.endswith('.so'):
             rpath = []
-            p = subprocess.Popen([d.expand("${HOST_PREFIX}otool"), '-l', file], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+            p = subprocess.Popen([d.expand("${HOST_PREFIX}otool"), '-l', file], stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True)
             out, err = p.communicate()
             # If returned successfully, process stdout for results
             if p.returncode == 0:
@@ -1923,7 +1923,7 @@ python package_do_shlibs() {
                     if l.startswith('path '):
                         rpath.append(l.split()[1])
 
-        p = subprocess.Popen([d.expand("${HOST_PREFIX}otool"), '-L', file], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        p = subprocess.Popen([d.expand("${HOST_PREFIX}otool"), '-L', file], stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True)
         out, err = p.communicate()
         # If returned successfully, process stdout for results
         if p.returncode == 0:
@@ -1985,7 +1985,7 @@ python package_do_shlibs() {
                 soname = None
                 if cpath.islink(file):
                     continue
-                if hostos == "darwin" or hostos == "darwin8":
+                if hostos == "darwin" or hostos == "darwin19":
                     darwin_so(file, needed, sonames, renames, pkgver)
                 elif hostos.startswith("mingw"):
                     mingw_dll(file, needed, sonames, renames, pkgver)
