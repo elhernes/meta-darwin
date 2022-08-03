@@ -1,7 +1,9 @@
-From b33854f24e1df96296d9494386a4db6820b7ddb9 Mon Sep 17 00:00:00 2001
+From cb9b87097803b4444ec9aa52b5054ba88e4da01e Mon Sep 17 00:00:00 2001
 From: OpenEmbedded <oe.patch@oe>
 Date: Wed, 27 Apr 2022 11:22:17 +0000
 Subject: [PATCH] %% original patch: 0001-Fixes_for_Darwin_SDKs.patch
+
+From: OpenEmbedded <oe.patch@oe>
 
 ---
  clang/lib/Driver/ToolChains/Darwin.cpp | 17 ++++++++++++-----
@@ -10,23 +12,23 @@ Subject: [PATCH] %% original patch: 0001-Fixes_for_Darwin_SDKs.patch
  3 files changed, 13 insertions(+), 7 deletions(-)
 
 diff --git a/clang/lib/Driver/ToolChains/Darwin.cpp b/clang/lib/Driver/ToolChains/Darwin.cpp
-index 261f522f6c49..cfe861e39890 100644
+index f7da3f187814..0656f5cbad69 100644
 --- a/clang/lib/Driver/ToolChains/Darwin.cpp
 +++ b/clang/lib/Driver/ToolChains/Darwin.cpp
-@@ -2178,12 +2178,19 @@ void DarwinClang::AddClangCXXStdlibIncludeArgs(
+@@ -2299,12 +2299,19 @@ void DarwinClang::AddClangCXXStdlibIncludeArgs(
      case llvm::Triple::x86:
      case llvm::Triple::x86_64:
        IsBaseFound = AddGnuCPlusPlusIncludePaths(DriverArgs, CC1Args, UsrIncludeCxx,
 -                                                "4.2.1",
 -                                                "i686-apple-darwin10",
 -                                                arch == llvm::Triple::x86_64 ? "x86_64" : "");
-+                                                "11.2.0",
++                                                "11.3.0",
 +                                                "x86_64-pokysdk-darwin19",
 +                                                "");
        IsBaseFound |= AddGnuCPlusPlusIncludePaths(DriverArgs, CC1Args, UsrIncludeCxx,
 -                                                "4.0.0", "i686-apple-darwin8",
 -                                                 "");
-+                                                "11.2.0", "", "");
++                                                "11.3.0", "", "");
 +      {
 +          const char *S = ::getenv("YOCTO_SDKPATH");
 +          if (S && (S[0] != '\0')) {
@@ -39,10 +41,10 @@ index 261f522f6c49..cfe861e39890 100644
  
      case llvm::Triple::arm:
 diff --git a/llvm/cmake/modules/AddLLVM.cmake b/llvm/cmake/modules/AddLLVM.cmake
-index 62ffc8031415..ddaf0a2f450c 100644
+index d34083fa52ec..477dc1ade3fc 100644
 --- a/llvm/cmake/modules/AddLLVM.cmake
 +++ b/llvm/cmake/modules/AddLLVM.cmake
-@@ -2112,7 +2112,6 @@ function(llvm_setup_rpath name)
+@@ -2137,7 +2137,6 @@ function(llvm_setup_rpath name)
    endif()
  
    if (APPLE)
@@ -51,15 +53,15 @@ index 62ffc8031415..ddaf0a2f450c 100644
    elseif(${CMAKE_SYSTEM_NAME} MATCHES "AIX" AND BUILD_SHARED_LIBS)
      # $ORIGIN is not interpreted at link time by aix ld.
 diff --git a/llvm/cmake/modules/CrossCompile.cmake b/llvm/cmake/modules/CrossCompile.cmake
-index f50be9d967df..350c5d078561 100644
+index 8a441729c943..8e19e4c93d9f 100644
 --- a/llvm/cmake/modules/CrossCompile.cmake
 +++ b/llvm/cmake/modules/CrossCompile.cmake
-@@ -66,7 +66,7 @@ function(llvm_create_cross_target project_name target_name toolchain buildtype)
+@@ -68,7 +68,7 @@ function(llvm_create_cross_target project_name target_name toolchain buildtype)
    endforeach()
  
    add_custom_command(OUTPUT ${${project_name}_${target_name}_BUILD}/CMakeCache.txt
 -    COMMAND ${CMAKE_COMMAND} -G "${CMAKE_GENERATOR}"
 +    COMMAND ${CMAKE_COMMAND} -E env --unset=LDFLAGS --unset=CFLAGS --unset=CXXFLAGS --unset=CC --unset=LD --unset=CXX ${CMAKE_COMMAND} -G "${CMAKE_GENERATOR}"
          -DCMAKE_MAKE_PROGRAM="${CMAKE_MAKE_PROGRAM}"
-         ${CROSS_TOOLCHAIN_FLAGS_${target_name}} ${CMAKE_CURRENT_SOURCE_DIR}
-         ${CROSS_TOOLCHAIN_FLAGS_${project_name}_${target_name}}
+         -DCMAKE_C_COMPILER_LAUNCHER="${CMAKE_C_COMPILER_LAUNCHER}"
+         -DCMAKE_CXX_COMPILER_LAUNCHER="${CMAKE_CXX_COMPILER_LAUNCHER}"
