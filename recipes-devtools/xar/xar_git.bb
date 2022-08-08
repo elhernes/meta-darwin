@@ -9,6 +9,8 @@ SRC_URI = " \
     file://xar.patch \
 "
 
+inherit pkgconfig
+
 LIC_FILES_CHKSUM = "file://${WORKDIR}/git/xar/LICENSE;md5=64becc7b238f5b2d599c009ab19c2c27"
 
 DEPENDS = "libxml2"
