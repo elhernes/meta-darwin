@@ -1,0 +1,36 @@
+From 07ee0f0eb8442174b2e5d39862bd99952c2cfb64 Mon Sep 17 00:00:00 2001
+From: Etienne Cordonnier <ecordonnier@snap.com>
+Date: Thu, 11 Aug 2022 15:39:44 +0200
+Subject: [PATCH] change macosx-version-min to 10.15
+
+---
+ libgcc/config/t-darwin | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/libgcc/config/t-darwin b/libgcc/config/t-darwin
+index 299d26c2c96..c7117023277 100644
+--- a/libgcc/config/t-darwin
++++ b/libgcc/config/t-darwin
+@@ -1,15 +1,15 @@
+ # Set this as a minimum (unless overriden by arch t-files) since it's a
+ # reasonable lowest common denominator that works for all our archs.
+-HOST_LIBGCC2_CFLAGS += -mmacosx-version-min=10.4
++HOST_LIBGCC2_CFLAGS += -mmacosx-version-min=10.15
+ 
+ crt3.o: $(srcdir)/config/darwin-crt3.c
+-	$(crt_compile) -mmacosx-version-min=10.4 -c $<
++	$(crt_compile) -mmacosx-version-min=10.15 -c $<
+ 
+ crttms.o: $(srcdir)/config/darwin-crt-tm.c
+-	$(crt_compile) -mmacosx-version-min=10.4 -DSTART -c $<
++	$(crt_compile) -mmacosx-version-min=10.15 -DSTART -c $<
+ 
+ crttme.o: $(srcdir)/config/darwin-crt-tm.c
+-	$(crt_compile) -mmacosx-version-min=10.4 -DEND -c $<
++	$(crt_compile) -mmacosx-version-min=10.15 -DEND -c $<
+ 
+ # Make emutls weak so that we can deal with -static-libgcc, override the
+ # hidden visibility when this is present in libgcc_eh.
+-- 
+2.36.1.vfs.0.0
+
