@@ -4,14 +4,15 @@ do_compile:darwin19() {
      oe_runmake all-target-libgcc MULTIBUILDTOP=${B}/${TARGET_SYS}/${BPN}
 }
 
+# See file gcc/config/darwin.h in the gcc repository to understand which library is being linked against,
+# depending on the minimum version of os-x targetted (parameter "mmacosx-version-min").
 do_install:darwin19 () {
     install -d ${D}${libdir}
-    cp ${B}/${TARGET_SYS}/${BPN}/libgcc_s.1.dylib ${D}${libdir}
-    ln -s libgcc_s.1.dylib ${D}${libdir}/libgcc.dylib
-    ln -s libgcc_s.1.dylib ${D}${libdir}/libgcc_s.dylib
-    ln -s libgcc_s.1.dylib ${D}${libdir}/libgcc_ext.10.4.dylib
-    ln -s libgcc_s.1.dylib ${D}${libdir}/libgcc_ext.10.5.dylib
-    ${TARGET_SYS}-install_name_tool -id ${libdir}/libgcc_s.1.dylib ${D}/${libdir}/libgcc_s.1.dylib
+    cp ${B}/${TARGET_SYS}/${BPN}/libgcc_s.1.1.dylib ${D}${libdir}
+    cp ${B}/${TARGET_SYS}/${BPN}/libemutls_w.a ${D}${libdir}
+    ln -s libgcc_s.1.1.dylib ${D}${libdir}/libgcc.dylib
+    ln -s libgcc_s.1.1.dylib ${D}${libdir}/libgcc_s.dylib
+    ${TARGET_SYS}-install_name_tool -id ${libdir}/libgcc_s.1.1.dylib ${D}/${libdir}/libgcc_s.1.1.dylib
 }
 
 FILES:${PN}:append:darwin19 = " ${libdir}"
