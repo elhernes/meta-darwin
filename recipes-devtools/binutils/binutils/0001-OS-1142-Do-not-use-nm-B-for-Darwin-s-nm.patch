@@ -1,0 +1,48 @@
+From ae737b4496ce5a80a2dec68640f92f6b891af7ee Mon Sep 17 00:00:00 2001
+From: Etienne Cordonnier <ecordonnier@snap.com>
+Date: Thu, 25 Aug 2022 16:08:58 +0200
+Subject: [PATCH] [OS-1142] Do not use nm -B for Darwin's nm
+
+The cross-compiled tool "x86_64-pokysdk-darwin19-nm" does not support
+the option -B, however the configure script wrongly detects that this
+option is supported.
+This causes compilation failures down the line, because configure then
+uses "nm -B" to assign the variable "global_symbol_pipe", and this variable
+becomes empty because "nm -B" fails.
+
+The emptyness of "global_symbol_pipe" causes some libtool link script to be executed with
+two pipes and to fail due to syntax error: "| |"
+---
+ libbacktrace/configure | 2 +-
+ libctf/configure       | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/libbacktrace/configure b/libbacktrace/configure
+index 90667680701..dec8d96771b 100755
+--- a/libbacktrace/configure
++++ b/libbacktrace/configure
+@@ -5846,7 +5846,7 @@ else
+        # Adding the `sed 1q' prevents false positives on HP-UX, which says:
+        #   nm: unknown option "B" ignored
+        case `"$tmp_nm" -B "$tmp_nm" 2>&1 | grep -v '^ *$' | sed '1q'` in
+-       *$tmp_nm*) lt_cv_path_NM="$tmp_nm -B"
++       *$tmp_nm*) lt_cv_path_NM="$tmp_nm"
+ 	 break
+ 	 ;;
+        *)
+diff --git a/libctf/configure b/libctf/configure
+index 1b0ee0d32c6..f77ae01e21a 100755
+--- a/libctf/configure
++++ b/libctf/configure
+@@ -5982,7 +5982,7 @@ else
+        # Adding the `sed 1q' prevents false positives on HP-UX, which says:
+        #   nm: unknown option "B" ignored
+        case `"$tmp_nm" -B "$tmp_nm" 2>&1 | grep -v '^ *$' | sed '1q'` in
+-       *$tmp_nm*) lt_cv_path_NM="$tmp_nm -B"
++       *$tmp_nm*) lt_cv_path_NM="$tmp_nm"
+ 	 break
+ 	 ;;
+        *)
+-- 
+2.36.1.vfs.0.0
+
