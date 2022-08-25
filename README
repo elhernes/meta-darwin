@@ -35,7 +35,7 @@ To create the SDK tarball, perform the following steps using your Mac computer:
 
     <...>/meta-darwin/recipes-devtools/osx-runtime/files
 
-   You can alternatively add a nativesdk-osx-runtime.bbappend file to your
+   You can alternatively add a nativesdk-osx-runtime_%.bbappend file to your
    layer and override SRC_URI and do_configure() to extract the SDK from
    a different location.
 
