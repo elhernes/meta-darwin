@@ -4,6 +4,7 @@ SRC_URI:append = " \
     file://0001-OS-1142-Do-not-use-nm-B-for-Darwin-s-nm.patch \
 "
 
+# Add dylib files to package nativesdk-binutils
 FILES:${PN} += " \
     ${libdir} \
 "
