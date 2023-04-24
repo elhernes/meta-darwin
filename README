@@ -3,16 +3,14 @@ meta-darwin
 
 OpenEmbedded meta layer for darwin based SDKs
 
-Note: For now, only OSX SKDs up until 10.10 are supported. Later SDKs require
-Apples TAPI library to be present. This will be added to the layer at a later
-point.
+Note: For now, only macOS SDK version 10.15 is supported.
 
 You also need a OS-X sysroot tarball/zip file generated (copied) from a target OS-X
 system. This is placed in the osx-runtime files directory and is used to compile the SDK
 against it. It needs to contain the system libraries (/usr/lib) and include files 
 (/usr/include). This tarball is not part of this meta-darwin layer and must be
 created by the user. To create it, the user is required to have a legitimate Mac computer
-with OSX 10.8 or later and with Xcode 5.1.0 or later installed.
+with macOS 10.15 or later and with Xcode 5.1.0 or later installed.
 
 To create the SDK tarball, perform the following steps using your Mac computer:
 
@@ -21,12 +19,12 @@ To create the SDK tarball, perform the following steps using your Mac computer:
 2. Install the command-line development tools
     (Preferences -> Downloads -> Command-line tools)
 
-3. Use Terminal to create the file OSX-sdk.zip from the OSX SDK (this sample assumes
-   OSX 10.10):
+3. Use Terminal to create the file OSX-sdk.zip from the macOS SDK (this sample assumes
+   macOS 10.15):
 
     $ mkdir ~/Desktop/OSX-sdk
     $ cd ~/Desktop/OSX-sdk
-    $ ditto `xcrun --sdk macosx10.10 --show-sdk-path` .
+    $ ditto `xcrun --sdk macosx10.15 --show-sdk-path` .
     $ cd ..
     $ zip -yr OSX-sdk OSX-sdk
 
@@ -44,10 +42,13 @@ This layer depends on:
 
  URI: git://git.openembedded.org/openembedded-core
  layers: meta
- branch: master
+ branch: kirkstone
+
+ URI: https://github.com/kraj/meta-clang.git
+ layers: meta-clang
+ branch: kirkstone
 
 Layer Maintainer: Richard Purdie <richard.purdie@linuxfoundation.org>
-    Dominik Schnitzer <dominik.schnitzer@daqri.com>
 
 Please send changes to the yocto mailing list with [meta-darwin] in the subject line,
 cc'ing the maintainer.
