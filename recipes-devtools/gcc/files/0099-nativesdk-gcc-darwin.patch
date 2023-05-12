@@ -4,6 +4,7 @@ Date: Wed, 3 Aug 2022 13:37:20 +0200
 Subject: [PATCH] rebase patch "0099-nativesdk-gcc-darwin.patch" from
  meta-darwin
 
+Upstream-Status: Inappropriate [OE specific]
 Signed-off-by: Etienne Cordonnier <ecordonnier@snap.com>
 ---
  gcc/config/darwin-c.c | 4 ++--

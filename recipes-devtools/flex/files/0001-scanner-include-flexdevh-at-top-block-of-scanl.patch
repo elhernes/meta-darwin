@@ -20,6 +20,9 @@ code in scan.l (gcc warning: return makes pointer from integer without
 a cast [-Wint-conversion]).
 
 Fixes #247.
+
+Upstream-Status: Backport [https://github.com/westes/flex/commit/4b5111d9772b5c160340ca96f08d30d7f6db5cda]
+Signed-off-by: Dominik Schnitzer <dominik@snap.com>
 ---
  src/scan.l | 7 ++++++-
  1 file changed, 6 insertions(+), 1 deletion(-)

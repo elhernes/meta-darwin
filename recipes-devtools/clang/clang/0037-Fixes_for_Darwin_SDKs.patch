@@ -1,10 +1,10 @@
 From cb9b87097803b4444ec9aa52b5054ba88e4da01e Mon Sep 17 00:00:00 2001
-From: OpenEmbedded <oe.patch@oe>
+From: Dominik Schnitzer <dominik@snap.com>
 Date: Wed, 27 Apr 2022 11:22:17 +0000
-Subject: [PATCH] %% original patch: 0001-Fixes_for_Darwin_SDKs.patch
+Subject: [PATCH] Fixes for Darwin SDKs
 
-From: OpenEmbedded <oe.patch@oe>
-
+Upstream-Status: Inappropriate [OE specific]
+Signed-off-by: Dominik Schnitzer <dominik@snap.com>
 ---
  clang/lib/Driver/ToolChains/Darwin.cpp | 17 ++++++++++++-----
  llvm/cmake/modules/AddLLVM.cmake       |  1 -

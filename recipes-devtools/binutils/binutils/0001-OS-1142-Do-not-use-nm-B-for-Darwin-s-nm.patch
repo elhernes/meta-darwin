@@ -12,6 +12,9 @@ becomes empty because "nm -B" fails.
 
 The emptyness of "global_symbol_pipe" causes some libtool link script to be executed with
 two pipes and to fail due to syntax error: "| |"
+
+Upstream-Status: Pending [would require proper fix instead of this workaround]
+Signed-off-by: Etienne Cordonnier <ecordonnier@snap.com>
 ---
  libbacktrace/configure | 2 +-
  libctf/configure       | 2 +-

@@ -6,7 +6,7 @@ SECTION = "devel"
 SRCREV = "2b9a4ab7003f1db8c54da4fea55fcbb424fdecb0"
 SRC_URI = " \
     git://github.com/tpoechtrager/xar.git;branch=master;protocol=https \
-    file://xar.patch \
+    file://0001-fix-compilation-error.patch \
 "
 
 inherit autotools pkgconfig

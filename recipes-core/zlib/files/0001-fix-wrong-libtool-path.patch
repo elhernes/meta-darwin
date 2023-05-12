@@ -1,6 +1,19 @@
---- zlib-1.2.11-orig/configure	2016-12-31 18:06:40.000000000 +0000
-+++ zlib-1.2.11/configure	2018-09-30 22:01:03.887112033 +0000
-@@ -240,13 +240,7 @@
+From 3b7dfa06c12eb605ae244bbdf37a5c502f63a035 Mon Sep 17 00:00:00 2001
+From: Dominik Schnitzer <dominik@snap.com> 
+Date: Fri, 12 May 2023 10:11:56 +0000
+Subject: [PATCH] fix wrong libtool path
+
+Upstream-Status: Inappropriate [OE specific]
+Signed-off-by: Dominik Schnitzer <dominik@snap.com>
+---
+ configure | 8 +-------
+ 1 file changed, 1 insertion(+), 7 deletions(-)
+
+diff --git a/configure b/configure
+index 69dfa3f..dcd0e75 100755
+--- a/configure
++++ b/configure
+@@ -240,13 +240,7 @@ if test "$gcc" -eq 1 && ($cc -c $test.c) >> configure.log 2>&1; then
               SHAREDLIB=libz$shared_ext
               SHAREDLIBV=libz.$VER$shared_ext
               SHAREDLIBM=libz.$VER1$shared_ext
@@ -15,3 +28,6 @@
    *)             LDSHARED=${LDSHARED-"$cc -shared"} ;;
    esac
  else
+-- 
+2.36.1.vfs.0.0
+

@@ -1,3 +1,29 @@
+From 17605e2eaa97227ddee3ceac48af560ac3b7a7ad Mon Sep 17 00:00:00 2001
+From: OpenEmbedded <oe.patch@oe>
+Date: Fri, 12 May 2023 13:05:08 +0000
+Subject: [PATCH] fix compilation error
+
+Upstream-Status: Inappropriate [OE specific]
+Signed-off-by: Dominik Schnitzer <dominik@snap.com>
+---
+ xar/Makefile.in  | 2 +-
+ xar/configure    | 6 +++---
+ xar/configure.ac | 6 +++---
+ 3 files changed, 7 insertions(+), 7 deletions(-)
+
+diff --git a/xar/Makefile.in b/xar/Makefile.in
+index a6d6814..63d9445 100644
+--- a/xar/Makefile.in
++++ b/xar/Makefile.in
+@@ -76,7 +76,7 @@ include $(dir_names:%=%/Makefile.inc)
+ #
+ ifeq (@enable_autogen@, 1)
+ @srcroot@configure : @srcroot@configure.ac
+-	cd ./@srcroot@ && $(AUTOCONF)
++	cd @srcroot@ && $(AUTOCONF)
+ 
+ @objroot@config.status : @srcroot@configure
+ 	./@objroot@config.status --recheck
 diff --git a/xar/configure b/xar/configure
 index cb44f98..97a9065 100755
 --- a/xar/configure
@@ -46,16 +72,6 @@ index d1e6362..a77fccc 100644
  else
    AC_MSG_RESULT([no])
    have_libxml2="0"
-diff --git a/xar/Makefile.in b/xar/Makefile.in
-index a6d6814..a6c37b8 100644
---- a/xar/Makefile.in
-+++ b/xar/Makefile.in
-@@ -76,7 +76,7 @@ include $(dir_names:%=%/Makefile.inc)
- #
- ifeq (@enable_autogen@, 1)
- @srcroot@configure : @srcroot@configure.ac
--	cd ./@srcroot@ && $(AUTOCONF)
-+	cd @srcroot@ && $(AUTOCONF)
- 
- @objroot@config.status : @srcroot@configure
- 	./@objroot@config.status --recheck
+-- 
+2.36.1.vfs.0.0
+

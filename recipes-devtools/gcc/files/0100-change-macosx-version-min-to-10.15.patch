@@ -3,6 +3,8 @@ From: Etienne Cordonnier <ecordonnier@snap.com>
 Date: Thu, 11 Aug 2022 15:39:44 +0200
 Subject: [PATCH] change macosx-version-min to 10.15
 
+Upstream-Status: Inappropriate [OE specific]
+Signed-off-by: Etienne Cordonnier <ecordonnier@snap.com>
 ---
  libgcc/config/t-darwin | 8 ++++----
  1 file changed, 4 insertions(+), 4 deletions(-)
