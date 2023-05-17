@@ -48,7 +48,10 @@ This layer depends on:
  layers: meta-clang
  branch: kirkstone
 
-Layer Maintainer: Richard Purdie <richard.purdie@linuxfoundation.org>
+Layer Maintainers: Richard Purdie <richard.purdie@linuxfoundation.org>
+                   Dominik Schnitzer <dominik@snap.com>
+                   Etienne Cordonnier <ecordonnier@snap.com>
+
 
 Please send changes to the yocto mailing list with [meta-darwin] in the subject line,
 cc'ing the maintainer.
