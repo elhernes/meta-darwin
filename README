@@ -5,7 +5,7 @@ OpenEmbedded meta layer for darwin based SDKs
 
 Note: For now, only macOS SDK version 10.15 is supported.
 
-You also need a OS-X sysroot tarball/zip file generated (copied) from a target OS-X
+You also need a OS-X sysroot tarball/zip file generated (copied) from a target macOS
 system. This is placed in the osx-runtime files directory and is used to compile the SDK
 against it. It needs to contain the system libraries (/usr/lib) and include files 
 (/usr/include). This tarball is not part of this meta-darwin layer and must be
@@ -52,6 +52,10 @@ Layer Maintainers: Richard Purdie <richard.purdie@linuxfoundation.org>
                    Dominik Schnitzer <dominik@snap.com>
                    Etienne Cordonnier <ecordonnier@snap.com>
 
+Please send changes to the yocto mailing list (yocto@lists.yoctoproject.org) with [meta-darwin]
+in the subject line, cc'ing the maintainers. You need to subscribe to the mailing list at
+https://lists.yoctoproject.org/g/yocto before being able to post.
 
-Please send changes to the yocto mailing list with [meta-darwin] in the subject line,
-cc'ing the maintainer.
+When sending single patches, please use something like:
+'git send-email -M -1 --to yocto@lists.yoctoproject.org --subject-prefix="meta-darwin][PATCH"'
+
