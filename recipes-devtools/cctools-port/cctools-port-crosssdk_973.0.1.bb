@@ -3,13 +3,10 @@ SECTION = "devel"
 LICENSE = "ApplePSLicense-2.0"
 LIC_FILES_CHKSUM = "file://cctools/APPLE_LICENSE;md5=dacaafbaf91483700da837d31213a1e8"
 
-SRCREV = "6540086c5e12e9c1649fed524b527d8c1793ddc0"
-SRC_URI = "git://github.com/tpoechtrager/cctools-port.git;branch=973.0.1-ld64-609;protocol=https"
+SRCREV = "f28fb5e9c31efd3d0552afcce2d2c03cae25c1ca"
+SRC_URI = "git://github.com/tpoechtrager/cctools-port.git;branch=master;protocol=https"
 
-SRC_URI[md5sum] = "1f2507d489c7416f3bfc447bd7d3a07e"
-SRC_URI[sha256sum] = "1fa3dd2c4d7192e284481927fceaaa1b2b0e2efff8f219479b87c95dc840c5d3"
-
-PR = "r1"
+PR = "r2"
 
 inherit autotools crosssdk
 

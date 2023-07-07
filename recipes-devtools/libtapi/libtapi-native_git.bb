@@ -11,8 +11,8 @@ LIC_FILES_CHKSUM = "file://${WORKDIR}/git/LICENSE.APPLE-LIBTAPI.txt;md5=ecd05d65
 
 SECTION = "devel"
 
-SRCREV = "664b8414f89612f2dfd35a9b679c345aa5389026"
-SRC_URI = "git://github.com/tpoechtrager/apple-libtapi.git;branch=${TAPI_REPOSITORY};protocol=https"
+SRCREV = "b7b5bdbfda9e8062d405b48da3b811afad98ae76"
+SRC_URI = "git://github.com/tpoechtrager/apple-libtapi.git;branch=master;protocol=https"
 
 PACKAGES = "${PN}-dbg ${PN} ${PN}-dev"
 

@@ -64,7 +64,7 @@ def siteinfo_data_for_machine(arch, os, d):
     }
     osinfo = {
         "darwin": "common-darwin",
-        "darwin19": "common-darwin",
+        "darwin21": "common-darwin",
         "linux": "common-linux common-glibc",
         "linux-gnu": "common-linux common-glibc",
         "linux-gnu_ilp32": "common-linux common-glibc",
@@ -119,7 +119,7 @@ def siteinfo_data_for_machine(arch, os, d):
         "riscv64-linux-musl": "riscv64-linux",
         "x86_64-cygwin": "bit-64",
         "x86_64-darwin": "bit-64",
-        "x86_64-darwin19": "bit-64",
+        "x86_64-darwin21": "bit-64",
         "x86_64-linux": "bit-64",
         "x86_64-linux-musl": "x86_64-linux bit-64",
         "x86_64-linux-muslx32": "bit-32 ix86-common x32-linux",

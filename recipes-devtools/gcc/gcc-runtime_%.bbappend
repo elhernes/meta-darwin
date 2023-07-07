@@ -1,14 +1,14 @@
-EXTRA_OECONF:remove:darwin19 = "--enable-clocale=gnu"
-EXTRA_OECONF:remove:darwin19 = "--enable-clocale=generic"
+EXTRA_OECONF:remove:darwin21 = "--enable-clocale=gnu"
+EXTRA_OECONF:remove:darwin21 = "--enable-clocale=generic"
 
-RUNTIMETARGET:remove:darwin19 = "libmpx"
+RUNTIMETARGET:remove:darwin21 = "libmpx"
 
-FILES:libssp:append:darwin19 = " ${libdir}/libssp*.dylib"
-FILES:libstdc++:append:darwin19 = " ${libdir}/libstdc++*.dylib"
-FILES:libitm:append:darwin19 = " ${libdir}/libitm*.dylib"
-FILES:libatomic:append:darwin19 = " ${libdir}/libatomic*.dylib"
-FILES:libgomp:append:darwin19 = " ${libdir}/libgomp*.dylib"
-FILES:${PN}-dbg:append:darwin19 = " ${libdir}/libstdc++.a-gdb.py"
+FILES:libssp:append:darwin21 = " ${libdir}/libssp*.dylib"
+FILES:libstdc++:append:darwin21 = " ${libdir}/libstdc++*.dylib"
+FILES:libitm:append:darwin21 = " ${libdir}/libitm*.dylib"
+FILES:libatomic:append:darwin21 = " ${libdir}/libatomic*.dylib"
+FILES:libgomp:append:darwin21 = " ${libdir}/libgomp*.dylib"
+FILES:${PN}-dbg:append:darwin21 = " ${libdir}/libstdc++.a-gdb.py"
 
 # Replace do_configure and do_check from poky. We can't link libstdc++.dylib to
 # a dummy libstdc++.so, because this adds a dependency to the generated libstdc++.dylib.

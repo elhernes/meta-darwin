@@ -1,36 +1,36 @@
-DEPENDS:remove:class-nativesdk:darwin19 = "nativesdk-python3"
-DEPENDS:remove:class-nativesdk:darwin19 = "libxml2"
-DEPENDS:remove:class-nativesdk:darwin19 = "libffi"
-DEPENDS:append:class-nativesdk:darwin19 = " xz"
-PACKAGECONFIG:remove:class-nativesdk:darwin19 = "libedit"
-PACKAGECONFIG:remove:class-nativesdk:darwin19 = "shared-libs"
+DEPENDS:remove:class-nativesdk:darwin21 = "nativesdk-python3"
+DEPENDS:remove:class-nativesdk:darwin21 = "libxml2"
+DEPENDS:remove:class-nativesdk:darwin21 = "libffi"
+DEPENDS:append:class-nativesdk:darwin21 = " xz"
+PACKAGECONFIG:remove:class-nativesdk:darwin21 = "libedit"
+PACKAGECONFIG:remove:class-nativesdk:darwin21 = "shared-libs"
 
 DEPENDS:remove:class-nativesdk = "clang-crosssdk-${SDK_ARCH}"
 DEPENDS:append:class-nativesdk = " clang-crosssdk-${SDK_SYS}"
 
-COMPILER_RT:class-nativesdk:toolchain-clang:runtime-llvm:darwin19 = ""
-LIBCPLUSPLUS:class-nativesdk:toolchain-clang:darwin19 = " -stdlib=libstdc++"
+COMPILER_RT:class-nativesdk:toolchain-clang:runtime-llvm:darwin21 = ""
+LIBCPLUSPLUS:class-nativesdk:toolchain-clang:darwin21 = " -stdlib=libstdc++"
 
-OSXSDK:class-nativesdk:darwin19 = "${STAGING_DIR_TARGET}${SDKPATHNATIVE}/runtime"
-do_compile:prepend:class-nativesdk:darwin19() {
+OSXSDK:class-nativesdk:darwin21 = "${STAGING_DIR_TARGET}${SDKPATHNATIVE}/runtime"
+do_compile:prepend:class-nativesdk:darwin21() {
     export YOCTO_SDKPATH="${OSXSDK}/usr/include"
 }
 
-LDFLAGS:toolchain-clang:class-nativesdk:darwin19 = " \
+LDFLAGS:toolchain-clang:class-nativesdk:darwin21 = " \
     ${BUILDSDK_LDFLAGS} \
     -lgcc_s \
 "
-LDFLAGS:remove:toolchain-clang:class-nativesdk:x86-64:darwin19 = " -Wl,-dynamic-linker,${base_libdir}/ld-linux-x86-64.so.2"
-LDFLAGS:remove:toolchain-clang:class-nativesdk:x86:darwin19 = " -Wl,-dynamic-linker,${base_libdir}/ld-linux.so.2"
-LDFLAGS:remove:toolchain-clang:class-nativesdk:aarch64:darwin19 = " -Wl,-dynamic-linker,${base_libdir}/ld-linux-aarch64.so.1"
+LDFLAGS:remove:toolchain-clang:class-nativesdk:x86-64:darwin21 = " -Wl,-dynamic-linker,${base_libdir}/ld-linux-x86-64.so.2"
+LDFLAGS:remove:toolchain-clang:class-nativesdk:x86:darwin21 = " -Wl,-dynamic-linker,${base_libdir}/ld-linux.so.2"
+LDFLAGS:remove:toolchain-clang:class-nativesdk:aarch64:darwin21 = " -Wl,-dynamic-linker,${base_libdir}/ld-linux-aarch64.so.1"
 
-CFLAGS:append:class-nativesdk:darwin19 = " \
+CFLAGS:append:class-nativesdk:darwin21 = " \
     -femulated-tls \
     -I${OSXSDK}/usr/include \
     -include TargetConditionals.h \
 "
 
-CXXFLAGS:append:class-nativesdk:darwin19 = " \
+CXXFLAGS:append:class-nativesdk:darwin21 = " \
     -femulated-tls \
     -Wno-elaborated-enum-base \
     -I${OSXSDK}/usr/include \
@@ -39,10 +39,10 @@ CXXFLAGS:append:class-nativesdk:darwin19 = " \
     -F${OSXSDK}/System/Library/Frameworks/CoreServices.framework/Frameworks \
 "
 
-EXTRA_OECMAKE:remove:class-nativesdk:darwin19 = "-DPYTHON_LIBRARY=${STAGING_LIBDIR}/lib${PYTHON_DIR}${PYTHON_ABI}.so"
-EXTRA_OECMAKE:remove:class-nativesdk:darwin19 = "-DPYTHON_INCLUDE_DIR=${STAGING_INCDIR}/${PYTHON_DIR}${PYTHON_ABI}"
-EXTRA_OECMAKE:remove:class-nativesdk:darwin19 = "-DPYTHON_EXECUTABLE='${PYTHON}'"
-EXTRA_OECMAKE:append:class-nativesdk:darwin19 = " \
+EXTRA_OECMAKE:remove:class-nativesdk:darwin21 = "-DPYTHON_LIBRARY=${STAGING_LIBDIR}/lib${PYTHON_DIR}${PYTHON_ABI}.so"
+EXTRA_OECMAKE:remove:class-nativesdk:darwin21 = "-DPYTHON_INCLUDE_DIR=${STAGING_INCDIR}/${PYTHON_DIR}${PYTHON_ABI}"
+EXTRA_OECMAKE:remove:class-nativesdk:darwin21 = "-DPYTHON_EXECUTABLE='${PYTHON}'"
+EXTRA_OECMAKE:append:class-nativesdk:darwin21 = " \
     -DCMAKE_FRAMEWORK_PATH='${OSXSDK}/System/Library/Frameworks'\
     -DLLDB_USE_SYSTEM_DEBUGSERVER=ON \
     -DLLDB_INCLUDE_TESTS=OFF \
@@ -69,4 +69,4 @@ FILES:${PN} += " \
    ${libdir}/LLVMgold.dylib \
 "
 
-INSANE_SKIP:${PN}:class-nativesdk:darwin19 += " file-rdeps"
+INSANE_SKIP:${PN}:class-nativesdk:darwin21 += " file-rdeps"

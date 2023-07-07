@@ -1,20 +1,20 @@
-SYSTEMHEADERS:darwin19 = "${SDKPATHNATIVE}/runtime/usr/include/"
+SYSTEMHEADERS:darwin21 = "${SDKPATHNATIVE}/runtime/usr/include/"
 
-LINKER_HASH_STYLE:darwin19 = ""
+LINKER_HASH_STYLE:darwin21 = ""
 
-EXTRA_OECONF:remove:darwin19 = "--enable-clocale=gnu"
-EXTRA_OECONF:remove:darwin19 = "--enable-clocale=generic"
+EXTRA_OECONF:remove:darwin21 = "--enable-clocale=gnu"
+EXTRA_OECONF:remove:darwin21 = "--enable-clocale=generic"
 
-EXTRA_OECONF:remove:darwin19 = "--enable-initfini-array"
-EXTRA_OECONF:append:darwin19 = " --disable-initfini-array"
+EXTRA_OECONF:remove:darwin21 = "--enable-initfini-array"
+EXTRA_OECONF:append:darwin21 = " --disable-initfini-array"
 
-LTO:darwin19 = "--disable-lto"
-EXTRA_OECONF:remove:darwin19 = "--enable-lto"
-EXTRA_OECONF:append:darwin19 = " --disable-lto"
+LTO:darwin21 = "--disable-lto"
+EXTRA_OECONF:remove:darwin21 = "--enable-lto"
+EXTRA_OECONF:append:darwin21 = " --disable-lto"
 
-DEPENDS:append:darwin19 = " nativesdk-osx-runtime"
+DEPENDS:append:darwin21 = " nativesdk-osx-runtime"
 
-do_configure:prepend:darwin19 () {
+do_configure:prepend:darwin21 () {
     export ARCH_FLAGS_FOR_TARGET=" $ARCH_FLAGS_FOR_TARGET \
         -L${SDKPATHNATIVE}/usr/lib \
         -L${SDKPATHNATIVE}/runtime/usr/lib \

@@ -1,3 +1,3 @@
-CPPFLAGS:append:class-nativesdk:darwin19 = " \
+CPPFLAGS:append:class-nativesdk:darwin21 = " \
     -I${STAGING_INCDIR} \
 "

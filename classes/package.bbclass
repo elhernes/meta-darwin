@@ -2015,7 +2015,7 @@ python package_do_shlibs() {
                 soname = None
                 if cpath.islink(file):
                     continue
-                if hostos == "darwin" or hostos == "darwin19":
+                if hostos == "darwin" or hostos == "darwin21":
                     darwin_so(file, needed, sonames, renames, pkgver)
                 elif hostos.startswith("mingw"):
                     mingw_dll(file, needed, sonames, renames, pkgver)
