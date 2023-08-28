@@ -8,6 +8,20 @@ PACKAGECONFIG:remove:class-nativesdk:darwin21 = "shared-libs"
 DEPENDS:remove:class-nativesdk = "clang-crosssdk-${SDK_ARCH}"
 DEPENDS:append:class-nativesdk = " clang-crosssdk-${SDK_SYS}"
 
+# perl tries to call readelf, which does not exist on darwin (it would need
+# to call objdump instead but the detection logic does not work for some reason)
+RDEPENDS:${PN}:remove:class-nativesdk:darwin21 = " \
+    perl-module-digest-md5 \
+    perl-module-file-basename \
+    perl-module-file-copy \
+    perl-module-file-find \
+    perl-module-file-path \
+    perl-module-findbin \
+    perl-module-hash-util \
+    perl-module-sys-hostname \
+    perl-module-term-ansicolor \
+"
+
 COMPILER_RT:class-nativesdk:toolchain-clang:runtime-llvm:darwin21 = ""
 LIBCPLUSPLUS:class-nativesdk:toolchain-clang:darwin21 = " -stdlib=libstdc++"
 
