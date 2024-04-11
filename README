@@ -42,10 +42,11 @@ Layer Maintainers: Richard Purdie <richard.purdie@linuxfoundation.org>
                    Dominik Schnitzer <dominik@snap.com>
                    Etienne Cordonnier <ecordonnier@snap.com>
 
-Please send changes to the yocto mailing list (yocto@lists.yoctoproject.org) with [meta-darwin]
-in the subject line, cc'ing the maintainers. You need to subscribe to the mailing list at
-https://lists.yoctoproject.org/g/yocto before being able to post.
+Please send changes to the yocto-patches mailing list
+(yocto-patches@lists.yoctoproject.org) with [meta-darwin] in the subject line,
+cc'ing the maintainers. You need to subscribe to the mailing list at
+https://lists.yoctoproject.org/g/yocto-patches before being able to post.
 
 When sending single patches, please use something like:
-'git send-email -M -1 --to yocto@lists.yoctoproject.org --subject-prefix="meta-darwin][PATCH"'
+'git send-email -M -1 --to yocto-patches@lists.yoctoproject.org --subject-prefix="meta-darwin][PATCH"'
 
