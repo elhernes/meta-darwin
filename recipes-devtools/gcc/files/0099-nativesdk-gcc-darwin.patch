@@ -7,14 +7,14 @@ Subject: [PATCH] rebase patch "0099-nativesdk-gcc-darwin.patch" from
 Upstream-Status: Inappropriate [OE specific]
 Signed-off-by: Etienne Cordonnier <ecordonnier@snap.com>
 ---
- gcc/config/darwin-c.c | 4 ++--
+ gcc/config/darwin-c.cc | 4 ++--
  gcc/config/darwin.h   | 5 +----
  2 files changed, 3 insertions(+), 6 deletions(-)
 
-diff --git a/gcc/config/darwin-c.c b/gcc/config/darwin-c.c
+diff --git a/gcc/config/darwin-c.cc b/gcc/config/darwin-c.cc
 index 8b3dec25476..a3c71f109a8 100644
---- a/gcc/config/darwin-c.c
-+++ b/gcc/config/darwin-c.c
+--- a/gcc/config/darwin-c.cc
++++ b/gcc/config/darwin-c.cc
 @@ -479,8 +479,8 @@ darwin_register_objc_includes (const char *sysroot ATTRIBUTE_UNUSED,
       /* See if our directory starts with the standard prefix.
  	 "Translate" them, i.e. replace /usr/local/lib/gcc... with
