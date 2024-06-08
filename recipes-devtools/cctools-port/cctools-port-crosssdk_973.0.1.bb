@@ -1,6 +1,6 @@
 DESCRIPTION = "Linux port of Apple CCTools"
 SECTION = "devel"
-LICENSE = "ApplePSLicense-2.0"
+LICENSE = "APSL-2.0"
 LIC_FILES_CHKSUM = "file://cctools/APPLE_LICENSE;md5=dacaafbaf91483700da837d31213a1e8"
 
 SRCREV = "f28fb5e9c31efd3d0552afcce2d2c03cae25c1ca"
