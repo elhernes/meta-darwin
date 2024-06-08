@@ -12,3 +12,6 @@ FILES:${PN} += " \
 # TODO: Needs to be fixed by packaging this right
 # We should filter .debug out to the dbg package
 INSANE_SKIP:nativesdk-binutils = "debug-files"
+
+# nativesdk-binutils's libctf doesn't compile. disable it
+PACKAGECONFIG[libctf] = "--enable-libctf=yes,--enable-libctf=no"

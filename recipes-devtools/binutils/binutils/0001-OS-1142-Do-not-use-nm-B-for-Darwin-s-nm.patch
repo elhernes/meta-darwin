@@ -21,26 +21,26 @@ Signed-off-by: Etienne Cordonnier <ecordonnier@snap.com>
  2 files changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/libbacktrace/configure b/libbacktrace/configure
-index 90667680701..dec8d96771b 100755
+index 406b67b8cbc..8a51b1ee0da 100755
 --- a/libbacktrace/configure
 +++ b/libbacktrace/configure
 @@ -5846,7 +5846,7 @@ else
         # Adding the `sed 1q' prevents false positives on HP-UX, which says:
         #   nm: unknown option "B" ignored
-        case `"$tmp_nm" -B "$tmp_nm" 2>&1 | grep -v '^ *$' | sed '1q'` in
+        case `"$tmp_nm" -B "$tmp_nm_to_nm" 2>&1 | grep -v '^ *$' | sed '1q'` in
 -       *$tmp_nm*) lt_cv_path_NM="$tmp_nm -B"
 +       *$tmp_nm*) lt_cv_path_NM="$tmp_nm"
  	 break
  	 ;;
         *)
 diff --git a/libctf/configure b/libctf/configure
-index 1b0ee0d32c6..f77ae01e21a 100755
+index a0e40f49a80..00fba29d253 100755
 --- a/libctf/configure
 +++ b/libctf/configure
-@@ -5982,7 +5982,7 @@ else
+@@ -5967,7 +5967,7 @@ else
         # Adding the `sed 1q' prevents false positives on HP-UX, which says:
         #   nm: unknown option "B" ignored
-        case `"$tmp_nm" -B "$tmp_nm" 2>&1 | grep -v '^ *$' | sed '1q'` in
+        case `"$tmp_nm" -B "$tmp_nm_to_nm" 2>&1 | grep -v '^ *$' | sed '1q'` in
 -       *$tmp_nm*) lt_cv_path_NM="$tmp_nm -B"
 +       *$tmp_nm*) lt_cv_path_NM="$tmp_nm"
  	 break
