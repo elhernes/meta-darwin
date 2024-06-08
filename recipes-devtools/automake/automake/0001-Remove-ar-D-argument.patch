@@ -1,0 +1,29 @@
+From 862a7ca3269b54a595051454c6fbb3c45688d929 Mon Sep 17 00:00:00 2001
+From: Etienne Cordonnier <ecordonnier@snap.com>
+Date: Sat, 8 Jun 2024 22:39:08 +0200
+Subject: [PATCH] Remove ar 'D' argument
+
+Poky patch "automake/0001-Drop-ar-u-argument.patch" adds the argument 'D' (deterministic mode),
+however this option does not exist on MacOS.
+
+Signed-off-by: Etienne Cordonnier <ecordonnier@snap.com>
+---
+ bin/automake.in | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/bin/automake.in b/bin/automake.in
+index dbcf47c..0f2b84b 100644
+--- a/bin/automake.in
++++ b/bin/automake.in
+@@ -2678,7 +2678,7 @@ sub handle_libraries ()
+     }
+ 
+   define_variable ('AR', 'ar', INTERNAL);
+-  define_variable ('ARFLAGS', 'crD', INTERNAL);
++  define_variable ('ARFLAGS', 'cr', INTERNAL);
+   define_verbose_tagvar ('AR');
+ 
+   foreach my $pair (@liblist)
+-- 
+2.34.1
+
