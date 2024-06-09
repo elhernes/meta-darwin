@@ -10,7 +10,7 @@ DEPENDS:append:class-nativesdk = " clang-crosssdk-${SDK_SYS}"
 
 # perl tries to call readelf, which does not exist on darwin (it would need
 # to call objdump instead but the detection logic does not work for some reason)
-RDEPENDS:${PN}:remove:class-nativesdk:darwin21 = " \
+RDEPENDS:${PN}-tools:remove:class-nativesdk:darwin21 = " \
     perl-module-digest-md5 \
     perl-module-file-basename \
     perl-module-file-copy \
