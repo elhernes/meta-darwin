@@ -11,7 +11,7 @@ PR = "r2"
 inherit autotools crosssdk
 
 DEPENDS += "util-linux-native openssl-native xar-native libtapi-native"
-PROVIDES = "virtual/${TARGET_PREFIX}binutils-crosssdk"
+PROVIDES = "virtual/${TARGET_PREFIX}binutils"
 
 DEPENDS += "clang-native libcxx-native"
 
