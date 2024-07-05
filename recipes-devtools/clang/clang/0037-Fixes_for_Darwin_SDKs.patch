@@ -22,13 +22,13 @@ index f7da3f187814..0656f5cbad69 100644
 -                                                "4.2.1",
 -                                                "i686-apple-darwin10",
 -                                                arch == llvm::Triple::x86_64 ? "x86_64" : "");
-+                                                "13.2.0",
++                                                "13.3.0",
 +                                                "x86_64#SDK_VENDOR#-darwin21",
 +                                                "");
        IsBaseFound |= AddGnuCPlusPlusIncludePaths(DriverArgs, CC1Args, UsrIncludeCxx,
 -                                                "4.0.0", "i686-apple-darwin8",
 -                                                 "");
-+                                                "13.2.0", "", "");
++                                                "13.3.0", "", "");
 +      {
 +          const char *S = ::getenv("YOCTO_SDKPATH");
 +          if (S && (S[0] != '\0')) {
