@@ -6,6 +6,7 @@ Subject: [PATCH] Remove ar 'D' argument
 Poky patch "automake/0001-Drop-ar-u-argument.patch" adds the argument 'D' (deterministic mode),
 however this option does not exist on MacOS.
 
+Upstream-Status: Inappropriate [OE specific]
 Signed-off-by: Etienne Cordonnier <ecordonnier@snap.com>
 ---
  bin/automake.in | 2 +-
