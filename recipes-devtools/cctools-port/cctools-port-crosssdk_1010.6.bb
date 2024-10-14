@@ -3,17 +3,25 @@ SECTION = "devel"
 LICENSE = "APSL-2.0"
 LIC_FILES_CHKSUM = "file://cctools/APPLE_LICENSE;md5=dacaafbaf91483700da837d31213a1e8"
 
-SRCREV = "f28fb5e9c31efd3d0552afcce2d2c03cae25c1ca"
-SRC_URI = "git://github.com/tpoechtrager/cctools-port.git;branch=master;protocol=https"
-
-PR = "r2"
+SRCREV = "a2724f04cafe3590fbc3d0beacc37293d83a2177"
+SRC_URI = "git://github.com/tpoechtrager/cctools-port.git;nobranch=1;protocol=https"
 
 inherit autotools crosssdk
 
-DEPENDS += "util-linux-native openssl-native xar-native libtapi-native"
+DEPENDS += " \
+    util-linux-native \
+    openssl-native \
+    xar-native \
+    libtapi-native \
+    libdispatch-native \
+"
+
 PROVIDES = "virtual/${TARGET_PREFIX}binutils"
 
-DEPENDS += "clang-native libcxx-native"
+DEPENDS += " \
+    clang-native \
+    libcxx-native \
+"
 
 TOOLCHAIN:class-crosssdk = "clang"
 COMPILER_RT:class-crosssdk = "-rtlib=libgcc --unwindlib=libgcc"
