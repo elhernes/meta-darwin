@@ -1,8 +1,7 @@
 # Copyright (C) 2020 Dominik Schnitzer <dominik@snap.com>
 # Released under the MIT license (see COPYING.MIT for the terms)
 
-TAPI_REPOSITORY="1100.0.11"
-TAPI_VERSION="11.0.0"
+TAPI_VERSION="1300.6.5"
 
 SUMMARY = "Apple libtapi for tdb support"
 HOMEPAGE = "https://github.com/tpoechtrager/apple-libtapi"
@@ -11,39 +10,44 @@ LIC_FILES_CHKSUM = "file://${WORKDIR}/git/LICENSE.APPLE-LIBTAPI.txt;md5=ecd05d65
 
 SECTION = "devel"
 
-SRCREV = "b7b5bdbfda9e8062d405b48da3b811afad98ae76"
+SRCREV = "aa37c11ad1a817248c9d1578ac99e133875b4eb5"
 SRC_URI = "git://github.com/tpoechtrager/apple-libtapi.git;nobranch=1;protocol=https"
 
 PACKAGES = "${PN}-dbg ${PN} ${PN}-dev"
-
-OECMAKE_GENERATOR = "Unix Makefiles"
 
 inherit cmake native
 
 S = "${WORKDIR}/git/src/llvm"
 B = "${WORKDIR}/build"
 
-DEPENDS += "clang-native libcxx-native"
+DEPENDS += " \
+    clang-native \
+    libcxx-native \
+"
 
 TOOLCHAIN:class-native = "clang"
 COMPILER_RT:class-native = "-rtlib=libgcc --unwindlib=libgcc"
 LIBCPLUSPLUS:class-native = "-stdlib=libc++ -lc++abi"
 
-CXXFLAGS:append = " -I${WORKDIR}/git/src/llvm/projects/clang/include -I${B}/projects/clang/include"
+CXXFLAGS += " \
+    -I${WORKDIR}/git/src/llvm/projects/clang/include \
+    -I${B}/projects/clang/include \
+"
 
 EXTRA_OECMAKE:append = " \
  -DLLVM_INCLUDE_TESTS=OFF \
- -DTAPI_REPOSITORY_STRING=${TAPI_REPOSITORY} \
+ -DLLVM_ENABLE_PROJECTS='tapi;clang' \
+ -DTAPI_REPOSITORY_STRING=${TAPI_VERSION} \
  -DTAPI_FULL_VERSION=${TAPI_VERSION} \
  -DCMAKE_POSITION_INDEPENDENT_CODE=ON \
 "
 
 do_compile() {
     cd ${B}
-    make -j clangBasic
-    make -j libtapi
+    ninja clangBasic
+    ninja libtapi
 }
 
 do_install() {
-    DESTDIR='${D}' make install-libtapi install-tapi-headers
+    DESTDIR='${D}' ninja install-libtapi install-tapi-headers
 }
