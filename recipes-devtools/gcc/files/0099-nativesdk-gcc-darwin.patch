@@ -11,11 +11,11 @@ Signed-off-by: Etienne Cordonnier <ecordonnier@snap.com>
  gcc/config/darwin.h   | 5 +----
  2 files changed, 3 insertions(+), 6 deletions(-)
 
-diff --git a/gcc/config/darwin-c.cc b/gcc/config/darwin-c.cc
-index 8b3dec25476..a3c71f109a8 100644
---- a/gcc/config/darwin-c.cc
-+++ b/gcc/config/darwin-c.cc
-@@ -479,8 +479,8 @@ darwin_register_objc_includes (const char *sysroot ATTRIBUTE_UNUSED,
+Index: gcc-13.3.0/gcc/config/darwin-c.cc
+===================================================================
+--- gcc-13.3.0.orig/gcc/config/darwin-c.cc
++++ gcc-13.3.0/gcc/config/darwin-c.cc
+@@ -479,8 +479,8 @@ darwin_register_objc_includes (const cha
       /* See if our directory starts with the standard prefix.
  	 "Translate" them, i.e. replace /usr/local/lib/gcc... with
  	 IPREFIX and search them first.  */
@@ -26,19 +26,19 @@ index 8b3dec25476..a3c71f109a8 100644
  	{
  	  str = concat (iprefix, fname + len, NULL);
  	  add_path (str, INC_SYSTEM, /*c++aware=*/true, false);
-diff --git a/gcc/config/darwin.h b/gcc/config/darwin.h
-index 3206b70c7c2..59c25c88035 100644
---- a/gcc/config/darwin.h
-+++ b/gcc/config/darwin.h
-@@ -384,6 +384,7 @@ extern GTY(()) int darwin_ms_struct;
- 	%:version-compare(>= 10.11 asm_macosx_version_min= ___emutls_register_common) \
+Index: gcc-13.3.0/gcc/config/darwin.h
+===================================================================
+--- gcc-13.3.0.orig/gcc/config/darwin.h
++++ gcc-13.3.0/gcc/config/darwin.h
+@@ -393,6 +393,7 @@ extern GTY(()) int darwin_ms_struct;
+ 	  -exported_symbol ___gcc_nested_func_ptr_deleted \
        }} \
      }}}\
 +    %{!nostdlib++:}\
      %{!r:%{!nostdlib:%{!nostartfiles:%E}}} %{T*} %{F*} "\
      DARWIN_PIE_SPEC \
      DARWIN_NOPIE_SPEC \
-@@ -427,10 +428,6 @@ extern GTY(()) int darwin_ms_struct;
+@@ -436,10 +437,6 @@ extern GTY(()) int darwin_ms_struct;
     isysroot is specified.  */
  #define LINK_SYSROOT_SPEC "%{isysroot*:-syslibroot %*} "
  
@@ -49,6 +49,3 @@ index 3206b70c7c2..59c25c88035 100644
  
  /* Please keep the random linker options in alphabetical order.
     Note that options taking arguments may appear multiple times on a command
--- 
-2.36.1.vfs.0.0
-

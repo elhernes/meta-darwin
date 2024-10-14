@@ -10,9 +10,13 @@ do_install:darwin21 () {
     install -d ${D}${libdir}
     cp ${B}/${TARGET_SYS}/${BPN}/libgcc_s.1.1.dylib ${D}${libdir}
     cp ${B}/${TARGET_SYS}/${BPN}/libemutls_w.a ${D}${libdir}
+    cp ${B}/${TARGET_SYS}/${BPN}/libheapt_w.a ${D}${libdir}
+    cp ${B}/${TARGET_SYS}/${BPN}/libgcc.a ${D}${libdir}
+    cp ${B}/${TARGET_SYS}/${BPN}/libgcc_eh.a ${D}${libdir}
+    cp ${B}/${TARGET_SYS}/${BPN}/libgcov.a ${D}${libdir}
     ln -s libgcc_s.1.1.dylib ${D}${libdir}/libgcc.dylib
     ln -s libgcc_s.1.1.dylib ${D}${libdir}/libgcc_s.dylib
     ${TARGET_SYS}-install_name_tool -id ${libdir}/libgcc_s.1.1.dylib ${D}/${libdir}/libgcc_s.1.1.dylib
 }
 
-FILES:${PN}:append:darwin21 = " ${libdir}"
+PACKAGES:append:darwin21 = " ${PN}-staticdev"

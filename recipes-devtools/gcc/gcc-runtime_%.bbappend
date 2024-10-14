@@ -22,7 +22,7 @@ do_configure () {
 		cd ${B}/${TARGET_SYS}/$d/
 		chmod a+x ${S}/$d/configure
 		relpath=${@os.path.relpath("${S}/$d", "${B}/${TARGET_SYS}/$d")}
-		$relpath/configure ${CONFIGUREOPTS} ${EXTRA_OECONF}
+		$relpath/configure ${CONFIGUREOPTS} ${EXTRA_OECONF} --disable-bootstrap
 		if [ "$d" = "libgcc" ]; then
 			(cd ${B}/${TARGET_SYS}/libgcc; oe_runmake enable-execute-stack.c unwind.h md-unwind-support.h sfp-machine.h gthr-default.h)
 		fi
