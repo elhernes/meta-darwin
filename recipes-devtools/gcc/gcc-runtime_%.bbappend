@@ -1,5 +1,6 @@
 EXTRA_OECONF:remove:darwin21 = "--enable-clocale=gnu"
 EXTRA_OECONF:remove:darwin21 = "--enable-clocale=generic"
+EXTRA_OECONF:append:darwin21 = " --disable-darwin-at-rpath"
 
 RUNTIMETARGET:remove:darwin21 = "libmpx"
 

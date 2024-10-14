@@ -6,6 +6,7 @@ Upstream-Status: Pending
 aarch64 Darwin support for GCC 13.3 from:
 https://github.com/iains/gcc-13-branch/
 
+Signed-off-by: Iain Sandoe <iains@gcc.gnu.org>
 Signed-off-by: Dominik Schnitzer <dominik@snap.com>
 ---
 
