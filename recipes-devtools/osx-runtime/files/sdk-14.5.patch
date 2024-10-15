@@ -1,0 +1,18 @@
+From: Dominik Schnitzer <dominik@snap.com>
+Date: Mon, 17 Mar 2025 10:22:17 +0000
+Subject: [PATCH] Handle __FLT_EVAL_METHOD__ == 16
+
+Upstream-Status: Inappropriate [OE specific]
+Signed-off-by: Dominik Schnitzer <dominik@snap.com>
+diff -ru OSX-sdk-orig/usr/include/math.h OSX-sdk/usr/include/math.h
+--- OSX-sdk-orig/usr/include/math.h	2024-10-16 20:10:36.199787938 +0200
++++ OSX-sdk/usr/include/math.h	2024-10-16 20:21:31.536514706 +0200
+@@ -41,7 +41,7 @@
+     taking advantage of GCC's __FLT_EVAL_METHOD__ (which a compiler may
+     define anytime and GCC does) that shadows FLT_EVAL_METHOD (which a
+     compiler must define only in float.h).                                    */
+-#if __FLT_EVAL_METHOD__ == 0 || __FLT_EVAL_METHOD__ == -1
++#if __FLT_EVAL_METHOD__ == 0 || __FLT_EVAL_METHOD__ == -1 || __FLT_EVAL_METHOD__ == 16
+     typedef float float_t;
+     typedef double double_t;
+ #elif __FLT_EVAL_METHOD__ == 1

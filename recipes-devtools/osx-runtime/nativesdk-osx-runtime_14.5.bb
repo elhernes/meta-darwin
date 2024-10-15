@@ -1,18 +1,22 @@
-DESCRIPTION = "Runtime libraries from OSX"
+DESCRIPTION = "Runtime libraries for MacOS"
 LICENSE = "Proprietary"
 
 COMPATIBLE_HOST = ".*-darwin.*"
 
-OSX_SDK ?= "file://OSX-sdk.zip"
+OSX_SDK ?= "git://github.com/alexey-lysiuk/macos-sdk.git;nobranch=1;protocol=https;subpath=MacOSX14.5.sdk;destsuffix=git"
+SRCREV = "69ddec41e6224afebd5f19bb24764305ac3e828a"
 
-SRC_URI = "${OSX_SDK} \
-           file://LICENSE"
+SRC_URI = " \
+    ${OSX_SDK} \
+    file://sdk-14.5.patch \
+    file://LICENSE \
+"
 
 LIC_FILES_CHKSUM = "file://${WORKDIR}/LICENSE;md5=03fe683ef28b9ddfe7f658a0f4b3b80e"
 
 PR = "1"
 
-S = "${WORKDIR}/OSX-sdk"
+S = "${WORKDIR}/git"
 
 inherit nativesdk
 
@@ -48,7 +52,7 @@ do_configure() {
 
 do_install () {
     mkdir -p ${D}
-	cp -r ${WORKDIR}/OSX-sdk/* ${D}/
+    cp -r ${S}/* ${D}/
 }
 
 do_stash_locale () {
@@ -59,12 +63,19 @@ ALLOW_EMPTY:${PN} = "1"
 
 PACKAGES = "${PN} ${PN}-dontship"
 
-FILES:${PN}-dontship = "/usr /System /Entitlements.plist /SDKSettings.json /SDKSettings.plist /Library"
+FILES:${PN}-dontship = " \
+    /usr \
+    /System \
+    /Entitlements.plist \
+    /SDKSettings.json \
+    /SDKSettings.plist \
+    /Library \
+    /patches \
+"
 
 SYSROOT_DIRS_NATIVE:append = " ${SDKPATHNATIVE}/runtime"
 SYSROOT_DIRS:append = " ${SDKPATHNATIVE}/runtime"
 
 sysroot_stage_all:append() {
-	sysroot_stage_dir ${D} ${SYSROOT_DESTDIR}${SDKPATHNATIVE}/runtime
+    sysroot_stage_dir ${D} ${SYSROOT_DESTDIR}${SDKPATHNATIVE}/runtime
 }
-

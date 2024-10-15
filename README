@@ -3,30 +3,10 @@ meta-darwin
 
 OpenEmbedded meta layer for darwin based SDKs
 
-Note: Only macOS SDK version 12.3 (Darwin 21) is supported.
+Note: Only macOS SDK version 14.5 (>=Darwin 21) is supported.
 
 Ensure you have read and understood the Xcode license terms:
 https://www.apple.com/legal/sla/docs/xcode.pdf
-
-You also need a macOS sysroot tarball/zip file generated (copied) from a target macOS
-system. This is placed in the osx-runtime files directory and is used to compile the SDK
-against it. It needs to contain the system libraries (/usr/lib) and include files 
-(/usr/include). This tarball is not part of this meta-darwin layer and must be
-created by the user. To create it, the user is required to have a legitimate Mac computer
-with macOS 12.3 or later and with Xcode installed.
-
-Information on packaging the SDK is available at:
-https://github.com/tpoechtrager/osxcross#packaging-the-sdk
-
-Copy the created OSX-sdk.zip file to your Yocto development machine, placing it into
-meta-darwin layer:
-
- <...>/meta-darwin/recipes-devtools/osx-runtime/files
-
-You can alternatively add a nativesdk-osx-runtime_%.bbappend file to your
-layer and override SRC_URI and do_configure() to extract the SDK from
-a different location.
-
 
 This layer depends on:
 
