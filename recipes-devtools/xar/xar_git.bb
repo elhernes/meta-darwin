@@ -3,7 +3,7 @@ HOMEPAGE = "https://github.com/tpoechtrager/xar"
 LICENSE = "BSD-3-Clause"
 SECTION = "devel"
 
-SRCREV = "2b9a4ab7003f1db8c54da4fea55fcbb424fdecb0"
+SRCREV = "5fa4675419cfec60ac19a9c7f7c2d0e7c831a497"
 SRC_URI = " \
     git://github.com/tpoechtrager/xar.git;branch=master;protocol=https \
     file://0001-fix-compilation-error.patch \
