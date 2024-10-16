@@ -5,17 +5,11 @@ Subject: [PATCH] Fixes for Darwin SDKs
 
 Upstream-Status: Inappropriate [OE specific]
 Signed-off-by: Dominik Schnitzer <dominik@snap.com>
----
- clang/lib/Driver/ToolChains/Darwin.cpp | 17 ++++++++++++-----
- llvm/cmake/modules/AddLLVM.cmake       |  1 -
- llvm/cmake/modules/CrossCompile.cmake  |  2 +-
- 3 files changed, 13 insertions(+), 7 deletions(-)
-
-diff --git a/clang/lib/Driver/ToolChains/Darwin.cpp b/clang/lib/Driver/ToolChains/Darwin.cpp
-index f7da3f187814..0656f5cbad69 100644
---- a/clang/lib/Driver/ToolChains/Darwin.cpp
-+++ b/clang/lib/Driver/ToolChains/Darwin.cpp
-@@ -2299,12 +2299,19 @@ void DarwinClang::AddClangCXXStdlibIncludeArgs(
+Index: llvm-project-18.1.5.src/clang/lib/Driver/ToolChains/Darwin.cpp
+===================================================================
+--- llvm-project-18.1.5.src.orig/clang/lib/Driver/ToolChains/Darwin.cpp
++++ llvm-project-18.1.5.src/clang/lib/Driver/ToolChains/Darwin.cpp
+@@ -2583,12 +2583,19 @@ void DarwinClang::AddClangCXXStdlibInclu
      case llvm::Triple::x86:
      case llvm::Triple::x86_64:
        IsBaseFound = AddGnuCPlusPlusIncludePaths(DriverArgs, CC1Args, UsrIncludeCxx,
@@ -40,11 +34,33 @@ index f7da3f187814..0656f5cbad69 100644
        break;
  
      case llvm::Triple::arm:
-diff --git a/llvm/cmake/modules/AddLLVM.cmake b/llvm/cmake/modules/AddLLVM.cmake
-index d34083fa52ec..477dc1ade3fc 100644
---- a/llvm/cmake/modules/AddLLVM.cmake
-+++ b/llvm/cmake/modules/AddLLVM.cmake
-@@ -2137,7 +2137,6 @@ function(llvm_setup_rpath name)
+@@ -2605,9 +2612,19 @@
+ 
+     case llvm::Triple::aarch64:
+       IsBaseFound = AddGnuCPlusPlusIncludePaths(DriverArgs, CC1Args, UsrIncludeCxx,
+-                                                "4.2.1",
+-                                                "arm64-apple-darwin10",
++                                                "13.3.0",
++                                                "aarch64#SDK_VENDOR#-darwin21",
+                                                 "");
++      IsBaseFound |= AddGnuCPlusPlusIncludePaths(DriverArgs, CC1Args, UsrIncludeCxx,
++                                                "13.3.0", "", "");
++      {
++          const char *S = ::getenv("YOCTO_SDKPATH");
++          if (S && (S[0] != '\0')) {
++              llvm::SmallString<128> Runtime;
++              llvm::sys::path::append(Runtime, S);
++              addSystemInclude(DriverArgs, CC1Args, Runtime);
++          }
++      }
+       break;
+     }
+ 
+Index: llvm-project-18.1.5.src/llvm/cmake/modules/AddLLVM.cmake
+===================================================================
+--- llvm-project-18.1.5.src.orig/llvm/cmake/modules/AddLLVM.cmake
++++ llvm-project-18.1.5.src/llvm/cmake/modules/AddLLVM.cmake
+@@ -2368,7 +2368,6 @@ function(llvm_setup_rpath name)
    endif()
  
    if (APPLE)
@@ -52,12 +68,12 @@ index d34083fa52ec..477dc1ade3fc 100644
      set(_install_rpath "@loader_path/../lib${LLVM_LIBDIR_SUFFIX}" ${extra_libdir})
    elseif(${CMAKE_SYSTEM_NAME} MATCHES "AIX" AND BUILD_SHARED_LIBS)
      # $ORIGIN is not interpreted at link time by aix ld.
-diff --git a/llvm/cmake/modules/CrossCompile.cmake b/llvm/cmake/modules/CrossCompile.cmake
-index 8a441729c943..8e19e4c93d9f 100644
---- a/llvm/cmake/modules/CrossCompile.cmake
-+++ b/llvm/cmake/modules/CrossCompile.cmake
-@@ -68,7 +68,7 @@ function(llvm_create_cross_target project_name target_name toolchain buildtype)
-   endforeach()
+Index: llvm-project-18.1.5.src/llvm/cmake/modules/CrossCompile.cmake
+===================================================================
+--- llvm-project-18.1.5.src.orig/llvm/cmake/modules/CrossCompile.cmake
++++ llvm-project-18.1.5.src/llvm/cmake/modules/CrossCompile.cmake
+@@ -72,7 +72,7 @@ function(llvm_create_cross_target projec
+   endif()
  
    add_custom_command(OUTPUT ${${project_name}_${target_name}_BUILD}/CMakeCache.txt
 -    COMMAND ${CMAKE_COMMAND} -G "${CMAKE_GENERATOR}"
