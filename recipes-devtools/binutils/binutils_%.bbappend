@@ -15,3 +15,10 @@ INSANE_SKIP:nativesdk-binutils = "debug-files"
 
 # nativesdk-binutils's libctf doesn't compile. disable it
 PACKAGECONFIG[libctf] = "--enable-libctf=yes,--enable-libctf=no"
+
+# perl tries to call readelf, which does not exist on darwin (it would need
+# to call objdump instead but the detection logic does not work for some reason)
+RDEPENDS:gprofng:class-nativesdk:remove = " nativesdk-perl-module-bignum \
+                                     nativesdk-perl-module-bigint \
+                                     nativesdk-perl-module-math-bigint \
+"
