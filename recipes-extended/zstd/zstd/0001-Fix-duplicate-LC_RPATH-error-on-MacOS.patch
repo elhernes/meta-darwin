@@ -1,0 +1,48 @@
+From 30a4af206739e37d6203747792a6b15bf952483d Mon Sep 17 00:00:00 2001
+From: Etienne Cordonnier <ecordonnier@snap.com>
+Date: Fri, 18 Apr 2025 14:37:50 +0200
+Subject: [PATCH] Fix duplicate LC_RPATH error on MacOS
+
+After the update to MacOS 15.4, the dynamic loader dyld treats duplicated LC_RPATH as an error.
+The `FLAGS` variable already contains `LDFLAGS`, thus using both `FLAGS` and `LDFLAGS`
+duplicates all `LDFLAGS`, including `-Wl,rpath` parameters.
+
+The duplicate LC_RPATH causes this kind of errors:
+
+```
+dyld[29361]: Library not loaded: @loader_path/../lib/libzstd.1.dylib
+      Referenced from: <7131C877-3CF0-33AC-AA05-257BA4FDD770> /Users/foobar/...
+      Reason: tried: '/Users/foobar/..../lib/libzstd.1.dylib' (duplicate LC_RPATH '/usr/mypath.../lib')
+```
+
+Upstream-Status: Pending
+Signed-off-by: Etienne Cordonnier <ecordonnier@snap.com>
+---
+ lib/Makefile | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/lib/Makefile b/lib/Makefile
+index a4cf61ab..e1ffba91 100644
+--- a/lib/Makefile
++++ b/lib/Makefile
+@@ -160,7 +160,7 @@ $(ZSTD_DYNLIB): $(ZSTD_DYNLIB_OBJ)
+ 	$(if $(filter -DZSTD_MULTITHREAD,$(CPPFLAGS)),\
+     @echo compiling multi-threaded dynamic library $(LIBVER),\
+     @echo compiling single-threaded dynamic library $(LIBVER))
+-	$(CC) $(FLAGS) $^ $(LDFLAGS) $(SONAME_FLAGS) -o $@
++	$(CC) $(FLAGS) $^ $(SONAME_FLAGS) -o $@
+ 	@echo creating versioned links
+ 	ln -sf $@ libzstd.$(SHARED_EXT_MAJOR)
+ 	ln -sf $@ libzstd.$(SHARED_EXT)
+@@ -236,7 +236,7 @@ libzstd-nomt: LDFLAGS += -shared
+ libzstd-nomt: $(ZSTD_NOMT_FILES)
+ 	@echo compiling single-thread dynamic library $(LIBVER)
+ 	@echo files : $(ZSTD_NOMT_FILES)
+-	$(CC) $(FLAGS) $^ $(LDFLAGS) $(SONAME_FLAGS) -o $@
++	$(CC) $(FLAGS) $^ $(SONAME_FLAGS) -o $@
+ 
+ .PHONY: clean
+ clean:
+-- 
+2.43.0
+
