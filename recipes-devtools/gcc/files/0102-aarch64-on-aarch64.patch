@@ -1,5 +1,5 @@
---- gcc-13.4.0/gcc/config.host~0	2026-01-08 19:25:43.955802010 +0000
-+++ gcc-13.4.0/gcc/config.host	2026-01-08 19:29:06.929842007 +0000
+--- gcc-13.4.0/gcc/config.host~	2026-01-08 23:01:47.056268010 +0000
++++ gcc-13.4.0/gcc/config.host	2026-01-08 23:10:07.958588006 +0000
 @@ -102,6 +102,9 @@
    aarch64*-*-freebsd* | aarch64*-*-linux* | aarch64*-*-fuchsia* |\
    aarch64*-*-darwin*)
@@ -10,10 +10,10 @@
        aarch64*-*-*)
  	host_extra_gcc_objs="driver-aarch64.o"
  	host_xmake_file="${host_xmake_file} aarch64/x-aarch64"
---- gcc-13.4.0/gcc/config/aarch64/aarch64.h~	2026-01-08 19:34:18.869922013 +0000
-+++ gcc-13.4.0/gcc/config/aarch64/aarch64.h	2026-01-08 21:04:46.987826011 +0000
-@@ -1223,0 +1223,0 @@
-
+--- gcc-13.4.0/gcc/config/aarch64/aarch64.h~	2026-01-08 23:01:46.859268010 +0000
++++ gcc-13.4.0/gcc/config/aarch64/aarch64.h	2026-01-08 23:08:14.417236009 +0000
+@@ -1223,7 +1223,14 @@
+ 
  /* Extra specs when building a native AArch64-hosted compiler.
     Option rewriting rules based on host system.  */
 -#if defined(__aarch64__)
