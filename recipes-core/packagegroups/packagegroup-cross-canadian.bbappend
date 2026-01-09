@@ -7,5 +7,6 @@ CLANG = "clang-cross-canadian-${TRANSLATED_TARGET_ARCH}"
 RDEPENDS:${PN}:darwinsdk = "\
     ${@all_multilib_tune_values(d, 'BINUTILS')} \
     ${@all_multilib_tune_values(d, 'GCC')} \
+    ${GDB} \
     meta-environment-${MACHINE} \
     "
