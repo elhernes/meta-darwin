@@ -10,3 +10,5 @@ RDEPENDS:${PN}:darwinsdk = "\
     ${GDB} \
     meta-environment-${MACHINE} \
     "
+
+RDEPENDS:${PN}:darwinsdk += "${@bb.utils.contains('CLANGSDK', '1', '${CLANGCROSSCANADIANDEPS}', '', d)}"
