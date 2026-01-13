@@ -1,0 +1,59 @@
+##  template variables (sandwiched by @@)
+##
+##  sdk_install_path : The installed path of the SDK with sysroots
+##                   (e.g. "/Volumes/oe-sdk-xx")
+##
+##  toolchain_tuple : The tuple for the toolchain
+##                    (e.g "aarch64-oe-linux")
+##
+##  target_tuple : The tupole for the target machine/system
+##                 (e.g. "armv8a-oe-linux")
+##
+##  oesdk_tuple : The tuple for the nativesdk build
+##                (e.g. "aarch64-oesdk-darwin21")
+##
+##  target_architecture : The target machine architecture
+##                        (e.g. "aarch64")
+
+[constants]
+oe_sdk = '@sdk_install_path@'
+tc_tuple = '@toolchain_tuple@'
+oe_target = '@target_tuple@'
+oesdk_tuple = '@oesdk_tuple@'
+
+x_sysroot = oe_sdk / 'sysroots' /  oe_target
+h_sysroot = oe_sdk / 'sysroots' / oesdk_tuple
+h_bin = h_sysroot / 'usr/bin' / tc_tuple
+
+#export PKG_CONFIG_SYSROOT_DIR=$SDKTARGETSYSROOT
+#export PKG_CONFIG_PATH=$SDKTARGETSYSROOT/usr/lib/pkgconfig:$SDKTARGETSYSROOT/usr/share/pkgconfig
+
+[binaries-clang]
+c = h_bin / tc_tuple + '-clang'
+cpp = h_bin / tc_tuple + '-clang++'
+ar = h_bin / tc_tuple + '-llvm-ar'
+strip = h_bin / tc_tuple + '-llvm-strip'
+pkg-config = 'pkg-config'
+
+[binaries-gcc]
+c = h_bin / tc_tuple + '-gcc'
+cpp = h_bin / tc_tuple + '-g++'
+ar = h_bin / tc_tuple + '-ar'
+strip = h_bin / tc_tuple + '-strip'
+pkg-config = 'pkg-config'
+
+[properties]
+sys_root = x_sysroot
+pkg_config_libdir = [ x_sysroot / 'usr/lib/pkgconfig', x_sysroot / 'usr/share/pkgconfig']
+
+[host_machine]
+system = 'macOS'
+cpu_family = 'aarch64'
+cpu = 'aarch64'
+endian = 'little'
+
+[built-in options]
+c_args = ['--sysroot=' + x_sysroot]
+cpp_args = ['--sysroot=' + x_sysroot]
+c_link_args = ['--sysroot=' + x_sysroot]
+cpp_link_args = ['--sysroot=' + x_sysroot]
