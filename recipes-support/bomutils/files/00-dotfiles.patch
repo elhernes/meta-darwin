@@ -1,0 +1,48 @@
+diff --git a/build.mk b/build.mk
+index 847fac1..5c795f8 100644
+--- a/build.mk
++++ b/build.mk
+@@ -73,7 +73,6 @@ $(BUILD_OBJ_DIR)/%.d : %.cpp
+ $(BUILD_BIN_DIR)/%$(SUFFIX) : $(BUILD_OBJ_DIR)/%.o $(COMMON_OBJECTS)
+ 	@mkdir -p $(BUILD_BIN_DIR)
+ 	$(CXX) -o $@ $(LDFLAGS) $^ $(LIBS)
+-	@strip --strip-unneeded $@
+ 
+ $(BUILD_MAN_DIR)/%.1.gz : %.1
+ 	@mkdir -p $(BUILD_MAN_DIR)
+@@ -91,4 +90,4 @@ clean :
+ 	rm -rf $(BUILD_DIR)
+ 
+ docker-image :
+-	docker build -t bomutils .
+\ No newline at end of file
++	docker build -t bomutils .
+diff --git a/src/printnode.cpp b/src/printnode.cpp
+index 978987b..70d1c06 100644
+--- a/src/printnode.cpp
++++ b/src/printnode.cpp
+@@ -34,6 +34,7 @@
+ 
+ #include "printnode.hpp"
+ #include "crc32.hpp"
++#include <string>
+ 
+ using namespace std;
+ 
+@@ -78,12 +79,13 @@ void print_node( ostream & output, const string & base, const string & system_pa
+     DIR * d = opendir( fullpath.c_str() );
+     struct dirent * dir;
+     while ( ( dir = readdir( d ) ) != NULL ) {
+-      if ( dir->d_name[0] != '.' ) {
++      std::string d_name = dir->d_name;
++      if ( (d_name != ".") && (d_name != "..") ) {
+         string new_path(path);
+-        new_path += string( "/" ) + string( dir->d_name );
++        new_path += string( "/" ) + d_name;
+ #if defined(WINDOWS)
+         string new_system_path(system_path);
+-        new_system_path += string( "\\" ) + string( dir->d_name );
++        new_system_path += string( "\\" ) + d_name;
+ #else
+         string new_system_path( new_path );
+ #endif

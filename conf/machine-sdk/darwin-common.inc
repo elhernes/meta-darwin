@@ -15,6 +15,9 @@ SDKIMAGE_LINGUAS = ""
 SDK_DEPENDS:remove = "nativesdk-glibc-locale nativesdk-qemuwrapper-cross"
 SDK_NAME_PREFIX = "oecore-darwin"
 
+SDK_DEPENDS:append = " bomutils-native"
+SDK_DEPENDS:append = " xar-native"
+
 SDKPKGSUFFIX = "nativesdk-darwin"
 
 OSX_TOOLCHAIN_OPTIONS = " \
@@ -38,10 +41,66 @@ BUILDSDK_LDFLAGS = " \
 MACHINEOVERRIDES .= ":darwinsdk"
 
 TOOLCHAIN_SHAR_EXT_TMPL ?= "${DARWINBASE}/conf/files/dw-toolchain-shar-extract.sh"
-SDK_PACKAGING_FUNC ?= "dw_create_shar"
+SDK_PACKAGING_FUNC ?= "dw_create_bundle"
+SDK_POSTPROCESS_COMMAND:prepend = " dw_gen_cross_toolchain_files "
+SDK_POSTPROCESS_COMMAND:append = " dw_create_macos_pkg "
 
-fakeroot dw_create_shar() {
-	# copy in the template shar extractor script
+#
+# remove these to speed up testing the macos pkg
+SDK_POSTPROCESS_COMMAND:remove = " ${SDK_PACKAGING_FUNC}"
+SDK_POSTPROCESS_COMMAND:remove = " archive_sdk"
+
+#
+# it might be better to .bbappend and include with the cmake/meson nativesdk recipes.
+# it is more related to the SDK than the individual recipes though.
+fakeroot dw_gen_cross_toolchain_files() {
+
+  # this is mostly copied/simplified from
+  #  poky/meta/classes-recipe/toolchain-scripts.bbclass
+  sdkpathnative=${SDKPATHNATIVE}
+  bindir=${bindir_nativesdk}
+  sbindir=$sbindir_nativesdk}
+  base_bindir=${base_bindir_nativesdk}
+  base_sbindir=${base_sbindir_nativesdk}
+  extrapath=""
+  for i in ${CANADIANEXTRAOS}; do
+    extrapath="$extrapath:$sdkpathnative$bindir/${TARGET_ARCH}${TARGET_VENDOR}-$i"
+  done
+
+  exe_path="$sdkpathnative$bindir:$sdkpathnative$sbindir:$sdkpathnative$base_bindir:$sdkpathnative$base_sbindir:$sdkpathnative$bindir/../${HOST_SYS}/bin:$sdkpathnative$bindir/${TARGET_SYS}:$extrapath"
+
+  # substitute variables in cross toolchain files:
+
+  sed -e "s#@oecore_target_arch@#${TARGET_ARCH}#g" \
+    -e "s#@target_prefix@#${TARGET_PREFIX}#g" \
+    -e "s#@sdk_target_sysroot@#${SDKTARGETSYSROOT}#g" \
+    -e "s#@oecore_native_sysroot@#${sdkpathnative}#g" \
+    -e "s#@sdk_exec_path@#${exe_path}#g" \
+    ${DARWINBASE}/conf/files/oesdk-toolchain.cmake.in \
+    > ${SDK_OUTPUT}/${SDKPATH}/oesdk-toolchain.cmake
+
+  sed -e "s#@oecore_target_arch@#${TARGET_ARCH}#g" \
+    -e "s#@target_prefix@#${TARGET_PREFIX}#g" \
+    -e "s#@sdk_target_sysroot@#${SDKTARGETSYSROOT}#g" \
+    -e "s#@oecore_native_sysroot@#${sdkpathnative}#g" \
+    -e "s#@sdk_exec_path@#${exe_path}#g" \
+    ${DARWINBASE}/conf/files/oesdk-toolchain.meson.in \
+    > ${SDK_OUTPUT}/${SDKPATH}/oesdk-toolchain.meson
+
+}
+
+fakeroot dw_create_macos_pkg() {
+   echo dw_create_macos_pkg
+   #
+   # SDKDEPLOYDIR is local to recipe work; SDK_DEPLOY is from
+   sdk_pkg="${SDKDEPLOYDIR}/${TOOLCHAIN_OUTPUTNAME}.pkg"
+   (cd ${B}; ${DARWINBASE}/conf/files/mk-macos-pkg.sh "${SDK_TITLE}" "${SDK_VERSION}" "${SDK_OUTPUT}/${SDKPATH}" "${sdk_pkg}")
+   ls -lh "${sdk_pkg}"
+}
+
+fakeroot dw_create_bundle() {
+# copy in the template shar extractor script
+
 	cp ${TOOLCHAIN_SHAR_EXT_TMPL} ${SDKDEPLOYDIR}/${TOOLCHAIN_OUTPUTNAME}.sh
 
 	rm -f ${T}/pre_install_command ${T}/post_install_command

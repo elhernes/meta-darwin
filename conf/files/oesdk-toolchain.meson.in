@@ -6,7 +6,7 @@
 ##  toolchain_tuple : The tuple for the toolchain
 ##                    (e.g "aarch64-oe-linux")
 ##
-##  target_tuple : The tupole for the target machine/system
+##  target_tuple : The tuple for the target machine/system
 ##                 (e.g. "armv8a-oe-linux")
 ##
 ##  oesdk_tuple : The tuple for the nativesdk build
@@ -47,9 +47,9 @@ sys_root = x_sysroot
 pkg_config_libdir = [ x_sysroot / 'usr/lib/pkgconfig', x_sysroot / 'usr/share/pkgconfig']
 
 [host_machine]
-system = 'macOS'
-cpu_family = 'aarch64'
-cpu = 'aarch64'
+system = 'linux'
+cpu_family = '@target_architecture@' 
+cpu = '@target_architecture@' 
 endian = 'little'
 
 [built-in options]
