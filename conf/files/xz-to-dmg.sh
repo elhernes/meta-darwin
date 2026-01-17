@@ -1,12 +1,22 @@
 #!/bin/sh
 ##################################################
-## file: ../work/pdi/Portrait-Displays/apps/os/pdi-linux/pdi-linux/work/sdk/xz-to-dmg.sh
-##
-## (C) Copyright Portrait Displays, Inc 2026
+## file: meta-darwin/conf/files/xz-to-dmg.sh
 ##
 ## Original Author: Eric L. Hernes <ehernes@portrait.com>
 ##
-## /bin/sh script to do something
+## /bin/sh script to do macOS SDK for OpenEmbedded during install
+## this mostly to do things that cannot be done on Linux; or cannot
+## be known until install time.
+##
+## 1. code signing - as far as I know, this cannot be done on linux
+##
+## 2. relocate paths and scripts to installed absolute paths
+##
+## 3. fix any loader pathing - this would best be done in the specific recipes,
+##    but putting it here is a quick fix catch all
+##
+## 4. possibly build a DMG file of the installed files
+##
 ##
 
 ##codesign_id="Apple Development: ehernes@portrait.com (2D6ABSHU57)"

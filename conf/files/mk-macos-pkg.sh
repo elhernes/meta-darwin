@@ -34,8 +34,7 @@ echo "SDK will contain ${count} files and consume ${kbytes}K bytes"
 
 org_id=org.openembedded.sdk
 
-bundle_id="${org_id}.${pkg_name}"
-pkg_id=${pkg_name}.pkg
+pkg_id="${org_id}.${pkg_name}.pkg"
 
 flat=dist/Package.pkg
 
@@ -64,7 +63,7 @@ dd if=/dev/random of=scripts/datafile bs=1024k count=3
 # Install files to /Library/Developer/org.openembedded.sdk
 #
 cat > ${flat}/PackageInfo <<EOF
-<pkg-info format-version="2" identifier="${pkg_id}" version="${pkg_version}" relocatable="false" overwrite-permissions="false" followSymLinks="false" install-location="/Library/Developer/org.openembedded.sdk" auth="root">
+<pkg-info format-version="2" identifier="${pkg_id}" version="${pkg_version}" relocatable="false" overwrite-permissions="false" followSymLinks="false" install-location="/Library/Developer/org.openembedded.sdk/${sdk_name}" auth="root">
   <payload installKBytes="${kbytes}" numberOfFiles="${count}"/>
     <bundle-version/>
     <upgrade-bundle/>
