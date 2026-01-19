@@ -1,0 +1,30 @@
+--- gcc-13.4.0/gcc/config.host~	2026-01-08 23:01:47.056268010 +0000
++++ gcc-13.4.0/gcc/config.host	2026-01-08 23:10:07.958588006 +0000
+@@ -102,6 +102,9 @@
+   aarch64*-*-freebsd* | aarch64*-*-linux* | aarch64*-*-fuchsia* |\
+   aarch64*-*-darwin*)
+     case ${target} in
++      *-oesdk-*)
++      # don't add driver-aarch64.o for oesdk cross builds
++      ;;
+       aarch64*-*-*)
+ 	host_extra_gcc_objs="driver-aarch64.o"
+ 	host_xmake_file="${host_xmake_file} aarch64/x-aarch64"
+--- gcc-13.4.0/gcc/config/aarch64/aarch64.h~	2026-01-08 23:01:46.859268010 +0000
++++ gcc-13.4.0/gcc/config/aarch64/aarch64.h	2026-01-08 23:08:14.417236009 +0000
+@@ -1223,7 +1223,14 @@
+ 
+ /* Extra specs when building a native AArch64-hosted compiler.
+    Option rewriting rules based on host system.  */
+-#if defined(__aarch64__)
++
++//
++// XXX-ELH: we don't do this for crosssdk builds,
++// so how do we know that? For now we just pick a symbol that is defined in the build
++//
++// g++ -fno-PIE -dM -E  .....  -MT gcc.o -MMD -MP -MF ./.deps/gcc.TPo ../../../../../../../work-shared/gcc-13.4.0-r0/gcc-13.4.0/gcc/gcc.cc
++//
++#if defined(__aarch64__) && !defined(darwin_macosx_version_min)
+ extern const char *host_detect_local_cpu (int argc, const char **argv);
+ #define HAVE_LOCAL_CPU_DETECT
+ # define EXTRA_SPEC_FUNCTIONS                                           \
