@@ -35,3 +35,5 @@ BUILDSDK_LDFLAGS = " \
 "
 
 MACHINEOVERRIDES .= ":darwinsdk"
+
+TOOLCHAIN_SHAR_EXT_TMPL ?= "${DARWINBASE}/conf/files/darwin-toolchain-shar-extract.sh"
