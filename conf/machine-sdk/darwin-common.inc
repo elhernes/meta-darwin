@@ -46,13 +46,12 @@ SDK_POSTPROCESS_COMMAND:append = "${@bb.utils.contains('DARWIN_INSTALLER_DMG', '
 
 fakeroot dw_create_macos_pkg() {
    echo dw_create_macos_pkg
-   #
+
    # SDKDEPLOYDIR is local to recipe work; SDK_DEPLOY is from
 	 sdk_pkg="${SDKDEPLOYDIR}/${TOOLCHAIN_OUTPUTNAME}.pkg"
-   echo dw_create_macos_pkg: ${sdk_pkg}
 
-#   (cd ${B}; ${DARWINBASE}/conf/files/mk-macos-pkg.sh "${SDK_TITLE}" "${SDK_NAME}" "${SDK_ARCH}" "${DISTRO_VERSION}.${SDK_VERSION}" "${SDK_OUTPUT}/${SDKPATH}" "${sdk_pkg}")
-#   ls -lh "${sdk_pkg}"
+   (cd ${B}; ${DARWINBASE}/conf/files/mk-macos-pkg.sh "${SDK_TITLE}" "${SDK_NAME}" "${SDK_ARCH}" "${DISTRO_VERSION}.${SDK_VERSION}" "${SDK_OUTPUT}/${SDKPATH}" "${sdk_pkg}")
+   ls -lh "${sdk_pkg}"
 }
 
 fakeroot dw_create_macos_dmg() {

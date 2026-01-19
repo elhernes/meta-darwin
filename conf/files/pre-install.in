@@ -1,0 +1,135 @@
+#!/usr/bin/osascript -l JavaScript
+/***************************************************
+ * file: meta-darwin/conf/files/pre-install.in
+ *
+ * @file    pre-install.jxa
+ * @version V1.0
+ *
+ * pre-install script for meta-darwin macOS SDK
+ *
+ * this script gets user options and sets up various things
+ * so that the files are installed properly in their final
+ * destination
+ *
+ */
+
+var seApp = Application("System Events");
+var oProcess = seApp.processes.whose({frontmost: true})[0];
+var appName = oProcess.displayedName();
+
+app = Application.currentApplication();
+
+app.includeStandardAdditions = true;
+
+retval = []
+
+function run(args) {
+
+  if (false) {
+    Progress.description =  "A simple progress indicator"
+    Progress.additionalDescription = "Preparing…"
+    delay(3)
+    Progress.totalUnitCount = 100;
+
+    for (var i = 1; i < 101; i++) {
+	Progress.additionalDescription = "I am on step " + i
+	Progress.completedUnitCount = i
+	delay(0.1)
+    }
+  }
+
+  if (true) {
+     user_id = app.doShellScript("id; echo -e '\n\n' uid:${UID}  euid:${EUID}; env")
+     var dialogText = "The current user identification is " + user_id + "\n\n";
+     dialogText += args.join("\n");
+     dialogText += "\n"
+     files = app.doShellScript("find ${PWD}")
+     dialogText += files + "\n"
+     app.displayDialog(dialogText)
+   }
+
+
+       if (true) {
+	locations = [
+	    "Default Location",
+	    "Create DMG",
+	    "Custom Location"
+	]
+
+	chosenLoc = app.chooseFromList(locations, {
+	    withTitle: "Installation Location",
+	    withPrompt: "Please select the location to install",
+	    defaultItems: [locations[0]],
+	    okButtonName: "OK",
+	    cancelButtonName: "Cancel",
+	    multipleSelectionsAllowed: false,
+	    emptySelectionAllowed: false,
+	})
+	if (chosenLoc == false) {
+	    return false
+	}
+
+	switch(chosenLoc[0]) {
+	case "Create DMG":
+	    dmgName = app.displayDialog(
+		'Create DMG', {
+		    defaultAnswer: 'oesdk-abcde-v.x',
+		    hiddenAnswer: false,
+		    buttons: ["Cancel", "OK"],
+		    defaultButton: "OK",
+		    cancelButton: 1,
+		    withTitle: "Enter name for the DMG",
+		})
+	    if (dmgName == false) {
+		return false
+	    }
+
+	    retval.push("dmg://" + dmgName["textReturned"])
+	    break;
+
+	case "Default Location":
+	    console.log("installing to default location")
+	    retval.push("default://")
+	    break;
+
+	case "Custom Location":
+	    const dest = app.chooseFolder({
+		withPrompt: "Please select the install location:",
+		multipleSelectionsAllowed: false,
+		defaultLocation: "/Applications"
+	    })
+	    if (dest == false) {
+		return false
+	    }
+	    retval.push("file://" + dest)
+	    break;
+
+	default:
+	    console.log("error, somewhow")
+	    return false
+	    break;
+	}
+    }
+
+    if (true) {
+	idstr = app.doShellScript("security -qq find-identity -v -p codesigning |cut -c47- |tr '\n' ';'")
+	idList = idstr.split(';').filter(element => element);
+
+	chosenId = app.chooseFromList(idList, {
+	    withTitle: "Signing ID",
+	    withPrompt: "Please select an ID to sign binaries)",
+	    defaultItems: [idList[0]],
+	    okButtonName: "OK",
+	    cancelButtonName: "Cancel",
+	    multipleSelectionsAllowed: false,
+	    emptySelectionAllowed: false,
+	})
+	if (chosenId == false) {
+	    return false
+	}
+	retval.push(chosenId)
+    }
+    return retval.join("\n")
+}
+
+/* end of pre-install.in */
