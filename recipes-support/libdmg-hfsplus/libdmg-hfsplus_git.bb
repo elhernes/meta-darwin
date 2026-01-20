@@ -5,7 +5,7 @@ HOMEPAGE = "https://github.com/elhernes/libdmg-hfsplus"
 LICENSE = "GPL-3.0-only"
 
 SRC_URI = "git://github.com/elhernes/libdmg-hfsplus.git;branch=master;protocol=https"
-SRCREV = "c5339301dc02b3357e7cc03cdf0a67d7a7d5f83b"
+SRCREV = "3aa830197a7aa8d4a40c4bb0321a8c1998c36b26"
 
 LIC_FILES_CHKSUM = "file://${WORKDIR}/git/LICENSE;md5=d32239bcb673463ab874e80d47fae504"
 
