@@ -21,8 +21,12 @@ dmg_path=${6:-".../tmp/deploy/sdk/macos-test-sdk.dmg"}
 
 dest_path="/Library/Developer/org.openembedded.sdk/${pkg_name}"
 
-size_mb=$(du -s ${sdk_path})
-if=/dev/zero of="${dmg_path}" bs=1M count=${size_mb}
+set $(du -sm ${sdk_path})
+
+# add 10% for overhead
+size_mb=$((${1} * 11 / 10))
+
+dd if=/dev/zero of="${dmg_path}" bs=1M count=${size_mb}
 mkfs.hfsplus -s -v "${pkg_name}" "${dmg_path}"
 
 hfsplus "${dmg_path}" mkdir-p "${dest_path}"

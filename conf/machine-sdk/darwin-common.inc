@@ -15,7 +15,7 @@ SDKIMAGE_LINGUAS = ""
 SDK_DEPENDS:remove = "nativesdk-glibc-locale nativesdk-qemuwrapper-cross"
 
 SDK_DEPENDS:append = "${@bb.utils.contains('DARWIN_INSTALLER_PKG', '1', ' bomutils-native xar-native', '', d)}"
-SDK_DEPENDS:append = "${@bb.utils.contains('DARWIN_INSTALLER_DMG', '1', ' libdmg-hfsplus-native', '', d)}"
+SDK_DEPENDS:append = "${@bb.utils.contains('DARWIN_INSTALLER_DMG', '1', ' hfsprogs-native libdmg-hfsplus-native', '', d)}"
 
 SDKPKGSUFFIX = "nativesdk-darwin"
 
@@ -59,8 +59,7 @@ fakeroot dw_create_macos_dmg() {
    #
    # SDKDEPLOYDIR is local to recipe work; SDK_DEPLOY is from
    sdk_dmg="${SDKDEPLOYDIR}/${TOOLCHAIN_OUTPUTNAME}.dmg"
-   echo dw_create_macos_dmg: ${sdk_dmg}
 
-#   (cd ${B}; ${DARWINBASE}/conf/files/mk-macos-pkg.sh "${SDK_TITLE}" "${SDK_NAME}" "${SDK_ARCH}" "${DISTRO_VERSION}.${SDK_VERSION}" "${SDK_OUTPUT}/${SDKPATH}" "${sdk_pkg}")
-#   ls -lh "${sdk_pkg}"
+   (cd ${B}; ${DARWINBASE}/conf/files/mk-macos-dmg.sh "${SDK_TITLE}" "${SDK_NAME}" "${SDK_ARCH}" "${DISTRO_VERSION}.${SDK_VERSION}" "${SDK_OUTPUT}/${SDKPATH}" "${sdk_dmg}")
+   ls -lh "${sdk_dmg}"
 }
