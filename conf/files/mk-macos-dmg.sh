@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 ##################################################
 ## file: meta-darwin/conf/files/mk-macos-dmg.sh
 ##

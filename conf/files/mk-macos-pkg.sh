@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 ##################################################
 ## file: meta-darwin/conf/files/mk-macos-pkg.sh
 ##
@@ -84,22 +84,26 @@ sed -e 's,$,&,' ${files}/post-install.in >scripts/post-install
 chmod +x scripts/pre-install
 chmod +x scripts/post-install
 
-cp ${files}/xz-to-dmg.sh scripts
-chmod +x scripts/xz-to-dmg.sh
+## cp ${files}/xz-to-dmg.sh scripts
+## chmod +x scripts/xz-to-dmg.sh
 
 ( cd scripts && find . | cpio -o --format odc --owner 0:80 | gzip -c ) > ${flat}/Scripts
 ${mkbom} -u 0 -g 80 ${sdk_path} ${flat}/Bom
 
 #
-# XXX-ELH
 #  1. should pick hostArchictecture from ${SDK_ARCH}
+# linux calls it aarch64; apple calls it arm64
 #
+declare -A arch_map
+arch_map["aarch64"] = "arm64"
+arch_map["x86_64"] = "x86_64"
+
 
 cat >dist/Distribution <<EOF
 <?xml version="1.0" encoding="utf-8"?>
 <installer-gui-script minSpecVersion="2">
     <title>${pkg_title}</title>
-    <options customize="never" hostArchitectures="arm64"/>
+    <options customize="never" hostArchitectures="${arch_map[${SDK_ARCH}]}"/>
     <domains enable_localSystem="true" enable_anywhere="true" enable_currentUserHome="true"/>
     <installation-check script="canInstall()"/>
     <script><![CDATA[
