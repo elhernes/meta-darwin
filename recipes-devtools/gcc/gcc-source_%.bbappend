@@ -9,3 +9,7 @@ SRC_URI:append = " \
 SRC_URI:append = " \
     file://0101-aarch64-Darwin-support-gcc-13-darwin.patch \
 "
+# Patch to allow building aarch64 toolchain for mac on aarch64 linux
+SRC_URI:append = " \
+    file://0102-aarch64-on-aarch64.patch \
+"
