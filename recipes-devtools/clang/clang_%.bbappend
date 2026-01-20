@@ -83,4 +83,8 @@ FILES:${PN} += " \
    ${libdir}/LLVMgold.dylib \
 "
 
+do_compile:append:class-nativesdk:darwin21() {
+    ${SDK_PREFIX}install_name_tool -change liblldb.18.1.6.dylib @loader_path/../lib/liblldb.18.1.6.dylib ${B}/bin/lldb-dap
+}
+
 INSANE_SKIP:${PN}:class-nativesdk:darwin21 += " file-rdeps"
