@@ -1,0 +1,9 @@
+#!/bin/bash
+#########################################
+#  file: meta-darwin/conf/files/post-install.in
+#
+#  @file    post-install
+#  @version V1.0
+#
+# post install script for meta-darwin SDK
+#
