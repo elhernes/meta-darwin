@@ -1,11 +1,12 @@
 
 do_configure:darwin21 () {
-    target=darwin64-arm64-cc
+    target="${@'darwin64-arm64-cc' if d.getVar('SDK_ARCH') == 'aarch64' else 'darwin64-x86_64-cc'}"
 
     useprefix=${prefix}
     if [ "x$useprefix" = "x" ]; then
-            useprefix=/
+        useprefix=/
     fi
+
     # WARNING: do not set compiler/linker flags (-I/-D etc.) in EXTRA_OECONF, as they will fully replace the
     # environment variables set by bitbake. Adjust the environment variables instead.
     PERLEXTERNAL="$(realpath ${S}/external/perl/Text-Template-*/lib)"
