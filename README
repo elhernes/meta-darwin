@@ -30,3 +30,22 @@ https://lists.yoctoproject.org/g/yocto-patches before being able to post.
 When sending single patches, please use something like:
 'git send-email -M -1 --to yocto-patches@lists.yoctoproject.org --subject-prefix="meta-darwin][PATCH"'
 
+The follwing variables can be set in the local.conf or elsewhere:
+
+To enable building the .pkg installer, set:
+DARWIN_INSTALLER_PKG = 1
+
+To enable building a .dmg installer, set:
+DARWIN_INSTALLER_DMG = 1
+
+To save some time during builds, you can disable the shell script installer with:
+DARWIN_INSTALLER_SH = 0
+
+To specify the path in the .dmg and path that the .pkg will install to, set
+DARWIN_INSTALLER_PATH = "/Library/Developer/org.openembedded.sdk"
+
+The .dmg will require running the `finalize-dmg` to relocate and sign
+the executables.
+
+The .pkg automates the process and integrates the relocation and
+signage into the installer.
