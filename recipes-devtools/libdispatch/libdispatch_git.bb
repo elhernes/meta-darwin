@@ -11,7 +11,7 @@ SECTION = "devel"
 SRCREV = "e85f6a0d5c9ea1f32f5013c3fa34e4fc146cd0eb"
 SRC_URI = "git://github.com/swiftlang/swift-corelibs-libdispatch.git;nobranch=1;protocol=https"
 
-inherit cmake
+inherit cmake native
 
 BBCLASSEXTEND = "native"
 
