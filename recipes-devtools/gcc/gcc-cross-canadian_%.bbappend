@@ -3,7 +3,7 @@ ELFUTILS:darwinsdk = ""
 
 EXTRA_OECONF:append:darwinsdk = " \
     --with-gmp=${STAGING_EXECPREFIXDIR} \
-    --with-mpft=${STAGING_EXECPREFIXDIR} \
+    --with-mpfr=${STAGING_EXECPREFIXDIR} \
     --with-mpc=${STAGING_EXECPREFIXDIR} \
 "
 
