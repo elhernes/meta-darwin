@@ -16,10 +16,4 @@ EXTRA_OECONF:remove:darwinsdk = "--with-system-readline"
 # Remove -rpath-link and -rpath
 LDFLAGS:darwinsdk = "${BUILDSDK_LDFLAGS}"
 
-do_compile:append:darwinsdk() {
-    ${SDK_PREFIX}install_name_tool -change libexpat.1.dylib @loader_path/../../lib/libexpat.1.dylib ${B}/gdb/gdb
-}
-
-DEPENDS:append:darwinsdk = " nativesdk-zlib "
-
-INSANE_SKIP:append:darwinsdk = " buildpaths"
+INSANE_SKIP:append:darwin21 = " buildpaths"

@@ -6,7 +6,6 @@ do_configure:darwin21 () {
     if [ "x$useprefix" = "x" ]; then
         useprefix=/
     fi
-
     # WARNING: do not set compiler/linker flags (-I/-D etc.) in EXTRA_OECONF, as they will fully replace the
     # environment variables set by bitbake. Adjust the environment variables instead.
     PERLEXTERNAL="$(realpath ${S}/external/perl/Text-Template-*/lib)"

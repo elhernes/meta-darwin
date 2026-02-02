@@ -1,5 +1,5 @@
 SUMMARY = "Bill Of Materials Utils"
-HOMEPAGE = "https://github.com/hogliux/bomutils"
+HOMEPAGE = "https://github.com/hogliux/bomutils "
 LICENSE = "GPL-2.0-only"
 
 SRCREV = "f62b59c659b1e57788661dadf87765e226824f67"

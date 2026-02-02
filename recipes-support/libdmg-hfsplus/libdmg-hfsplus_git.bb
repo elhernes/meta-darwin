@@ -1,6 +1,6 @@
 SUMMARY = "Utilities for manipulating macOS dmg files"
 DESCRIPTION = "This is a set of utilities for manipulating macOS dmg and hfs files"
-HOMEPAGE = "https://github.com/elhernes/libdmg-hfsplus"
+HOMEPAGE = "https://github.com/elhernes/libdmg-hfsplus "
 
 LICENSE = "GPL-3.0-only"
 
