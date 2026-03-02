@@ -41,7 +41,7 @@ if [ "${do_codesign}" = yes ]; then
             grep Mach-O | 
             cut -d: -f1 |
             sed -e "s,^,'," -e "s,$,'," |
-            xargs codesign --continue --force --timestamp --sign "${codesign_id}"
+            xargs codesign --continue --force --timestamp --sign "${codesign_id}" >/dev/null 2>&1
     fi
 fi
 
