@@ -12,7 +12,7 @@
 # $3 = SDK Architecture
 # $4 = SDK Version
 # $5 = path to SDK path files
-# $6 = SDK dmg output filename
+# $6 = SDK pkg output filename
 # $7 = path to finalize script
 # $8 = destination path relative to the user's selected volume
 
@@ -60,7 +60,7 @@ cd ${build}
 mkdir -p ${flat}
 mkdir scripts
 
-( cd ${sdk_path} && find . | cpio -o --format odc --owner 0:80 | gzip -c ) > ${flat}/Payload
+( cd ${sdk_path} && find . | cpio -o --format odc --owner 0:80 | xz -c -T0 ) > ${flat}/Payload
 
 #
 # Swift installs stuff to /Library/org.swift.swiftpm;
@@ -69,7 +69,7 @@ mkdir scripts
 # Install files to /Library/Developer/org.openembedded.sdk
 #
 cat > ${flat}/PackageInfo <<EOF
-<pkg-info format-version="2" identifier="${pkg_id}" version="${pkg_version}" relocatable="false" overwrite-permissions="false" followSymLinks="false" install-location="${dst_path}" auth="root">
+<pkg-info format-version="2" identifier="${pkg_id}" version="${pkg_vers}" relocatable="false" overwrite-permissions="false" followSymLinks="false" install-location="${dst_path}" auth="root">
   <payload installKBytes="${kbytes}" numberOfFiles="${count}"/>
     <bundle-version/>
     <upgrade-bundle/>
@@ -87,7 +87,7 @@ EOF
 sed -e "s#@dst_path@#${dst_path}#g" \
     ${files}/pre-install.in >scripts/pre-install
 
-sed -e 's,$,&,' ${files}/post-install.in >scripts/post-install
+cp ${files}/post-install.in scripts/post-install
 cp ${finalize_pkg} scripts/finalize-pkg
 
 chmod +x scripts/finalize-pkg

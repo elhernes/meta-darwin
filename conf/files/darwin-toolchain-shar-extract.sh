@@ -196,7 +196,7 @@ if [ "$SDK_EXTENSIBLE" = "1" ]; then
 		fs_dev_path=`dirname $fs_dev_path`
         done
 	fs_dev_type=`stat -f -c '%t' "$fs_dev_path"`
-	if [ "$fsdevtype" = "6969" ] ; then
+	if [ "$fs_dev_type" = "6969" ] ; then
 		echo "The target directory path $target_sdk_dir is on NFS, this is not possible. Abort!"
 		exit 1
 	fi

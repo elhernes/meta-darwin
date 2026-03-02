@@ -15,7 +15,7 @@ SDKIMAGE_LINGUAS = ""
 SDK_DEPENDS:remove = "nativesdk-glibc-locale nativesdk-qemuwrapper-cross"
 
 SDK_DEPENDS:append = "${@bb.utils.contains('DARWIN_INSTALLER_PKG', '1', ' bomutils-native xar-native', '', d)}"
-SDK_DEPENDS:append = "${@bb.utils.contains('DARWIN_INSTALLER_DMG', '1', ' hfsprogs-native libdmg-hfsplus-native', '', d)}"
+SDK_DEPENDS:append = "${@bb.utils.contains('DARWIN_INSTALLER_IMG', '1', ' hfsprogs-native libdmg-hfsplus-native', '', d)}"
 
 SDKPKGSUFFIX = "nativesdk-darwin"
 
@@ -47,7 +47,7 @@ MACHINEOVERRIDES .= ":darwinsdk"
 TOOLCHAIN_SHAR_EXT_TMPL ?= "${DARWINBASE}/conf/files/darwin-toolchain-shar-extract.sh"
 
 SDK_POSTPROCESS_COMMAND:append = "${@bb.utils.contains('DARWIN_INSTALLER_PKG', '1', ' create_macos_pkg', '', d)}"
-SDK_POSTPROCESS_COMMAND:append = "${@bb.utils.contains('DARWIN_INSTALLER_DMG', '1', ' create_macos_dmg', '', d)}"
+SDK_POSTPROCESS_COMMAND:append = "${@bb.utils.contains('DARWIN_INSTALLER_IMG', '1', ' create_macos_img', '', d)}"
 
 #
 # remove the .xz and .sh creation if we want to save a bit of time
@@ -64,24 +64,25 @@ fakeroot create_macos_pkg() {
          > "${B}/finalize-pkg"
 
     (cd ${B}; \
-        ${DARWINBASE}/conf/files/mk-macos-pkg.sh "${SDK_TITLE}" "${SDK_NAME}" "${SDK_ARCH}" "${DISTRO_VERSION}.${SDK_VERSION}" "${SDK_OUTPUT}/${SDKPATH}" "${sdk_pkg}" "${B}/finalize-pkg" ${DARWIN_INSTALL_LOC}/${SDK_NAME} \
+        ${DARWINBASE}/conf/files/mk-macos-pkg.sh "${SDK_TITLE}" "${SDK_NAME}" "${SDK_ARCH}" "${DISTRO_VERSION}.${SDK_VERSION}" "${SDK_OUTPUT}/${SDKPATH}" "${sdk_pkg}" "${B}/finalize-pkg" "${DARWIN_INSTALL_LOC}/${SDK_NAME}" \
     )
 
    ls -lh "${sdk_pkg}"
 }
 
-fakeroot create_macos_dmg() {
-    sdk_dmg="${SDKDEPLOYDIR}/${TOOLCHAIN_OUTPUTNAME}.dmg"
+fakeroot create_macos_img() {
+    sdk_img="${SDKDEPLOYDIR}/${TOOLCHAIN_OUTPUTNAME}.img"
     native_sysroot=$(basename ${SDKPATHNATIVE})
     sed -e "s#@target_prefix@#${TARGET_PREFIX}#g" \
         -e "s#@native_sysroot@#${native_sysroot}#g" \
          ${DARWINBASE}/conf/files/finalize-sdk.sh \
-         > "${B}/finalize-dmg"
+         > "${B}/finalize-img"
 
-    echo 'rm ${0}' >> "${B}/finalize-dmg"
+    echo 'rm ${0}' >> "${B}/finalize-img"
 
     ( cd ${B}; \
-        ${DARWINBASE}/conf/files/mk-macos-dmg.sh "${SDK_TITLE}" "${SDK_NAME}" "${SDK_ARCH}" "${DISTRO_VERSION}.${SDK_VERSION}" "${SDK_OUTPUT}/${SDKPATH}" "${sdk_dmg}" "${B}/finalize-dmg" "${DARWIN_INSTALL_LOC}/${SDK_NAME}" \
+        ${DARWINBASE}/conf/files/mk-macos-img.sh "${SDK_TITLE}" "${SDK_NAME}" "${SDK_ARCH}" "${DISTRO_VERSION}.${SDK_VERSION}" "${SDK_OUTPUT}/${SDKPATH}" "${sdk_img}" "${B}/finalize-img" "${DARWIN_INSTALL_LOC}/${SDK_NAME}" \
     )
-   ls -lh "${sdk_dmg}"
+   bzip2 "${sdk_img}"
+   ls -lh "${sdk_img}.bz2"
 }
