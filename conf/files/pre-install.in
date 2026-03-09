@@ -1,0 +1,84 @@
+#!/usr/bin/osascript -l JavaScript
+/***************************************************
+ * file: meta-darwin/conf/files/pre-install.in
+ *
+ * @file    pre-install.jxa
+ * @version V1.0
+ *
+ * pre-install script for meta-darwin macOS SDK
+ *
+ * this script gets user options and sets up various things
+ * so that the files are installed properly in their final
+ * destination
+ *
+ */
+
+ObjC.import("stdlib");
+
+var seApp = Application("System Events");
+var oProcess = seApp.processes.whose({frontmost: true})[0];
+var appName = oProcess.displayedName();
+
+app = Application.currentApplication();
+
+app.includeStandardAdditions = true;
+
+retval = []
+
+function run(args) {
+
+  codesign_id=""
+  if (true) {
+    idstr = app.doShellScript("security -qq find-identity -v -p codesigning |cut -c47- |tr '\n' ';'")
+    idList = idstr.split(';').filter(element => element);
+    switch (idList.length) {
+      case 0: // can't sign
+        let dialogText = "Could not find any code signing identities, binaries will not be signed"
+        app.displayDialog(dialogText)
+      break;
+
+      case 1: // no decisions
+        codesign_id = idList[0]
+      break;
+
+      default:
+        codesign_id = app.chooseFromList(idList, {
+          withTitle: "Signing ID",
+          withPrompt: "Please select an ID to sign binaries",
+          defaultItems: [idList[0]],
+          okButtonName: "OK",
+          cancelButtonName: "Cancel",
+          multipleSelectionsAllowed: false,
+          emptySelectionAllowed: false
+        })
+      if (codesign_id == false) {
+        let dialogText = "Cancelled code signing"
+        app.displayDialog(dialogText)
+        return false
+      }
+    }
+  }
+
+  // finalize script
+  // finalize {staging} {new_path} {code_sign}
+  pwd = ObjC.unwrap($.NSFileManager.defaultManager.currentDirectoryPath)
+  finalize = pwd + "/finalize-pkg";
+  staging = $.getenv("INSTALLER_PAYLOAD_DIR") + "@dst_path@"
+  new_path = args[1]
+  command = `${finalize} "${staging}" "${new_path}" ${codesign_id}`
+
+  var dialogText = "Will run a script to relocate and codesign\n\n"
+  dialogText += "\n\n"
+  dialogText += "This may take a few minutes depending on the size of the SDK"
+
+  app.displayDialog(dialogText)
+
+  finalize_data = app.doShellScript(command + " >/dev/null 2>&1")
+
+  app.displayDialog(finalize_data)
+
+  retval.push("ok")
+  return retval.join("\n")
+}
+
+/* end of pre-install.in */
