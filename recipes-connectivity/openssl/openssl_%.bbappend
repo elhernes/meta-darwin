@@ -15,11 +15,11 @@ do_configure:darwin21 () {
     perl ${B}/configdata.pm --dump
 }
 
-RDEPENDS:remove:${PN}-misc = "perl"
-RDEPENDS:remove:${PN}-ptest = "openssl-bin"
-RDEPENDS:remove:${PN}-ptest = "perl"
-RDEPENDS:remove:${PN}-ptest = "perl-modules"
-RDEPENDS:remove:${PN}-ptest = "bash"
-RDEPENDS:remove:${PN}-ptest = "sed"
-RDEPENDS:remove:${PN}-ptest = "openssl-engines"
-RDEPENDS:remove:${PN}-ptest = "openssl-ossl-module-legacy"
+RDEPENDS:${PN}-misc:remove = "perl"
+RDEPENDS:${PN}-ptest:remove = "openssl-bin"
+RDEPENDS:${PN}-ptest:remove = "perl"
+RDEPENDS:${PN}-ptest:remove = "perl-modules"
+RDEPENDS:${PN}-ptest:remove = "bash"
+RDEPENDS:${PN}-ptest:remove = "sed"
+RDEPENDS:${PN}-ptest:remove = "openssl-engines"
+RDEPENDS:${PN}-ptest:remove = "openssl-ossl-module-legacy"
