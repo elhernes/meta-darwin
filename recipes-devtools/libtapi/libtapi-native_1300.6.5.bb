@@ -1,7 +1,7 @@
-# Copyright (C) 2020 Dominik Schnitzer <dominik@snap.com>
+# Copyright (C) 2026, Snap Inc.
 # Released under the MIT license (see COPYING.MIT for the terms)
 
-TAPI_VERSION="1300.6.5"
+TAPI_VERSION = "1300.6.5"
 
 SUMMARY = "Apple libtapi for tdb support"
 HOMEPAGE = "https://github.com/tpoechtrager/apple-libtapi"
