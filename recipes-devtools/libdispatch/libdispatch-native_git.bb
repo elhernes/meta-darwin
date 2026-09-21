@@ -19,4 +19,11 @@ DEPENDS += " \
 "
 
 TC_CXX_RUNTIME:class-native = "llvm"
-TOOLCHAIN:class-native = "clang"
+
+# Selects clang for the native build; TOOLCHAIN:class-native has no effect here.
+TOOLCHAIN_NATIVE = "clang"
+
+# src/event/event_epoll.c (the Linux epoll port) hits a benign sign-conversion
+# warning on a plain bitmask op; upstream's own -Werror -Wsign-conversion
+# combo doesn't exempt it.
+CFLAGS:append:class-native = " -Wno-error=sign-conversion"

@@ -24,9 +24,11 @@ DEPENDS += " \
     libcxx-native \
 "
 
-TOOLCHAIN:class-native = "clang"
-COMPILER_RT:class-native = "-rtlib=libgcc --unwindlib=libgcc"
-LIBCPLUSPLUS:class-native = "-stdlib=libc++ -lc++abi"
+# Selects clang for the native build; TOOLCHAIN:class-native has no effect here.
+# -stdlib=libc++ isn't added automatically, so this is C++ and needs it set directly.
+TOOLCHAIN_NATIVE = "clang"
+CXXFLAGS:append:class-native = " -stdlib=libc++"
+LDFLAGS:append:class-native = " -stdlib=libc++"
 
 CXXFLAGS += " \
     -I${S}/projects/clang/include \

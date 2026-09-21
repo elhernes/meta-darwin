@@ -23,9 +23,17 @@ DEPENDS += " \
     libcxx-native \
 "
 
-TOOLCHAIN:class-crosssdk = "clang"
-COMPILER_RT:class-crosssdk = "-rtlib=libgcc --unwindlib=libgcc"
-LIBCPLUSPLUS:class-crosssdk = "-stdlib=libc++ -lc++abi"
+# Selects clang for the native build; TOOLCHAIN:class-crosssdk has no effect here.
+# -stdlib=libc++ isn't added automatically, so this is C++ and needs it set directly.
+TOOLCHAIN_NATIVE = "clang"
+CXXFLAGS:append:class-crosssdk = " -stdlib=libc++"
+LDFLAGS:append:class-crosssdk = " -stdlib=libc++"
+
+# cctools' own include/stuff/bool.h declares "enum bool { FALSE, TRUE };",
+# which is a hard syntax error under C23, where bool is a reserved keyword
+# rather than a macro. Pin the C dialect to a pre-C23 standard rather than
+# relying on clang's default (gnu23 as of this clang version).
+CFLAGS:append:class-crosssdk = " -std=gnu17"
 
 EXTRA_OECONF:append = " \
     --with-llvm-config=${STAGING_DIR_NATIVE}/usr/bin/llvm-config \
