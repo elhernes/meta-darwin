@@ -57,6 +57,7 @@ EXTRA_OECMAKE:remove:class-nativesdk:darwin21 = "-DPYTHON_INCLUDE_DIR=${STAGING_
 EXTRA_OECMAKE:remove:class-nativesdk:darwin21 = "-DPYTHON_EXECUTABLE='${PYTHON}'"
 EXTRA_OECMAKE:append:class-nativesdk:darwin21 = " \
     -DCMAKE_FRAMEWORK_PATH='${OSXSDK}/System/Library/Frameworks'\
+    -DCLANGD_BUILD_XPC=OFF \
     -DLLDB_USE_SYSTEM_DEBUGSERVER=ON \
     -DLLDB_INCLUDE_TESTS=OFF \
     -DLLDB_ENABLE_PYTHON=OFF \
