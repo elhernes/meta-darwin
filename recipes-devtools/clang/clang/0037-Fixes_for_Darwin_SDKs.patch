@@ -1,83 +1,88 @@
-From cb9b87097803b4444ec9aa52b5054ba88e4da01e Mon Sep 17 00:00:00 2001
-From: Dominik Schnitzer <dominik@snap.com>
-Date: Wed, 27 Apr 2022 11:22:17 +0000
+From a9dce54a18db2f12c6964edf649872ac3b50889a Mon Sep 17 00:00:00 2001
+From: Etienne Cordonnier <ecordonnier@snap.com>
+Date: Fri, 16 Jan 2026 16:11:28 +0100
 Subject: [PATCH] Fixes for Darwin SDKs
 
 Upstream-Status: Inappropriate [OE specific]
 Signed-off-by: Dominik Schnitzer <dominik@snap.com>
-Index: llvm-project-18.1.5.src/clang/lib/Driver/ToolChains/Darwin.cpp
-===================================================================
---- llvm-project-18.1.5.src.orig/clang/lib/Driver/ToolChains/Darwin.cpp
-+++ llvm-project-18.1.5.src/clang/lib/Driver/ToolChains/Darwin.cpp
-@@ -2583,12 +2583,19 @@ void DarwinClang::AddClangCXXStdlibInclu
-     case llvm::Triple::x86:
-     case llvm::Triple::x86_64:
-       IsBaseFound = AddGnuCPlusPlusIncludePaths(DriverArgs, CC1Args, UsrIncludeCxx,
--                                                "4.2.1",
--                                                "i686-apple-darwin10",
--                                                arch == llvm::Triple::x86_64 ? "x86_64" : "");
-+                                                "13.4.0",
-+                                                "x86_64#SDK_VENDOR#-darwin21",
-+                                                "");
-       IsBaseFound |= AddGnuCPlusPlusIncludePaths(DriverArgs, CC1Args, UsrIncludeCxx,
--                                                "4.0.0", "i686-apple-darwin8",
--                                                 "");
-+                                                "13.4.0", "", "");
-+      {
-+          const char *S = ::getenv("YOCTO_SDKPATH");
-+          if (S && (S[0] != '\0')) {
-+              llvm::SmallString<128> Runtime;
-+              llvm::sys::path::append(Runtime, S);
-+              addSystemInclude(DriverArgs, CC1Args, Runtime);
-+          }
-+      }
-       break;
+---
+ clang/lib/Driver/ToolChains/Darwin.cpp | 28 +++++++++++++++++++++-----
+ llvm/cmake/modules/AddLLVM.cmake       |  1 -
+ llvm/cmake/modules/CrossCompile.cmake  |  2 +-
+ 3 files changed, 24 insertions(+), 7 deletions(-)
+
+diff --git a/clang/lib/Driver/ToolChains/Darwin.cpp b/clang/lib/Driver/ToolChains/Darwin.cpp
+index 234683f2f..9aa9e1036 100644
+--- a/clang/lib/Driver/ToolChains/Darwin.cpp
++++ b/clang/lib/Driver/ToolChains/Darwin.cpp
+@@ -2808,10 +2808,18 @@ void DarwinClang::AddGnuCPlusPlusIncludePaths(
+   case llvm::Triple::x86:
+   case llvm::Triple::x86_64:
+     IsBaseFound = AddGnuCPlusPlusIncludePaths(
+-        DriverArgs, CC1Args, UsrIncludeCxx, "4.2.1", "i686-apple-darwin10",
+-        arch == llvm::Triple::x86_64 ? "x86_64" : "");
++        DriverArgs, CC1Args, UsrIncludeCxx, "15.3.0", "x86_64#SDK_VENDOR#-darwin21",
++        "");
+     IsBaseFound |= AddGnuCPlusPlusIncludePaths(
+-        DriverArgs, CC1Args, UsrIncludeCxx, "4.0.0", "i686-apple-darwin8", "");
++        DriverArgs, CC1Args, UsrIncludeCxx, "15.3.0", "", "");
++    {
++        const char *S = ::getenv("YOCTO_SDKPATH");
++        if (S && (S[0] != '\0')) {
++            llvm::SmallString<128> Runtime;
++            llvm::sys::path::append(Runtime, S);
++            addSystemInclude(DriverArgs, CC1Args, Runtime);
++        }
++    }
+     break;
  
-     case llvm::Triple::arm:
-@@ -2605,9 +2612,19 @@
+   case llvm::Triple::arm:
+@@ -2826,8 +2834,18 @@ void DarwinClang::AddGnuCPlusPlusIncludePaths(
  
-     case llvm::Triple::aarch64:
-       IsBaseFound = AddGnuCPlusPlusIncludePaths(DriverArgs, CC1Args, UsrIncludeCxx,
--                                                "4.2.1",
--                                                "arm64-apple-darwin10",
-+                                                "13.4.0",
-+                                                "aarch64#SDK_VENDOR#-darwin21",
-                                                 "");
-+      IsBaseFound |= AddGnuCPlusPlusIncludePaths(DriverArgs, CC1Args, UsrIncludeCxx,
-+                                                "13.4.0", "", "");
-+      {
-+          const char *S = ::getenv("YOCTO_SDKPATH");
-+          if (S && (S[0] != '\0')) {
-+              llvm::SmallString<128> Runtime;
-+              llvm::sys::path::append(Runtime, S);
-+              addSystemInclude(DriverArgs, CC1Args, Runtime);
-+          }
-+      }
-       break;
-     }
+   case llvm::Triple::aarch64:
+     IsBaseFound =
+-        AddGnuCPlusPlusIncludePaths(DriverArgs, CC1Args, UsrIncludeCxx, "4.2.1",
+-                                    "arm64-apple-darwin10", "");
++        AddGnuCPlusPlusIncludePaths(DriverArgs, CC1Args, UsrIncludeCxx, "15.3.0",
++                                    "aarch64#SDK_VENDOR#-darwin21", "");
++    IsBaseFound |=
++        AddGnuCPlusPlusIncludePaths(DriverArgs, CC1Args, UsrIncludeCxx, "15.3.0", "", "");
++    {
++        const char *S = ::getenv("YOCTO_SDKPATH");
++        if (S && (S[0] != '\0')) {
++            llvm::SmallString<128> Runtime;
++            llvm::sys::path::append(Runtime, S);
++            addSystemInclude(DriverArgs, CC1Args, Runtime);
++        }
++    }
+     break;
+   }
  
-Index: llvm-project-18.1.5.src/llvm/cmake/modules/AddLLVM.cmake
-===================================================================
---- llvm-project-18.1.5.src.orig/llvm/cmake/modules/AddLLVM.cmake
-+++ llvm-project-18.1.5.src/llvm/cmake/modules/AddLLVM.cmake
-@@ -2368,7 +2368,6 @@ function(llvm_setup_rpath name)
+diff --git a/llvm/cmake/modules/AddLLVM.cmake b/llvm/cmake/modules/AddLLVM.cmake
+index 1d184b8d6..bb8e34a66 100644
+--- a/llvm/cmake/modules/AddLLVM.cmake
++++ b/llvm/cmake/modules/AddLLVM.cmake
+@@ -2549,7 +2549,6 @@ function(llvm_setup_rpath name)
    endif()
  
    if (APPLE)
 -    set(_install_name_dir INSTALL_NAME_DIR "@rpath")
      set(_install_rpath "@loader_path/../lib${LLVM_LIBDIR_SUFFIX}" ${extra_libdir})
-   elseif(${CMAKE_SYSTEM_NAME} MATCHES "AIX" AND BUILD_SHARED_LIBS)
+   elseif("${CMAKE_SYSTEM_NAME}" MATCHES "AIX" AND BUILD_SHARED_LIBS)
      # $ORIGIN is not interpreted at link time by aix ld.
-Index: llvm-project-18.1.5.src/llvm/cmake/modules/CrossCompile.cmake
-===================================================================
---- llvm-project-18.1.5.src.orig/llvm/cmake/modules/CrossCompile.cmake
-+++ llvm-project-18.1.5.src/llvm/cmake/modules/CrossCompile.cmake
-@@ -72,7 +72,7 @@ function(llvm_create_cross_target projec
+diff --git a/llvm/cmake/modules/CrossCompile.cmake b/llvm/cmake/modules/CrossCompile.cmake
+index 2a69c5133..a6578a763 100644
+--- a/llvm/cmake/modules/CrossCompile.cmake
++++ b/llvm/cmake/modules/CrossCompile.cmake
+@@ -82,7 +82,7 @@ function(llvm_create_cross_target project_name target_name toolchain buildtype)
    endif()
  
    add_custom_command(OUTPUT ${${project_name}_${target_name}_BUILD}/CMakeCache.txt
 -    COMMAND ${CMAKE_COMMAND} -G "${CMAKE_GENERATOR}"
 +    COMMAND ${CMAKE_COMMAND} -E env --unset=LDFLAGS --unset=CFLAGS --unset=CXXFLAGS --unset=CC --unset=LD --unset=CXX ${CMAKE_COMMAND} -G "${CMAKE_GENERATOR}"
-         -DCMAKE_MAKE_PROGRAM="${CMAKE_MAKE_PROGRAM}"
-         -DCMAKE_C_COMPILER_LAUNCHER="${CMAKE_C_COMPILER_LAUNCHER}"
-         -DCMAKE_CXX_COMPILER_LAUNCHER="${CMAKE_CXX_COMPILER_LAUNCHER}"
+         "-DCMAKE_MAKE_PROGRAM=${CMAKE_MAKE_PROGRAM}"
+         "-DCMAKE_C_COMPILER_LAUNCHER=${CMAKE_C_COMPILER_LAUNCHER}"
+         "-DCMAKE_CXX_COMPILER_LAUNCHER=${CMAKE_CXX_COMPILER_LAUNCHER}"
+-- 
+2.43.0
+
