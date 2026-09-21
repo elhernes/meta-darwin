@@ -34,10 +34,10 @@ index a4cf61ab..e1ffba91 100644
  	@echo creating versioned links
  	ln -sf $@ libzstd.$(SHARED_EXT_MAJOR)
  	ln -sf $@ libzstd.$(SHARED_EXT)
-@@ -236,7 +236,7 @@ libzstd-nomt: LDFLAGS += -shared
- libzstd-nomt: $(ZSTD_NOMT_FILES)
- 	@echo compiling single-thread dynamic library $(LIBVER)
- 	@echo files : $(ZSTD_NOMT_FILES)
+@@ -255,7 +255,7 @@ libzstd-nomt: $(ZSTD_NOMT_FILES)
+         echo "Error: Found zstdmt in list."; \
+         exit 1; \
+     fi
 -	$(CC) $(FLAGS) $^ $(LDFLAGS) $(SONAME_FLAGS) -o $@
 +	$(CC) $(FLAGS) $^ $(SONAME_FLAGS) -o $@
  
