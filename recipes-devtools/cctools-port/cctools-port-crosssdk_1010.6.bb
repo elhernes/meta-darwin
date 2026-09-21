@@ -16,7 +16,7 @@ DEPENDS += " \
     libdispatch-native \
 "
 
-PROVIDES = "virtual/${TARGET_PREFIX}binutils"
+PROVIDES = "virtual/nativesdk-cross-binutils"
 
 DEPENDS += " \
     clang-native \
