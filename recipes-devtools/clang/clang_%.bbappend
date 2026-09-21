@@ -39,19 +39,18 @@ LDFLAGS:remove:toolchain-clang:class-nativesdk:x86:darwin21 = " -Wl,-dynamic-lin
 LDFLAGS:remove:toolchain-clang:class-nativesdk:aarch64:darwin21 = " -Wl,-dynamic-linker,${base_libdir}/ld-linux-aarch64.so.1"
 
 CFLAGS:append:class-nativesdk:darwin21 = " \
-    -femulated-tls \
     -I${OSXSDK}/usr/include \
     -include TargetConditionals.h \
 "
+CFLAGS:append:class-nativesdk:toolchain-clang:darwin21 = " -femulated-tls"
 
 CXXFLAGS:append:class-nativesdk:darwin21 = " \
-    -femulated-tls \
-    -Wno-elaborated-enum-base \
     -I${OSXSDK}/usr/include \
     -include TargetConditionals.h \
     -F${OSXSDK}/System/Library/Frameworks \
     -F${OSXSDK}/System/Library/Frameworks/CoreServices.framework/Frameworks \
 "
+CXXFLAGS:append:class-nativesdk:toolchain-clang:darwin21 = " -femulated-tls -Wno-elaborated-enum-base"
 
 EXTRA_OECMAKE:remove:class-nativesdk:darwin21 = "-DPYTHON_LIBRARY=${STAGING_LIBDIR}/lib${PYTHON_DIR}${PYTHON_ABI}.so"
 EXTRA_OECMAKE:remove:class-nativesdk:darwin21 = "-DPYTHON_INCLUDE_DIR=${STAGING_INCDIR}/${PYTHON_DIR}${PYTHON_ABI}"
