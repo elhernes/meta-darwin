@@ -1,0 +1,41 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Etienne Cordonnier <ecordonnier@snap.com>
+Date: Fri, 19 Sep 2026 12:00:00 +0200
+Subject: [PATCH] Makefile.in: link sqlite3 shell against libsqlite3 by path,
+ not -l
+
+The shell binary links against the just-built shared library with
+"-L. -lsqlite3". On Darwin, CC always carries an extra -L for the
+macOS SDK's own system library directory (needed for other libSystem
+symbols), and that directory also happens to ship Apple's own
+libsqlite3 stub - which is missing sqlite3_load_extension,
+sqlite3_enable_load_extension and sqlite3_db_status64. Since that -L
+comes before "-L. -lsqlite3" on the command line, the linker resolves
+-lsqlite3 against Apple's stub instead of the library this recipe just
+built, and the shell fails to link with undefined symbols.
+
+Link directly against the just-built $(libsqlite3.DLL) by path instead
+of via -l, which is unambiguous regardless of -L search order. This is
+a no-op on non-Darwin targets, where "-L. -lsqlite3" and "./libsqlite3.so"
+resolve to the same file.
+
+Upstream-Status: Inappropriate [OE/Darwin specific]
+---
+ Makefile.in | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/Makefile.in b/Makefile.in
+index 1111111111a..2222222222b 100644
+--- a/Makefile.in
++++ b/Makefile.in
+@@ -240,7 +240,7 @@
+ # https://sqlite.org/forum/forumpost/d80ecdaddd
+ ENABLE_STATIC_SHELL = @ENABLE_STATIC_SHELL@
+ sqlite3-shell-link-flags.1 = $(TOP)/sqlite3.c $(LDFLAGS) $(LDFLAGS.libsqlite3)
+-sqlite3-shell-link-flags.0 = $(LDFLAGS) -L. -lsqlite3 $(LDFLAGS.zlib) $(LDFLAGS.math)
++sqlite3-shell-link-flags.0 = $(LDFLAGS) ./$(libsqlite3.DLL) $(LDFLAGS.zlib) $(LDFLAGS.math)
+ sqlite3-shell-deps.1 = $(TOP)/sqlite3.c
+ sqlite3-shell-deps.0 = $(libsqlite3.DLL)
+ #
+--
+2.43.0
