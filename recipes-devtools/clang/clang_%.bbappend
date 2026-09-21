@@ -58,33 +58,10 @@ EXTRA_OECMAKE:remove:class-nativesdk:darwin21 = "-DPYTHON_EXECUTABLE='${PYTHON}'
 EXTRA_OECMAKE:append:class-nativesdk:darwin21 = " \
     -DCMAKE_FRAMEWORK_PATH='${OSXSDK}/System/Library/Frameworks'\
     -DCLANGD_BUILD_XPC=OFF \
-    -DLLDB_USE_SYSTEM_DEBUGSERVER=ON \
-    -DLLDB_INCLUDE_TESTS=OFF \
-    -DLLDB_ENABLE_PYTHON=OFF \
-    \
-    -DLLDB_ENABLE_LZMA=ON \
-    \
-    -DLLVM_ENABLE_LIBEDIT=ON -DLLDB_ENABLE_LIBEDIT=ON \
-    -DLibEdit_LIBRARIES=${OSXSDK}/usr/lib/libedit.tbd \
-    -DLibEdit_INCLUDE_DIRS=${OSXSDK}/usr/include \
-    \
-    -DCURSES_INCLUDE_DIRS=${OSXSDK}/usr/include \
-    -DCURSES_LIBRARIES=${OSXSDK}/usr/lib/libcurses.tbd \
-    -DPANEL_LIBRARIES=${OSXSDK}/usr/lib/libpanel.tbd \
-    \
-    -DLIBXML2_INCLUDE_DIR=${OSXSDK}/usr/include/libxml2 \
-    -DLIBXML2_LIBRARY=${OSXSDK}/usr/lib/libxml2.tbd \
-    \
-    -DFFI_LIBRARY_PATH=${OSXSDK}/usr/lib/libffi.tbd \
-    -DFFI_INCLUDE_PATH=${OSXSDK}/usr/include \
 "
 
 FILES:${PN} += " \
    ${libdir}/LLVMgold.dylib \
 "
-
-do_compile:append:class-nativesdk:darwin21() {
-    ${SDK_PREFIX}install_name_tool -change liblldb.${PV}.dylib @loader_path/../lib/liblldb.${PV}.dylib ${B}/bin/lldb-dap
-}
 
 INSANE_SKIP:${PN}:class-nativesdk:darwin21 += " file-rdeps"
