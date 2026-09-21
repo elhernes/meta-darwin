@@ -11,14 +11,11 @@ SRC_URI = " \
 
 inherit autotools pkgconfig
 
-LIC_FILES_CHKSUM = "file://${WORKDIR}/git/xar/LICENSE;md5=64becc7b238f5b2d599c009ab19c2c27"
+LIC_FILES_CHKSUM = "file://${S}/xar/LICENSE;md5=64becc7b238f5b2d599c009ab19c2c27"
 
 DEPENDS = "libxml2"
 
 BBCLASSEXTEND = "native"
-
-S = "${WORKDIR}/git"
-B = "${WORKDIR}/build"
 
 do_configure() {
     ${S}/xar/configure --enable-autogen --prefix=${STAGING_EXECPREFIXDIR}

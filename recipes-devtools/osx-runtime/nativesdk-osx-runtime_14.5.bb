@@ -3,7 +3,7 @@ LICENSE = "Proprietary"
 
 COMPATIBLE_HOST = ".*-darwin.*"
 
-OSX_SDK ?= "git://github.com/alexey-lysiuk/macos-sdk.git;nobranch=1;protocol=https;subpath=MacOSX14.5.sdk;destsuffix=git"
+OSX_SDK ?= "git://github.com/alexey-lysiuk/macos-sdk.git;nobranch=1;protocol=https;subpath=MacOSX14.5.sdk;destsuffix=osx-sdk"
 SRCREV = "69ddec41e6224afebd5f19bb24764305ac3e828a"
 
 SRC_URI = " \
@@ -12,11 +12,11 @@ SRC_URI = " \
     file://LICENSE \
 "
 
-LIC_FILES_CHKSUM = "file://${WORKDIR}/LICENSE;md5=03fe683ef28b9ddfe7f658a0f4b3b80e"
+LIC_FILES_CHKSUM = "file://${UNPACKDIR}/LICENSE;md5=03fe683ef28b9ddfe7f658a0f4b3b80e"
 
 PR = "1"
 
-S = "${WORKDIR}/git"
+S = "${UNPACKDIR}/osx-sdk"
 
 inherit nativesdk
 

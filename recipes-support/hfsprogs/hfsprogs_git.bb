@@ -9,8 +9,6 @@ LIC_FILES_CHKSUM = "file://README.md;md5=ea27fd14a7e575753270cc5527d29023"
 SRCREV = "064b7fece00d069f206fd2d4a9a4493dd2777d9f"
 SRC_URI = "git://github.com/elhernes/hfsprogs.git;branch=master;protocol=https"
 
-S = "${WORKDIR}/git"
-
 DEPENDS = "openssl libbsd"
 
 inherit cmake native

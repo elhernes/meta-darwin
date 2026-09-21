@@ -6,7 +6,7 @@ TAPI_VERSION = "1300.6.5"
 SUMMARY = "Apple libtapi for tdb support"
 HOMEPAGE = "https://github.com/tpoechtrager/apple-libtapi"
 LICENSE = "NCSA"
-LIC_FILES_CHKSUM = "file://${WORKDIR}/git/LICENSE.APPLE-LIBTAPI.txt;md5=ecd05d65aa93d096452d196dcd233f1e"
+LIC_FILES_CHKSUM = "file://${UNPACKDIR}/${BP}/LICENSE.APPLE-LIBTAPI.txt;md5=ecd05d65aa93d096452d196dcd233f1e"
 
 SECTION = "devel"
 
@@ -17,8 +17,7 @@ PACKAGES = "${PN}-dbg ${PN} ${PN}-dev"
 
 inherit cmake native
 
-S = "${WORKDIR}/git/src/llvm"
-B = "${WORKDIR}/build"
+S = "${UNPACKDIR}/${BP}/src/llvm"
 
 DEPENDS += " \
     clang-native \
@@ -30,7 +29,7 @@ COMPILER_RT:class-native = "-rtlib=libgcc --unwindlib=libgcc"
 LIBCPLUSPLUS:class-native = "-stdlib=libc++ -lc++abi"
 
 CXXFLAGS += " \
-    -I${WORKDIR}/git/src/llvm/projects/clang/include \
+    -I${S}/projects/clang/include \
     -I${B}/projects/clang/include \
 "
 

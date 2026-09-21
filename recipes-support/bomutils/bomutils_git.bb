@@ -7,12 +7,11 @@ SRC_URI = " \
     git://github.com/elhernes/bomutils.git;branch=master;protocol=https \
 "
 
-LIC_FILES_CHKSUM = "file://${WORKDIR}/git/LICENSE;md5=55d923cdeef7e46b4d6415cb173b345a"
+LIC_FILES_CHKSUM = "file://${S}/LICENSE;md5=55d923cdeef7e46b4d6415cb173b345a"
 
 BBCLASSEXTEND = "native"
 
-S = "${WORKDIR}/git"
-B = "${WORKDIR}/git/build"
+B = "${S}/build"
 
 do_compile() {
     make -C ${S}

@@ -36,9 +36,6 @@ EXTRA_OECONF:append = " \
     --with-libtapi=${STAGING_DIR_NATIVE}/usr \
 "
 
-S = "${WORKDIR}/git"
-B = "${WORKDIR}/build"
-
 AUTOTOOLS_SCRIPT_PATH = "${S}/cctools"
 
 do_configure:prepend() {
