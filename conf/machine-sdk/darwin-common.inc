@@ -91,3 +91,9 @@ fakeroot create_macos_img() {
 # every nativesdk/cross-canadian compiler command line, and those end up in
 # headers (e.g. gmp.h's __GMP_CC), libraries and binaries.
 ERROR_QA:remove = "buildpaths"
+
+# gcc's built-in header search on Darwin only covers the OS SDK include tree
+# (.../runtime/usr/include); headers staged by our own nativesdk recipes live
+# one level up and are only found via an explicit -I. Do this for every
+# nativesdk recipe instead of per recipe (see e.g. curl, nettle).
+CPPFLAGS:append:class-nativesdk = " -I${STAGING_INCDIR}"
