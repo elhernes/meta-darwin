@@ -18,6 +18,13 @@ SRC_URI:append = " \
     file://0102-aarch64-on-aarch64.patch \
 "
 
+# 0020 (carried from OE-core) adds a weak alias for __cpu_indicator_init_local
+# in libgcc/config/i386/cpuinfo.c; GCC ICEs emitting that for Mach-O. Guarded
+# by __APPLE__, so this only changes behavior on Darwin.
+SRC_URI:append = " \
+    file://0103-libgcc-i386-cpuinfo-avoid-darwin-alias-ice.patch \
+"
+
 # gcc-15.3.0 tarball ships zlib/zlib.map with CRLF; 0101 tail hunk is LF-only.
 python do_patch:prepend() {
     import pathlib

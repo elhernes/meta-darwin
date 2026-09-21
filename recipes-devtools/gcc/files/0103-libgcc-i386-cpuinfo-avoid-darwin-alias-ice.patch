@@ -1,0 +1,44 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Etienne Cordonnier <ecordonnier@snap.com>
+Date: Thu, 18 Sep 2026 12:00:00 +0200
+Subject: [PATCH] libgcc/i386: avoid weak alias for __cpu_indicator_init_local
+ on Darwin
+
+0020-libgcc_s-Use-alias-for-__cpu_indicator_init-instead-.patch
+(carried from OE-core) adds a weak alias definition of
+__cpu_indicator_init_local in libgcc/config/i386/cpuinfo.c. GCC's
+assemble_alias (gcc/varasm.cc) cannot emit this weak+alias combination
+for the Darwin/Mach-O backend and ICEs instead of erroring out:
+
+  libgcc/config/i386/cpuinfo.c:68:3: internal compiler error: in
+  assemble_alias, at varasm.cc:6627
+
+Use a plain forwarding function body on Darwin instead of the
+weak alias. This keeps the same externally visible symbol name that
+gcc/config/i386/i386-expand.cc calls from __builtin_cpu_init, so
+non-Darwin targets (which take the weak-alias branch below unchanged)
+are unaffected.
+
+Upstream-Status: Inappropriate [OE specific]
+---
+ libgcc/config/i386/cpuinfo.c | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/libgcc/config/i386/cpuinfo.c b/libgcc/config/i386/cpuinfo.c
+index e980030ef23..a1b2c3d4e5f 100644
+--- a/libgcc/config/i386/cpuinfo.c
++++ b/libgcc/config/i386/cpuinfo.c
+@@ -64,6 +64,11 @@
+ }
+
+ #ifndef SHARED
++#if defined(__APPLE__)
++/* weak+alias here ICEs GCC's assemble_alias for Mach-O (gcc/varasm.cc).  */
++int __cpu_indicator_init_local (void) { return __cpu_indicator_init (); }
++#else
+ int __cpu_indicator_init_local (void)
+   __attribute__ ((weak, alias ("__cpu_indicator_init")));
+ #endif
++#endif
+--
+2.43.0
