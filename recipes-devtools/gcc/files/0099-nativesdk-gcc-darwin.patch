@@ -1,8 +1,7 @@
 From 06f75c32bc364d607f103622deb59e1a4ebd9caf Mon Sep 17 00:00:00 2001
 From: Etienne Cordonnier <ecordonnier@snap.com>
 Date: Wed, 3 Aug 2022 13:37:20 +0200
-Subject: [PATCH] rebase patch "0099-nativesdk-gcc-darwin.patch" from
- meta-darwin
+Subject: [PATCH] nativesdk-gcc: Fix Darwin host compiler support
 
 Upstream-Status: Inappropriate [OE specific]
 Signed-off-by: Etienne Cordonnier <ecordonnier@snap.com>
