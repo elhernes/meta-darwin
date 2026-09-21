@@ -12,11 +12,11 @@ This layer depends on:
 
  URI: git://git.openembedded.org/openembedded-core
  layers: meta
- branch: scarthgap
+ branch: wrynose
 
  URI: https://github.com/kraj/meta-clang.git
  layers: meta-clang
- branch: scarthgap
+ branch: wrynose
 
 Layer Maintainers: Richard Purdie <richard.purdie@linuxfoundation.org>
                    Dominik Schnitzer <dominik@snap.com>
