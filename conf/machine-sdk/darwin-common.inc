@@ -86,3 +86,8 @@ fakeroot create_macos_img() {
    bzip2 "${sdk_img}"
    ls -lh "${sdk_img}.bz2"
 }
+
+# OSX_TOOLCHAIN_OPTIONS puts absolute -L paths into the sysroot under TMPDIR on
+# every nativesdk/cross-canadian compiler command line, and those end up in
+# headers (e.g. gmp.h's __GMP_CC), libraries and binaries.
+ERROR_QA:remove = "buildpaths"
