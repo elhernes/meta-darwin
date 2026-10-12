@@ -23,3 +23,7 @@ do_compile:append:darwinsdk() {
 DEPENDS:append:darwinsdk = " nativesdk-zlib "
 
 INSANE_SKIP:append:darwinsdk = " buildpaths"
+
+# The PACKAGECONFIG's --with-liblzma-prefix=${STAGING_DIR_HOST} doesn't find
+# lzma.h/liblzma, which are installed below the SDK prefix in the sysroot.
+EXTRA_OECONF:append:darwinsdk = " --with-liblzma-prefix=${STAGING_EXECPREFIXDIR}"
