@@ -41,7 +41,15 @@ EXTRA_OECMAKE:append:class-nativesdk:darwin21 = " \
     \
     -DFFI_LIBRARY_PATH=${OSXSDK}/usr/lib/libffi.tbd \
     -DFFI_INCLUDE_PATH=${OSXSDK}/usr/include \
+    \
+    -DCMAKE_INSTALL_RPATH=@loader_path/../lib \
 "
+
+# Without CMAKE_INSTALL_RPATH above, lldb's only rpath is the hardcoded build
+# path from LDFLAGS (-Wl,-rpath,${libdir}).  finalize-sdk.sh only relocates
+# text files, so lldb, lldb-dap, liblldb etc. couldn't find libLLVM,
+# libclang-cpp or liblldb once installed.  Everything lldb ships sits in
+# bin/ or lib/, so @loader_path/../lib reaches usr/lib from both.
 
 do_compile:append:class-nativesdk:darwin21() {
     ${SDK_PREFIX}install_name_tool -change liblldb.${PV}.dylib @loader_path/../lib/liblldb.${PV}.dylib ${B}/bin/lldb-dap
