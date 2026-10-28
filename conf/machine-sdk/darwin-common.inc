@@ -73,12 +73,14 @@ fakeroot create_macos_pkg() {
 fakeroot create_macos_img() {
     sdk_img="${SDKDEPLOYDIR}/${TOOLCHAIN_OUTPUTNAME}.img"
     native_sysroot=$(basename ${SDKPATHNATIVE})
+    # finalize-sdk.sh ends in "exit 0"; drop it so the img tail runs
     sed -e "s#@target_prefix@#${TARGET_PREFIX}#g" \
         -e "s#@native_sysroot@#${native_sysroot}#g" \
+        -e '/^exit 0$/d' \
          ${DARWINBASE}/conf/files/finalize-sdk.sh \
          > "${B}/finalize-img"
 
-    echo 'rm ${0}' >> "${B}/finalize-img"
+    cat ${DARWINBASE}/conf/files/finalize-img-tail.sh >> "${B}/finalize-img"
 
     ( cd ${B}; \
         ${DARWINBASE}/conf/files/mk-macos-img.sh "${SDK_TITLE}" "${SDK_NAME}" "${SDK_ARCH}" "${DISTRO_VERSION}.${SDK_VERSION}" "${SDK_OUTPUT}/${SDKPATH}" "${sdk_img}" "${B}/finalize-img" "${DARWIN_INSTALL_LOC}/${SDK_NAME}" \
