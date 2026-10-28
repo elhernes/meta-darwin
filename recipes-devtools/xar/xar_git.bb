@@ -13,7 +13,7 @@ inherit autotools pkgconfig
 
 LIC_FILES_CHKSUM = "file://${S}/xar/LICENSE;md5=64becc7b238f5b2d599c009ab19c2c27"
 
-DEPENDS = "libxml2"
+DEPENDS = "libxml2 openssl zlib"
 
 BBCLASSEXTEND = "native"
 
