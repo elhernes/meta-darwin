@@ -30,7 +30,7 @@ rm -f "${0}"
 
 hdiutil detach "${dev}" || exit 1
 hdiutil convert "${img}" -format ULFO -o "${dmg}" || exit 1
-hdiutil attach "${dmg}" || exit 1
+diskutil image attach "${dmg}" || exit 1
 echo "finalize-img: ${dmg} is ready; ${img} can go"
 EOF
 
