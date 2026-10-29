@@ -27,3 +27,10 @@ INSANE_SKIP:append:darwinsdk = " buildpaths"
 # The PACKAGECONFIG's --with-liblzma-prefix=${STAGING_DIR_HOST} doesn't find
 # lzma.h/liblzma, which are installed below the SDK prefix in the sysroot.
 EXTRA_OECONF:append:darwinsdk = " --with-liblzma-prefix=${STAGING_EXECPREFIXDIR}"
+
+# The Darwin cross-GCC places its section anchor (lANCHOR0, an alt_entry
+# symbol) at the start of __TEXT,__const when a switch table is the first
+# atom there (elfread.o), and ld64 rejects the object: "N_ALT_ENTRY bit set
+# on first atom in section __TEXT/__const".
+CFLAGS:append:darwinsdk = " -fno-section-anchors"
+CXXFLAGS:append:darwinsdk = " -fno-section-anchors"
