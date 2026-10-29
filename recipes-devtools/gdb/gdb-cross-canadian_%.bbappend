@@ -16,9 +16,10 @@ EXTRA_OECONF:remove:darwinsdk = "--with-system-readline"
 # Remove -rpath-link and -rpath
 LDFLAGS:darwinsdk = "${BUILDSDK_LDFLAGS}"
 
-do_compile:append:darwinsdk() {
-    ${SDK_PREFIX}install_name_tool -change libexpat.1.dylib @loader_path/../../lib/libexpat.1.dylib ${B}/gdb/gdb
-}
+# expat's install name is @rpath/libexpat.1.dylib (cmake build), and gdb's
+# only other rpath is a build-host path, so add the SDK lib dir as an rpath.
+# chrpath only relocates absolute paths, so it leaves @rpath names alone.
+LDFLAGS:append:darwinsdk = " -Wl,-rpath,@loader_path/../../lib"
 
 DEPENDS:append:darwinsdk = " nativesdk-zlib "
 
