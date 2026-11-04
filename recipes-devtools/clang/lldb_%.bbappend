@@ -82,6 +82,12 @@ LDFLAGS:remove:toolchain-clang:class-nativesdk:aarch64:darwin21 = " -Wl,-dynamic
 CFLAGS:append:class-nativesdk:toolchain-clang:darwin21 = " -femulated-tls"
 CXXFLAGS:append:class-nativesdk:toolchain-clang:darwin21 = " -femulated-tls -Wno-elaborated-enum-base"
 
+# libLLVM, libclang-cpp and libstdc++ are GCC-built, and GCC's Darwin arm64
+# port follows the generic AArch64 C++ ABI.  clang's default Apple arm64 ABI
+# expects constructors to return 'this', which GCC's don't, so lldb crashed
+# using the object it got back from ItaniumPartialDemangler's constructor.
+CXXFLAGS:append:class-nativesdk:toolchain-clang:aarch64:darwin21 = " -fc++-abi=aarch64"
+
 # clang.bbclass adds compiler-rt and libcxx to BASE_DEFAULT_DEPS, but the
 # nativesdk uses GCC's libgcc_s and libstdc++ (see LDFLAGS/LIBCPLUSPLUS above).
 BASE_DEFAULT_DEPS:remove:class-nativesdk:toolchain-clang:darwin21 = " compiler-rt libcxx"
