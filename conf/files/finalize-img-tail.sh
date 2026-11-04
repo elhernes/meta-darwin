@@ -28,7 +28,9 @@ img="${2}"
 dmg="${img%.img}.dmg"
 rm -f "${0}"
 
+echo "finalize-img: detaching ${dev}"
 hdiutil detach "${dev}" || exit 1
+echo "finalize-img: converting to ${dmg} (a few minutes)"
 hdiutil convert "${img}" -format ULFO -o "${dmg}" || exit 1
 diskutil image attach "${dmg}" || exit 1
 echo "finalize-img: ${dmg} is ready; ${img} can go"
