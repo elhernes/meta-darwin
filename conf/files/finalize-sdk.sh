@@ -11,18 +11,44 @@
 ## This can be run on the final installed files; or during install in a staging area if we know
 ## what the final destination path will be.
 ##
-## Exits 1 without changing anything if signing can't work (no identity, or
-## Apple's timestamp server unreachable), and exits 1 after the fact if any
-## file failed to relocate or sign. Relocating twice is harmless, so after a
-## failure fix the cause and run it again.
+## Usage: finalize-sdk [-s identity] [-k keychain] [staging [new_path [identity]]]
+##
+##   -s identity  codesign identity: its SHA-1 hash, or a unique part of its
+##                name. Default: the first valid codesigning identity found
+##                (in the keychain, with -k).
+##                (The third argument still works, for older callers.)
+##   -k keychain  look for the identity only in this keychain file, which
+##                need not be on the keychain search list. It must be
+##                unlocked already.
+##
+## Exits 1 without changing anything if signing can't work (identity not
+## found, or Apple's timestamp server unreachable), and exits 1 after the
+## fact if any file failed to relocate or sign. Relocating twice is
+## harmless, so after a failure fix the cause and run it again.
 ##
 
 x_path=$(realpath $(dirname "${0}"))
-first_csid=$(security -qq find-identity -v -p codesigning |cut -c47- |head -1 | tr -d '"')
+
+opt_id=
+keychain=
+while getopts "s:k:" opt; do
+    case ${opt} in
+        s) opt_id=${OPTARG} ;;
+        k) keychain=${OPTARG} ;;
+        *) echo "usage: ${0} [-s identity] [-k keychain] [staging [new_path]]"; exit 1 ;;
+    esac
+done
+shift $((OPTIND - 1))
+
+# find-identity lists '  1) <sha1> "<name>"' for each valid identity.
+identities=$(security find-identity -v -p codesigning ${keychain:+"${keychain}"} 2>/dev/null |
+    sed -n 's/^ *[0-9][0-9]*) //p')
+# The default is the first one's hash: a name can be on more than one.
+first_csid=$(echo "${identities}" | head -1 | cut -c1-40)
 
 staging=${1:-"${x_path}"}
 new_path=${2:-"${x_path}"}
-codesign_id=${3:-"${first_csid}"}
+codesign_id=${opt_id:-${3:-"${first_csid}"}}
 
 native_sysroot="@native_sysroot@"
 
@@ -47,7 +73,14 @@ progress() {
 
 if [ "${do_codesign}" = yes ]; then
     if [ -z "${codesign_id}" ]; then
-        echo "finalize: no codesigning identity found; nothing changed"
+        echo "finalize: no codesigning identity found${keychain:+ in ${keychain}}; nothing changed"
+        exit 1
+    fi
+    matches=$(echo "${identities}" | grep -cF -- "${codesign_id}")
+    if [ "${matches}" -ne 1 ]; then
+        echo "finalize: ${matches} valid codesigning identities match \"${codesign_id}\"${keychain:+ in ${keychain}}, need 1; nothing changed"
+        [ "${matches}" -gt 1 ] && echo "${identities}" | grep -F -- "${codesign_id}" | sed 's/^/    /'
+        echo "finalize: pass -s <sha1>, or -k <keychain>"
         exit 1
     fi
     if ! curl -s -m 15 -o /dev/null "${timestamp_url}"; then
@@ -87,11 +120,11 @@ if [ "${do_codesign}" = yes ]; then
         grep -v ' (for architecture [^)]*):' |
         cut -d: -f1 > "${work}/macho"
     total=$(wc -l < "${work}/macho" | tr -d ' ')
-    echo "finalize: signing ${total} files as ${codesign_id}"
+    echo "finalize: signing ${total} files as ${codesign_id}${keychain:+ from ${keychain}}"
     n=0
     while IFS= read -r fn; do
         n=$((n + 1))
-        if ! codesign --force --timestamp --sign "${codesign_id}" "${fn}" >> "${work}/log" 2>&1; then
+        if ! codesign --force --timestamp --sign "${codesign_id}" ${keychain:+--keychain "${keychain}"} "${fn}" >> "${work}/log" 2>&1; then
             echo "${fn}" >> "${work}/failed"
             failed=$((failed + 1))
         fi
