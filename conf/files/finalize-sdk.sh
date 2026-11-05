@@ -17,14 +17,17 @@
 ##                name. Default: the first valid codesigning identity found
 ##                (in the keychain, with -k).
 ##                (The third argument still works, for older callers.)
+##                "-s -" signs ad-hoc: no certificate, keychain or timestamp,
+##                for SDKs that stay inside the organization.
 ##   -k keychain  look for the identity only in this keychain file, which
 ##                need not be on the keychain search list. It must be
 ##                unlocked already.
 ##
 ## Exits 1 without changing anything if signing can't work (identity not
-## found, or Apple's timestamp server unreachable), and exits 1 after the
-## fact if any file failed to relocate or sign. Relocating twice is
-## harmless, so after a failure fix the cause and run it again.
+## found, or Apple's timestamp server unreachable; an ad-hoc signature needs
+## neither), and exits 1 after the fact if any file failed to relocate or
+## sign. Relocating twice is harmless, so after a failure fix the cause and
+## run it again.
 ##
 
 x_path=$(realpath $(dirname "${0}"))
@@ -71,7 +74,17 @@ progress() {
     return 0
 }
 
-if [ "${do_codesign}" = yes ]; then
+# sign_one <file>: an ad-hoc signature has no keychain and can't carry a
+# secure timestamp.
+sign_one() {
+    if [ "${codesign_id}" = - ]; then
+        codesign --force --sign - "${1}"
+    else
+        codesign --force --timestamp --sign "${codesign_id}" ${keychain:+--keychain "${keychain}"} "${1}"
+    fi
+}
+
+if [ "${do_codesign}" = yes ] && [ "${codesign_id}" != - ]; then
     if [ -z "${codesign_id}" ]; then
         echo "finalize: no codesigning identity found${keychain:+ in ${keychain}}; nothing changed"
         exit 1
@@ -120,11 +133,15 @@ if [ "${do_codesign}" = yes ]; then
         grep -v ' (for architecture [^)]*):' |
         cut -d: -f1 > "${work}/macho"
     total=$(wc -l < "${work}/macho" | tr -d ' ')
-    echo "finalize: signing ${total} files as ${codesign_id}${keychain:+ from ${keychain}}"
+    if [ "${codesign_id}" = - ]; then
+        echo "finalize: signing ${total} files ad-hoc"
+    else
+        echo "finalize: signing ${total} files as ${codesign_id}${keychain:+ from ${keychain}}"
+    fi
     n=0
     while IFS= read -r fn; do
         n=$((n + 1))
-        if ! codesign --force --timestamp --sign "${codesign_id}" ${keychain:+--keychain "${keychain}"} "${fn}" >> "${work}/log" 2>&1; then
+        if ! sign_one "${fn}" >> "${work}/log" 2>&1; then
             echo "${fn}" >> "${work}/failed"
             failed=$((failed + 1))
         fi
