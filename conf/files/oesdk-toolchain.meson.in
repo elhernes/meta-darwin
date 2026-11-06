@@ -1,0 +1,52 @@
+#
+# Meson cross file for yocto/openembedded cross builds.
+# This is an alternative to using the regular OE environment setup such as
+# `environment-setup-cortexa53-oe-linux`.
+#
+# usage:
+#   meson setup builddir --cross-file path/to/oesdk-toolchain.meson        (gcc)
+#   meson setup builddir --cross-file path/to/oesdk-toolchain-clang.meson  (clang)
+#
+# Compiler and linker flags are environment-setup's, less the optimization
+# level (meson's buildtype sets it) and -D_FORTIFY_SOURCE, which needs
+# optimization and so would warn on every file of a debug build. Add it to
+# c_args/cpp_args for release builds.
+
+##  template variables (sandwiched by @@)
+##
+## oecore_target_arch - cpu architecture for the target (e.g. aarch64)
+## host_prefix - HOST_PREFIX from yocto
+## host_sys -  HOST_SYS from yocto
+## sdk_target_sysroot - sysroot for the target (/usr/local/oe-sdk-hardcoded-buildpath/sysroots/cortexa53-oe-linux)
+## oecore_native_sysroot - sysroot for native sdk (/usr/local/oe-sdk-hardcoded-buildpath/sysroots/aarch64-oesdk-darwin21)
+## cc, cxx, ar, strip - tool names after host_prefix (gcc or clang ones)
+## cflags - environment-setup's compiler flags, as quoted, comma-separated strings
+## ldflags - environment-setup's LDFLAGS, likewise
+
+[constants]
+x_sysroot = '@sdk_target_sysroot@'
+h_sysroot = '@oecore_native_sysroot@'
+h_bin = h_sysroot / 'usr/bin' / '@host_sys@'
+
+[binaries]
+c = h_bin / '@host_prefix@@cc@'
+cpp = h_bin / '@host_prefix@@cxx@'
+ar = h_bin / '@host_prefix@@ar@'
+strip = h_bin / '@host_prefix@@strip@'
+pkg-config = 'pkg-config'
+
+[properties]
+sys_root = x_sysroot
+pkg_config_libdir = [ x_sysroot / 'usr/lib/pkgconfig', x_sysroot / 'usr/share/pkgconfig']
+
+[host_machine]
+system = 'linux'
+cpu_family = '@oecore_target_arch@'
+cpu = '@oecore_target_arch@'
+endian = 'little'
+
+[built-in options]
+c_args = [@cflags@ '--sysroot=' + x_sysroot]
+cpp_args = [@cflags@ '--sysroot=' + x_sysroot]
+c_link_args = [@ldflags@ '--sysroot=' + x_sysroot]
+cpp_link_args = [@ldflags@ '--sysroot=' + x_sysroot]
