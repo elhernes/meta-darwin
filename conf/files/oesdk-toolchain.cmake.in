@@ -93,7 +93,18 @@ set(CMAKE_FIND_ROOT_PATH_MODE_PACKAGE BOTH)
 set(CMAKE_C_STANDARD_COMPUTED_DEFAULT 17)
 set(CMAKE_CXX_STANDARD_COMPUTED_DEFAULT 17)
 
-set(ENV{PKG_CONFIG_PATH} ${CMAKE_SYSROOT}/usr/lib/pkgconfig:${CMAKE_SYSROOT}/usr/share/pkgconfig)
+# Append to PKG_CONFIG_PATH, as with CMAKE_FIND_ROOT_PATH: a chain-loader
+# (vcpkg) may have put its own .pc directories there first. Not twice when
+# this file is read again.
+set(_oesdk_pc_path "${CMAKE_SYSROOT}/usr/lib/pkgconfig:${CMAKE_SYSROOT}/usr/share/pkgconfig")
+if("$ENV{PKG_CONFIG_PATH}" STREQUAL "")
+  set(ENV{PKG_CONFIG_PATH} "${_oesdk_pc_path}")
+else()
+  string(FIND ":$ENV{PKG_CONFIG_PATH}:" ":${_oesdk_pc_path}:" _oesdk_pc_index)
+  if(_oesdk_pc_index EQUAL -1)
+    set(ENV{PKG_CONFIG_PATH} "$ENV{PKG_CONFIG_PATH}:${_oesdk_pc_path}")
+  endif()
+endif()
 set(ENV{PKG_CONFIG_SYSROOT_DIR} ${CMAKE_SYSROOT})
 
 message("pkg-config-path: $ENV{PKG_CONFIG_PATH}")
