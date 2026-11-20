@@ -53,6 +53,10 @@ if(OESDK_TOOLCHAIN STREQUAL "clang")
   set(CMAKE_LINKER @target_prefix@lld)
   set(CMAKE_AR @target_prefix@llvm-ar)
   set(CMAKE_RANLIB @target_prefix@llvm-ranlib)
+  # C++20 module scanning (CMake 3.28+, on by default with CMake 4): the
+  # scanner must be the compiler's own clang; CMake doesn't find the
+  # target-prefixed name on its own.
+  find_program(CMAKE_CXX_COMPILER_CLANG_SCAN_DEPS @target_prefix@clang-scan-deps)
   set(_oesdk_flags "@clang_flags@")
 elseif(OESDK_TOOLCHAIN STREQUAL "gcc")
   set(CMAKE_CXX_COMPILER @target_prefix@g++)
